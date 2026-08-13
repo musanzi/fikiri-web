@@ -3,7 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MISSIONS } from '../../data/mission';
 
 @Component({
-  selector: 'app-mission',
+  selector: 'mission',
   imports: [MatIconModule],
   templateUrl: './mission.html'
 })

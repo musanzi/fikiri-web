@@ -1,0 +1,28 @@
+import { DatePipe, TitleCasePipe } from '@angular/common';
+import { httpResource } from '@angular/common/http';
+import { Component, input } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
+import { ISolution, IUser } from '@/app/core/interfaces';
+import { environment } from '@/environments/environment';
+import { SolutionSkeleton } from '../../ui/solution-skeleton/solution-skeleton';
+
+@Component({
+  imports: [DatePipe, MatButtonModule, RouterLink, SolutionSkeleton, TitleCasePipe],
+  templateUrl: './solution-details.html'
+})
+export class SolutionDetails {
+  readonly slug = input.required<string>();
+
+  readonly solutionResource = httpResource<{ data: ISolution }>(
+    () => `/solutions/slug/${encodeURIComponent(this.slug())}`
+  );
+
+  solutionImage(image: string | null): string {
+    return image ? `${environment.apiUrl}/uploads/solutions/${image}` : '/images/no-img.png';
+  }
+
+  profileImage(user: IUser | null | undefined): string {
+    return user?.profile ? `${environment.apiUrl}/uploads/profiles/${user.profile}` : '/images/avatar.webp';
+  }
+}

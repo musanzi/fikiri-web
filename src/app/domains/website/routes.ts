@@ -7,6 +7,10 @@ const routes: Routes = [
     component: WebLayout,
     children: [
       {
+        path: 'solutions',
+        loadChildren: () => import('./modules/solutions.routes').then((routes) => routes.solutionsRoutes)
+      },
+      {
         path: '',
         loadChildren: () => import('./modules/landing.routes').then((routes) => routes.landingRoutes)
       },

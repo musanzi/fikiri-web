@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { sdgs } from '../../data/sdgs';
 
 @Component({
-  selector: 'app-sdgs',
+  selector: 'sdgs',
   imports: [MatIconModule, NgOptimizedImage],
   templateUrl: './sdgs.html'
 })
