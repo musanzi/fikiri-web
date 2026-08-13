@@ -1,0 +1,21 @@
+<div class="flex flex-col md:flex-row md:items-center gap-6 mb-6 pt-16">
+  <div class="relative h-14 w-14 rounded-full bg-gray-200"></div>
+  <div class="flex flex-col gap-1.5 text-sm">
+    <div class="bg-gray-200 h-2 w-40"></div>
+    <div class="bg-gray-200 h-2 w-36"></div>
+  </div>
+</div>
+
+<div
+  class="relative pb-10 h-60 w-full md:h-96 bg-gray-200 md:mx-auto md:max-w-5xl 2xl:max-w-5xl mb-10 animate-pulse"></div>
+
+@for (item of [1, 2, 3, 4]; track $index) {
+  <div class="flex flex-col gap-1 mb-10 animate-pulse">
+    <div class="h-4 w-full md:w-60 bg-gray-200 rounded-md mb-4"></div>
+    <div class="h-1.5 w-full bg-gray-200 rounded-md"></div>
+    <div class="h-1.5 w-full bg-gray-200 rounded-md"></div>
+    <div class="h-1.5 w-full bg-gray-200 rounded-md"></div>
+    <div class="h-1.5 w-full bg-gray-200 rounded-md"></div>
+    <div class="h-1.5 w-2/3 bg-gray-200 rounded-md"></div>
+  </div>
+}

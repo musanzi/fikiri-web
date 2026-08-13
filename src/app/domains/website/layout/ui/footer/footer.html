@@ -1,0 +1,56 @@
+<footer class="mt-24 bg-gray-950 text-white">
+  <div class="mx-auto max-w-screen-2xl px-6 py-16 sm:px-8 lg:px-16 lg:py-20 xl:px-24 2xl:px-32">
+    <div class="grid gap-12 border-b border-white/10 pb-14 lg:grid-cols-[1.4fr_0.6fr_0.6fr_0.8fr]">
+      <div>
+        <a routerLink="/" class="inline-flex items-center gap-3" aria-label="Fikiri, accueil">
+          <span class="flex size-11 items-center justify-center rounded-full bg-white">
+            <img src="/images/favicon.png" alt="" class="size-8 object-contain" />
+          </span>
+          <span class="text-3xl font-bold tracking-tight">fikiri<span class="text-primary-400">.</span></span>
+        </a>
+        <p class="mt-6 max-w-md text-base leading-7 text-gray-400">
+          La plateforme qui identifie, cartographie et accélère les solutions innovantes au service du développement
+          durable en RDC.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-sm font-semibold uppercase tracking-widest text-gray-500">Découvrir</h2>
+        <ul class="mt-5 space-y-3 text-base text-gray-300">
+          <li><a routerLink="/" fragment="about" class="transition hover:text-white">À propos</a></li>
+          <li><a routerLink="/" fragment="mission" class="transition hover:text-white">Notre mission</a></li>
+          <li><a routerLink="/" fragment="awards" class="transition hover:text-white">Les champions</a></li>
+          <li><a routerLink="/" fragment="sdgs" class="transition hover:text-white">Les ODD</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-sm font-semibold uppercase tracking-widest text-gray-500">Participer</h2>
+        <ul class="mt-5 space-y-3 text-base text-gray-300">
+          <li><a routerLink="/solutions" class="transition hover:text-white">Voir les solutions</a></li>
+          <li><a routerLink="/sign-up" class="transition hover:text-white">Nous rejoindre</a></li>
+          <li><a routerLink="/sign-in" class="transition hover:text-white">Se connecter</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h2 class="text-sm font-semibold uppercase tracking-widest text-gray-500">Ressources</h2>
+        <p class="mt-5 text-base leading-7 text-gray-400">
+          En savoir plus sur les 17 Objectifs de Développement Durable.
+        </p>
+        <a
+          href="https://www.un.org/sustainabledevelopment/fr/objectifs-de-developpement-durable/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-4 inline-flex items-center gap-2 font-semibold text-primary-300 transition hover:text-primary-200">
+          Consulter les ODD <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-3 pt-7 text-sm text-gray-500 sm:flex-row sm:items-center sm:justify-between">
+      <p>© {{ currentYear }} PNUD. Tous droits réservés.</p>
+      <p>Des idées locales pour un impact durable.</p>
+    </div>
+  </div>
+</footer>

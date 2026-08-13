@@ -1,0 +1,58 @@
+<section class="relative isolate min-h-[calc(100svh-5rem)] text-white" aria-labelledby="hero-title">
+  <img
+    src="/images/hero.webp"
+    alt=""
+    aria-hidden="true"
+    class="absolute inset-0 -z-30 size-full object-cover object-center" />
+
+  <div aria-hidden="true" class="absolute inset-0 -z-10 bg-gray-900/40"></div>
+
+  <div
+    class="mx-auto flex min-h-[calc(100svh-5rem)] max-w-screen-2xl flex-col justify-between px-6 pb-7 pt-12 sm:px-8 sm:pb-9 sm:pt-16 lg:px-16 lg:pb-10 lg:pt-20 xl:px-24 2xl:px-32">
+    <div class="flex items-end justify-end gap-4 mt-32">
+      <p class="hidden text-right text-xs font-medium uppercase tracking-[0.22em] text-white/55 md:block">
+        Innovation locale<br />Impact durable
+      </p>
+    </div>
+
+    <div class="my-auto max-w-4xl py-14 sm:py-20 lg:py-24">
+      <p class="mb-6 text-sm font-semibold uppercase tracking-wider text-primary-300 sm:mb-8">
+        Les idées d'ici. L'impact de demain.
+      </p>
+
+      <h1 id="hero-title" class="max-w-5xl text-[4rem] font-bold leading-[0.92] tracking-tightest text-white">
+        Faisons grandir les solutions qui
+        <span class="text-primary-300">changent demain.</span>
+      </h1>
+
+      <p class="mt-7 max-w-2xl text-xl leading-7 text-white/75 sm:mt-9">
+        Fikiri identifie, cartographie et accompagne les idées capables d'accélérer les Objectifs de Développement
+        Durable en République Démocratique du Congo.
+      </p>
+
+      <div class="mt-9 flex flex-col gap-3 sm:mt-10 sm:flex-row">
+        <a
+          [routerLink]="['/sign-up']"
+          class="inline-flex min-h-13 items-center justify-center rounded-full bg-primary-500 px-7 py-3.5 text-base font-semibold text-white shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-0.5 hover:bg-primary-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+          Proposer une solution
+        </a>
+        <a
+          [routerLink]="['/solutions']"
+          class="inline-flex min-h-13 items-center justify-center rounded-full border border-white/30 bg-white/10 px-7 py-3.5 text-base font-semibold text-white backdrop-blur-md transition duration-300 hover:-translate-y-0.5 hover:border-white/50 hover:bg-white/18 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+          Explorer les solutions
+        </a>
+      </div>
+    </div>
+
+    <div class="grid gap-5 border-t border-white/20 pt-6 text-white/70 sm:grid-cols-[1fr_auto] sm:items-end sm:gap-10">
+      <div class="flex flex-wrap gap-x-8 gap-y-3 text-sm">
+        <p><span class="font-semibold text-white">17 ODD</span> comme boussole</p>
+        <p><span class="font-semibold text-white">Un écosystème</span> d'innovateurs</p>
+        <p><span class="font-semibold text-white">Un parcours</span> vers l'impact</p>
+      </div>
+      <p class="max-w-xs text-sm leading-6 sm:text-right">
+        Identifier · Structurer · Accélérer les solutions congolaises.
+      </p>
+    </div>
+  </div>
+</section>

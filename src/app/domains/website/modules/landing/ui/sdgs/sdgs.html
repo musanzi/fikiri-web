@@ -1,0 +1,31 @@
+<section class="py-10" id="sdgs">
+  <div class="mx-auto max-w-screen-2xl px-6 sm:px-8 lg:px-16 xl:px-24 2xl:px-32">
+    <div class="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-widest text-primary-600">Notre référentiel commun</p>
+        <h2 class="mt-4 text-4xl font-bold tracking-tight text-gray-950 sm:text-5xl">
+          Les objectifs de développement durables.
+        </h2>
+      </div>
+      <a
+        href="https://www.un.org/sustainabledevelopment/fr/objectifs-de-developpement-durable/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group inline-flex items-center gap-2 font-semibold text-primary-700 hover:underline hover:text-primary-800">
+        Comprendre les ODD
+        <span aria-hidden="true" class="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+          ↗
+        </span>
+      </a>
+    </div>
+
+    <div class="mt-12 grid grid-cols-3 gap-3 sm:grid-cols-4 sm:gap-4 md:grid-cols-6 lg:grid-cols-9">
+      @for (sdg of sdgs; track sdg.name) {
+        <div
+          class="group relative aspect-square overflow-hidden rounded-sm bg-white shadow-sm ring-1 ring-gray-900/5 transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+          <img [ngSrc]="sdg.image" [alt]="sdg.name" class="size-full object-cover" fill />
+        </div>
+      }
+    </div>
+  </div>
+</section>

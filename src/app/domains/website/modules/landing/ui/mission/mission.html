@@ -1,0 +1,29 @@
+<section class="scroll-mt-24 bg-gray-950 py-24 text-white sm:py-28" id="mission">
+  <div class="mx-auto max-w-screen-2xl px-6 sm:px-8 lg:px-16 xl:px-24 2xl:px-32">
+    <div class="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+      <div>
+        <p class="text-sm font-semibold uppercase tracking-widest text-primary-300">Notre mission</p>
+        <h2 class="mt-4 text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
+          Faire passer l'innovation à l'action.
+        </h2>
+      </div>
+      <p class="max-w-2xl text-lg leading-8 text-gray-400 lg:justify-self-end">
+        Nous connectons innovateurs, chercheurs, entreprises et institutions afin que les solutions les plus utiles
+        soient identifiées, éprouvées et déployées à plus grande échelle.
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-4 md:grid-cols-3">
+      @for (item of mission; track item.title) {
+        <article
+          class="rounded-md border border-white/10 bg-white/5 p-7 backdrop-blur transition hover:border-primary-400/40 hover:bg-white/8">
+          <span class="flex size-12 items-center justify-center rounded-2xl bg-primary-500/15 text-primary-300">
+            <mat-icon [svgIcon]="item.icon" class="size-6" />
+          </span>
+          <h3 class="mt-8 text-xl font-bold">{{ item.title }}</h3>
+          <p class="mt-3 text-base text-gray-400">{{ item.description }}</p>
+        </article>
+      }
+    </div>
+  </div>
+</section>

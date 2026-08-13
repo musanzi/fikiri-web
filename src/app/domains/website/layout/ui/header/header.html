@@ -1,0 +1,95 @@
+<header class="fixed inset-x-0 top-12 rounded-full max-w-screen-2xl mx-auto z-50 border-b bg-white/95 backdrop-blur-xl">
+  <nav class="mx-auto flex h-20 max-w-screen-2xl items-center justify-between px-8" aria-label="Navigation principale">
+    <a routerLink="/" class="flex items-center gap-2.5" aria-label="Fikiri, retour à l'accueil" (click)="closeMenu()">
+      <img src="/images/favicon.png" alt="" class="size-9 object-contain" />
+      <span class="text-2xl font-bold tracking-tight text-gray-950">fikiri<span class="text-primary-500">.</span></span>
+    </a>
+
+    <div class="hidden items-center gap-1 rounded-full border border-gray-200 bg-white/80 p-1.5 shadow-sm lg:flex">
+      <a
+        routerLink="/"
+        fragment="about"
+        class="rounded-full px-4 py-2 text-sm font-semibold text-gray-600 transition hover:bg-gray-100 hover:text-gray-950">
+        À propos
+      </a>
+      <a
+        routerLink="/"
+        fragment="mission"
+        class="rounded-full px-4 py-2 text-sm font-semibold text-gray-600 transition hover:bg-gray-100 hover:text-gray-950">
+        Notre mission
+      </a>
+      <a
+        routerLink="/"
+        fragment="awards"
+        class="rounded-full px-4 py-2 text-sm font-semibold text-gray-600 transition hover:bg-gray-100 hover:text-gray-950">
+        Les champions
+      </a>
+      <a
+        routerLink="/"
+        fragment="sdgs"
+        class="rounded-full px-4 py-2 text-sm font-semibold text-gray-600 transition hover:bg-gray-100 hover:text-gray-950">
+        SDGs
+      </a>
+    </div>
+
+    <div class="hidden items-center gap-2 sm:flex">
+      <a matButton="filled" routerLink="/sign-up" class="font-semibold rounded-full"> Rejoindre la communauté </a>
+    </div>
+
+    <button
+      type="button"
+      class="flex size-11 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-900 shadow-sm sm:hidden"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="mobile-navigation"
+      [attr.aria-label]="menuOpen() ? 'Fermer le menu' : 'Ouvrir le menu'"
+      (click)="toggleMenu()">
+      <span class="sr-only">Menu</span>
+      <span class="relative block h-4 w-5">
+        <span
+          class="absolute left-0 top-0 h-0.5 w-5 rounded-full bg-current transition"
+          [class.translate-y-2]="menuOpen()"
+          [class.rotate-45]="menuOpen()"></span>
+        <span
+          class="absolute left-0 top-2 h-0.5 w-5 rounded-full bg-current transition"
+          [class.opacity-0]="menuOpen()"></span>
+        <span
+          class="absolute bottom-0 left-0 h-0.5 w-5 rounded-full bg-current transition"
+          [class.-translate-y-2]="menuOpen()"
+          [class.-rotate-45]="menuOpen()"></span>
+      </span>
+    </button>
+  </nav>
+
+  @if (menuOpen()) {
+    <div id="mobile-navigation" class="border-t border-gray-100 bg-white px-6 py-6 shadow-xl sm:hidden">
+      <div class="flex flex-col gap-1">
+        <a routerLink="/" fragment="about" class="rounded-xl px-4 py-3 text-base font-semibold" (click)="closeMenu()">
+          À propos
+        </a>
+        <a routerLink="/" fragment="mission" class="rounded-xl px-4 py-3 text-base font-semibold" (click)="closeMenu()">
+          Notre mission
+        </a>
+        <a routerLink="/" fragment="awards" class="rounded-xl px-4 py-3 text-base font-semibold" (click)="closeMenu()">
+          Les champions
+        </a>
+        <a routerLink="/" fragment="sdgs" class="rounded-xl px-4 py-3 text-base font-semibold" (click)="closeMenu()">
+          Les ODD
+        </a>
+      </div>
+      <div class="mt-5 grid grid-cols-2 gap-3 border-t border-gray-100 pt-5">
+        <a
+          routerLink="/sign-in"
+          class="rounded-full border border-gray-200 px-4 py-3 text-center font-semibold"
+          (click)="closeMenu()">
+          Connexion
+        </a>
+        <a
+          routerLink="/sign-up"
+          class="rounded-full bg-primary-600 px-4 py-3 text-center font-semibold text-white"
+          (click)="closeMenu()">
+          Participer
+        </a>
+      </div>
+    </div>
+  }
+</header>
