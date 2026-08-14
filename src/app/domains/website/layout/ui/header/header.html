@@ -6,7 +6,7 @@
   [class.bg-white/95]="solidHeader()"
   [class.shadow-sm]="solidHeader()"
   [class.backdrop-blur-xl]="solidHeader()">
-  <nav class="mx-auto flex max-w-screen-2xl items-center justify-between px-6 sm:px-8 lg:px-16 xl:px-24 2xl:px-32">
+  <nav class="mx-auto flex max-w-screen-2xl items-center py-4 justify-between px-6 sm:px-8 lg:px-16 xl:px-24 2xl:px-32">
     <a routerLink="/" class="flex items-center gap-1" (click)="closeMenu()">
       <img src="/images/favicon.png" alt="" class="size-8 object-contain" />
       <span
@@ -17,7 +17,7 @@
       </span>
     </a>
 
-    <div class="hidden h-full items-center gap-8 lg:flex py-6">
+    <div class="hidden h-full items-center gap-8 lg:flex">
       @for (link of links; track link.name) {
         <a
           [routerLink]="link.path"
@@ -81,18 +81,12 @@
           </a>
         }
       </div>
-      <div class="mt-5 grid grid-cols-2 gap-3 border-t border-gray-100 pt-5">
+      <div class="mt-5 grid grid-cols-1 gap-3 border-t border-gray-100 pt-5">
         <a
           routerLink="/sign-in"
           class="rounded-full border border-gray-200 px-4 py-3 text-center font-semibold"
           (click)="closeMenu()">
           Connexion
-        </a>
-        <a
-          routerLink="/sign-up"
-          class="rounded-full bg-primary-600 px-4 py-3 text-center font-semibold text-white"
-          (click)="closeMenu()">
-          Participer
         </a>
       </div>
     </div>
