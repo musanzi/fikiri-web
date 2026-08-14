@@ -3,7 +3,7 @@
   <a [routerLink]="['/solutions', solution().slug]" class="flex h-full flex-col">
     <div class="relative overflow-hidden bg-gray-100">
       <img
-        [src]="solutionImage(solution().image)"
+        [src]="solutionImageUrl()"
         [alt]="solution().name || 'Solution primée'"
         class="aspect-4/3 w-full object-cover transition duration-500 group-hover:scale-105" />
     </div>
@@ -13,7 +13,7 @@
       </h3>
       <div class="mt-3 flex items-center gap-3 border-t border-gray-100 pt-5">
         <img
-          [src]="profileImage(solution().user)"
+          [src]="profileImageUrl()"
           [alt]="solution().user?.name || 'Porteur de la solution'"
           class="size-10 shrink-0 rounded-full bg-gray-200 object-cover" />
         <div class="min-w-0 text-sm">

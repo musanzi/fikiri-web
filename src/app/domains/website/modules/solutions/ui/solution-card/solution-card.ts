@@ -1,7 +1,7 @@
 import { DatePipe, TitleCasePipe } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, input, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ISolution, IUser } from '@/app/core/interfaces';
+import { ISolution } from '@/app/core/interfaces';
 import { environment } from '@/environments/environment';
 
 @Component({
@@ -10,13 +10,17 @@ import { environment } from '@/environments/environment';
   templateUrl: './solution-card.html'
 })
 export class SolutionCardComponent {
-  readonly solution = input.required<ISolution>();
+  solution = input.required<ISolution>();
 
-  solutionImage(image: string | null): string {
-    return image ? `${environment.apiUrl}/uploads/solutions/${image}` : '/images/no-img.png';
-  }
+  solutionImageUrl = computed(() => {
+    return this.solution().image
+      ? `${environment.apiUrl}/uploads/solutions/${this.solution().image}`
+      : '/images/no-img.png';
+  });
 
-  profileImage(user: IUser | null | undefined): string {
-    return user?.profile ? `${environment.apiUrl}/uploads/profiles/${user.profile}` : '/images/avatar.webp';
-  }
+  profileImageUrl = computed(() => {
+    return this.solution().user?.profile
+      ? `${environment.apiUrl}/uploads/profiles/${this.solution().user?.profile}`
+      : '/images/avatar.webp';
+  });
 }

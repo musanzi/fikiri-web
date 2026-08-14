@@ -1,9 +1,8 @@
-import type { IBaseEntity } from './base.interface';
-import type { ICallSolution } from './call-solution.interface';
-import type { JsonValue } from './json.interface';
-import type { IOrganization } from './organization.interface';
-import type { IRole } from './role.interface';
-import type { ISolution } from './solution.interface';
+import { IBaseEntity } from './base.interface';
+import { ICallSolution } from './call-solution.interface';
+import { JsonValue } from './json.interface';
+import { IOrganization } from './organization.interface';
+import { ISolution } from './solution.interface';
 
 export interface IUser extends IBaseEntity {
   email: string;
@@ -19,6 +18,6 @@ export interface IUser extends IBaseEntity {
   solutions?: ISolution[];
   calls?: ICallSolution[];
   published_calls?: ICallSolution[];
-  roles?: IRole[];
+  roles?: string[];
   organization?: IOrganization | null;
 }

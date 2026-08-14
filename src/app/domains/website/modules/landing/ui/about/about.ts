@@ -6,5 +6,5 @@ import { ABOUT } from '../../data/about';
   templateUrl: './about.html'
 })
 export class AboutComponent {
-  readonly aboutData = ABOUT;
+  aboutData = ABOUT;
 }

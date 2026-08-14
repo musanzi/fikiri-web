@@ -11,10 +11,10 @@ import { SolutionSkeleton } from '../../ui/solution-skeleton/solution-skeleton';
   imports: [DatePipe, MatButtonModule, RouterLink, SolutionSkeleton, TitleCasePipe],
   templateUrl: './solution-details.html'
 })
-export class SolutionDetails {
-  readonly slug = input.required<string>();
+export default class SolutionDetails {
+  slug = input.required<string>();
 
-  readonly solutionResource = httpResource<{ data: ISolution }>(() => `/solutions/slug/${this.slug()}`);
+  solutionResource = httpResource<{ data: ISolution }>(() => `/solutions/slug/${this.slug()}`);
 
   solutionImage(image: string | null): string {
     return image ? `${environment.apiUrl}/uploads/solutions/${image}` : '/images/no-img.png';

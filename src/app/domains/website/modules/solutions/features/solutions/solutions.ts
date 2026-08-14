@@ -11,22 +11,22 @@ import { SolutionCardComponent } from '../../ui/solution-card/solution-card';
   imports: [MatButtonModule, MatPaginatorModule, SolutionCardComponent, SolutionCardSkeletonComponent],
   templateUrl: './solutions.html'
 })
-export class Solutions {
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
+export default class Solutions {
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
-  readonly page = input<string | null>(null);
-  readonly limit = input<string | null>(null);
+  page = input<string | null>(null);
+  limit = input<string | null>(null);
 
-  readonly pageIndex = computed(() => Math.max(0, this.toPositiveInteger(this.page(), 1) - 1));
-  readonly pageSize = computed(() => this.toPositiveInteger(this.limit(), 8));
+  pageIndex = computed(() => Math.max(0, this.toPositiveInteger(this.page(), 1) - 1));
+  pageSize = computed(() => this.toPositiveInteger(this.limit(), 8));
 
-  private readonly queryParams = computed(() => ({
+  private queryParams = computed(() => ({
     page: this.page(),
     limit: this.limit()
   }));
 
-  readonly solutionsResource = httpResource<{ data: [ISolution[], number] }>(() => ({
+  solutionsResource = httpResource<{ data: [ISolution[], number] }>(() => ({
     url: '/solutions/mapped',
     params: this.queryParams() as unknown as HttpParams
   }));

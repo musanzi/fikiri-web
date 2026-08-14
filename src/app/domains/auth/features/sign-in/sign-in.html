@@ -1,0 +1,57 @@
+<section>
+  <p class="mb-4 text-sm text-gray-500">
+    Vous n'avez pas de compte?&nbsp;
+    <a routerLink="/auth/sign-up" class="text-primary-500 underline font-medium"> Inscrivez-vous! </a>
+  </p>
+  <form class="flex flex-col gap-4" (submit)="onSignIn(); $event.preventDefault()">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Adresse e-mail</mat-label>
+      <input matInput type="email" [formField]="signInForm.email" autocomplete="email" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Mot de passe</mat-label>
+      <input
+        matInput
+        [type]="hidePassword ? 'password' : 'text'"
+        [formField]="signInForm.password"
+        autocomplete="current-password" />
+      <button
+        matIconButton
+        matSuffix
+        type="button"
+        [attr.aria-label]="hidePassword ? 'Afficher le mot de passe' : 'Masquer le mot de passe'"
+        (click)="hidePassword = !hidePassword">
+        <mat-icon [svgIcon]="hidePassword ? 'eye' : 'eye-off'" />
+      </button>
+    </mat-form-field>
+    <div class="-mt-2 inline-flex w-full items-center justify-between">
+      Mot de passe oublié?
+      <a class="text-md font-medium text-primary-400 hover:underline" [routerLink]="['/auth/forgot-password']">
+        Réinitialiser!
+      </a>
+    </div>
+    <button
+      matButton="filled"
+      [disabled]="store.isLoading() || signInForm().invalid()"
+      class="mt-4 w-full"
+      type="submit">
+      @if (store.isLoading()) {
+        <mat-spinner diameter="18" />
+      }
+      <span>{{ store.isLoading() ? 'Connexion…' : 'Se connecter' }}</span>
+    </button>
+    <div class="mt-2.5 flex items-center">
+      <div class="mt-px flex-auto border-t border-gray-200"></div>
+      <div class="text-gray-700 mx-2">Ou</div>
+      <div class="mt-px flex-auto border-t border-gray-200"></div>
+    </div>
+    <button matButton="outlined" type="button" (click)="signinWithGoogle()">
+      <div class="flex items-center justify-center gap-1">
+        Continuer avec
+        <div class="relative inline-block h-5 w-5">
+          <img ngSrc="/images/google.svg" alt="Google" fill />
+        </div>
+      </div>
+    </button>
+  </form>
+</section>

@@ -1,13 +1,13 @@
 import { MediaMatcher } from '@angular/cdk/layout';
 import { isPlatformBrowser } from '@angular/common';
-import { DestroyRef, inject, Injectable, PLATFORM_ID, signal, Signal, WritableSignal } from '@angular/core';
+import { DestroyRef, inject, PLATFORM_ID, Service, signal, Signal, WritableSignal } from '@angular/core';
 
 interface MediaQueryObserver {
   matches: WritableSignal<boolean>;
   handler: (event: MediaQueryListEvent) => void;
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class Media {
   // Dependencies
   private destroyRef = inject(DestroyRef);

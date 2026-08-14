@@ -7,5 +7,5 @@ import { RouterLink } from '@angular/router';
   templateUrl: './footer.html'
 })
 export class Footer {
-  readonly currentYear = new Date().getFullYear();
+  currentYear = new Date().getFullYear();
 }

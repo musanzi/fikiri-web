@@ -25,7 +25,7 @@ interface Color {
 }
 
 export class TonalPalette {
-  private readonly palette: Color[];
+  private palette: Color[];
 
   constructor(config: PaletteConfig) {
     this.palette = this.generatePalette(config);

@@ -13,5 +13,5 @@ import { ISolution } from '@/app/core/interfaces';
   templateUrl: './awards.html'
 })
 export class Awards {
-  readonly solutionsResource = httpResource<{ data: ISolution[] }>(() => '/solutions/awards');
+  solutionsResource = httpResource<{ data: ISolution[] }>(() => '/solutions/awards');
 }

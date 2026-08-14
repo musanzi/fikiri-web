@@ -8,11 +8,13 @@ const routes: Routes = [
     children: [
       {
         path: 'solutions',
-        loadChildren: () => import('./modules/solutions/solutions.routes').then((routes) => routes.solutionsRoutes)
+        title: 'Solutions',
+        loadChildren: () => import('./modules/solutions/routes')
       },
       {
         path: '',
-        loadChildren: () => import('./modules/landing/landing.routes').then((routes) => routes.landingRoutes)
+        title: 'Home',
+        loadChildren: () => import('./modules/landing/routes')
       },
       { path: '**', redirectTo: '' }
     ]

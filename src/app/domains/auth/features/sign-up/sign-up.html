@@ -1,0 +1,34 @@
+<section>
+  <p class="mb-4 text-sm text-gray-500">
+    Vous avez un compte?&nbsp;
+    <a routerLink="/auth/sign-in" class="text-primary-500 underline font-medium">Connectez-vous! </a>
+  </p>
+  <form class="flex flex-col gap-4" (submit)="onSignUp(); $event.preventDefault()">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Adresse (Ville)</mat-label>
+      <input matInput type="text" [formField]="signUpForm.address" autocomplete="address-level2" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Nom complet</mat-label>
+      <input matInput type="text" [formField]="signUpForm.name" autocomplete="name" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Adresse e-mail</mat-label>
+      <input matInput type="email" [formField]="signUpForm.email" autocomplete="email" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Numéro de téléphone</mat-label>
+      <input matInput type="tel" [formField]="signUpForm.phone_number" autocomplete="tel" />
+    </mat-form-field>
+    <button
+      matButton="filled"
+      [disabled]="store.isLoading() || signUpForm().invalid()"
+      class="mt-4 w-full"
+      type="submit">
+      @if (store.isLoading()) {
+        <mat-spinner diameter="18" />
+      }
+      <span>{{ store.isLoading() ? 'Inscription…' : "S'inscrire" }}</span>
+    </button>
+  </form>
+</section>

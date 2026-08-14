@@ -9,4 +9,4 @@ import { Awards } from '../ui/awards/awards';
   imports: [HeroComponent, SdgsComponent, AboutComponent, MissionComponent, Awards],
   templateUrl: './landing.html'
 })
-export class LandingComponent {}
+export default class Landing {}

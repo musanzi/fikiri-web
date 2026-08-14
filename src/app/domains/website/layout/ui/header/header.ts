@@ -10,9 +10,9 @@ import { filter } from 'rxjs';
   templateUrl: './header.html'
 })
 export class Header {
-  private readonly router = inject(Router);
+  private router = inject(Router);
 
-  readonly links = [
+  links = [
     { name: 'Accueil', path: '/' },
     { name: 'Solutions', path: '/solutions' },
     { name: 'À propos', path: '/', fragment: 'about' },
@@ -20,18 +20,18 @@ export class Header {
     { name: 'Les champions', path: '/', fragment: 'awards' },
     { name: 'SDGs', path: '/', fragment: 'sdgs' }
   ];
-  readonly activeLinkMatchOptions: IsActiveMatchOptions = {
+  activeLinkMatchOptions: IsActiveMatchOptions = {
     paths: 'exact',
     fragment: 'exact',
     queryParams: 'exact',
     matrixParams: 'exact'
   };
 
-  readonly menuOpen = signal(false);
-  readonly scrolled = signal(false);
-  readonly landingPage = signal(this.isLandingRoute(this.router.url));
-  readonly overlaysHero = computed(() => this.landingPage() && !this.scrolled());
-  readonly solidHeader = computed(() => !this.landingPage() || this.scrolled());
+  menuOpen = signal(false);
+  scrolled = signal(false);
+  landingPage = signal(this.isLandingRoute(this.router.url));
+  overlaysHero = computed(() => this.landingPage() && !this.scrolled());
+  solidHeader = computed(() => !this.landingPage() || this.scrolled());
 
   constructor() {
     afterNextRender(() => this.updateScrolledState());

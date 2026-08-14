@@ -9,5 +9,5 @@ import { sdgs } from '../../data/sdgs';
   templateUrl: './sdgs.html'
 })
 export class SdgsComponent {
-  readonly sdgs = sdgs;
+  sdgs = sdgs;
 }

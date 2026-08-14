@@ -1,5 +1,5 @@
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig, isDevMode, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { ApplicationConfig, inject, isDevMode, provideAppInitializer } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { provideRouter, TitleStrategy, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
@@ -11,10 +11,12 @@ import { routes } from './app.routes';
 import { httpInterceptor } from './core/interceptors';
 import { PageTitleStrategy } from './core/strategies';
 import { provideClientHydration } from '@angular/platform-browser';
+import { AuthStore } from './domains/auth/data-access/auth.store';
+import { IUser } from './core/interfaces';
+import { catchError, map, of } from 'rxjs';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideBrowserGlobalErrorListeners(),
     provideHttpClient(withInterceptors([httpInterceptor])),
     provideClientHydration(),
     provideRouter(
@@ -27,7 +29,20 @@ export const appConfig: ApplicationConfig = {
     ),
     { provide: TitleStrategy, useClass: PageTitleStrategy },
 
-    // Material
+    provideAppInitializer(() => {
+      const authStore = inject(AuthStore);
+      const http = inject(HttpClient);
+      return http.get<{ data: IUser }>('auth/me').pipe(
+        map(({ data }) => {
+          authStore.setUser(data);
+        }),
+        catchError(() => {
+          authStore.setUser(null);
+          return of(null);
+        })
+      );
+    }),
+
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: {
@@ -36,7 +51,6 @@ export const appConfig: ApplicationConfig = {
     },
     provideNativeDateAdapter(),
 
-    // Core
     provideIcons(),
     provideTheming({
       scheme: 'light',
@@ -44,7 +58,6 @@ export const appConfig: ApplicationConfig = {
       error: '#dc2626'
     }),
 
-    // Third-party
     provideTransloco({
       config: {
         availableLangs: [

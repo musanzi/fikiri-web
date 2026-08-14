@@ -1,10 +1,10 @@
 import { DOCUMENT } from '@angular/common';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Service, signal } from '@angular/core';
 import { TonalPalette } from '@/app/core/theming/palette';
 import { Scheme, Colors, Theme } from './models/theming';
 import { THEME_CONFIG } from './provider';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class Theming {
   // Dependencies
   private document = inject(DOCUMENT);

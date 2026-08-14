@@ -1,6 +1,6 @@
 import { TonalPalette } from '@/app/core/theming/palette';
 
-export type Scheme = 'light';
+export type Scheme = 'light' | 'dark' | 'system';
 export interface Colors {
   primary: string;
   error: string;
