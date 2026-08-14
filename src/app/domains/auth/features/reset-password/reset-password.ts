@@ -4,14 +4,13 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ResetPasswordStore } from '../../data-access/reset-password.store';
 import { IResetPasswordPayload } from '../../interfaces/reset-password.interface';
 
 @Component({
   templateUrl: './reset-password.html',
   providers: [ResetPasswordStore],
-  imports: [FormField, RouterLink, MatButtonModule, MatIconModule, MatInputModule, MatProgressSpinnerModule]
+  imports: [FormField, RouterLink, MatButtonModule, MatIconModule, MatInputModule]
 })
 export class AuthResetPassword {
   protected store = inject(ResetPasswordStore);

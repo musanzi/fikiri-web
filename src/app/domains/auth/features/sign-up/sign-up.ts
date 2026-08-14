@@ -2,7 +2,6 @@ import { Component, inject, signal } from '@angular/core';
 import { email, form, FormField, minLength, pattern, required, submit } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { environment } from '@/environments/environment';
 import { SignUpStore } from '../../data-access/sign-up.store';
@@ -11,7 +10,7 @@ import { ISignUpPayload } from '../../interfaces/sign-up.interface';
 @Component({
   templateUrl: './sign-up.html',
   providers: [SignUpStore],
-  imports: [FormField, MatButtonModule, MatInputModule, MatProgressSpinnerModule, RouterLink]
+  imports: [FormField, MatButtonModule, MatInputModule, RouterLink]
 })
 export class AuthSignUp {
   protected store = inject(SignUpStore);

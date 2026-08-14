@@ -1,5 +1,6 @@
-import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig, inject, isDevMode, provideAppInitializer } from '@angular/core';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { isPlatformBrowser } from '@angular/common';
+import { ApplicationConfig, inject, isDevMode, PLATFORM_ID, provideAppInitializer } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { provideRouter, TitleStrategy, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
@@ -12,8 +13,6 @@ import { httpInterceptor } from './core/interceptors';
 import { PageTitleStrategy } from './core/strategies';
 import { provideClientHydration } from '@angular/platform-browser';
 import { AuthStore } from './domains/auth/data-access/auth.store';
-import { IUser } from './core/interfaces';
-import { catchError, map, of } from 'rxjs';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,17 +29,10 @@ export const appConfig: ApplicationConfig = {
     { provide: TitleStrategy, useClass: PageTitleStrategy },
 
     provideAppInitializer(() => {
+      const platformId = inject(PLATFORM_ID);
       const authStore = inject(AuthStore);
-      const http = inject(HttpClient);
-      return http.get<{ data: IUser }>('auth/me').pipe(
-        map(({ data }) => {
-          authStore.setUser(data);
-        }),
-        catchError(() => {
-          authStore.setUser(null);
-          return of(null);
-        })
-      );
+
+      return isPlatformBrowser(platformId) ? authStore.initialize() : undefined;
     }),
 
     {

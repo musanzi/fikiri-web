@@ -1,27 +1,26 @@
 import { Component } from '@angular/core';
 import { Navigation } from '@/app/domains/admin/layout/ui/navigation';
 import { User } from '@/app/domains/admin/layout/ui/user';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'admin-sidebar',
-  imports: [Navigation, User],
+  imports: [Navigation, User, RouterLink],
   host: {
     class: 'flex w-full flex-auto flex-col'
   },
   template: `
-    <!-- Header -->
     <div class="relative flex items-center gap-x-2.5 pt-5 pr-4 pb-0 pl-6">
-      <!-- Logo -->
-      <img src="/images/logo.webp" class="size-auto" alt="Fuse logo" />
+      <a routerLink="/" class="flex items-center gap-1">
+        <img src="/images/favicon.png" alt="" class="size-8 object-contain" />
+        <span class="text-3xl font-bold tracking-tight transition-colors text-white">fikiri</span>
+      </a>
     </div>
 
-    <!-- Navigation -->
     <navigation class="mt-8 mb-4 flex-auto" />
 
-    <!-- Spacer -->
     <div class="flex-auto"></div>
 
-    <!-- Footer -->
     <div class="p-2">
       <user />
     </div>

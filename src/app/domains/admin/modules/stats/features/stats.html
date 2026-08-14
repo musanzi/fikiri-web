@@ -1,1 +1,49 @@
-<h4 class="text-4xl font-black px-8">Stats</h4>
+<div class="px-10 py-16">
+  @if (statsResource.isLoading()) {
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-5" aria-label="Chargement des statistiques">
+      @for (item of [1, 2, 3, 4, 5]; track item) {
+        <mat-card appearance="filled" class="animate-pulse">
+          <mat-card-header>
+            <div class="h-4 w-28 rounded bg-neutral-300"></div>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="h-12 w-20 rounded bg-neutral-300"></div>
+            <div class="mt-2 h-4 w-40 rounded bg-neutral-200"></div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  } @else if (statsResource.hasValue()) {
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
+      @for (item of summary(); track item.title) {
+        <mat-card appearance="filled">
+          <mat-card-header>
+            <div class="flex items-center gap-x-2">
+              <mat-icon class="size-4" [svgIcon]="item.icon" />
+              <div class="font-medium tracking-tight">
+                {{ item.title }}
+              </div>
+            </div>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="text-5xl font-semibold">
+              {{ item.value | number }}
+            </div>
+            <div class="mt-2 text-sm font-medium text-neutral-500">
+              {{ item.description }}
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  } @else {
+    <div class="flex min-h-64 flex-col items-center justify-center gap-4 text-center">
+      <mat-icon class="text-neutral-500" svgIcon="triangle-alert" />
+      <div>
+        <div class="font-medium">Impossible de charger les statistiques</div>
+        <div class="mt-1 text-sm text-neutral-500">Veuillez réessayer dans quelques instants.</div>
+      </div>
+      <button matButton="outlined" type="button" (click)="statsResource.reload()">Réessayer</button>
+    </div>
+  }
+</div>

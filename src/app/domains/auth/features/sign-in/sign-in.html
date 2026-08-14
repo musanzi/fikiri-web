@@ -35,9 +35,6 @@
       [disabled]="store.isLoading() || signInForm().invalid()"
       class="mt-4 w-full"
       type="submit">
-      @if (store.isLoading()) {
-        <mat-spinner diameter="18" />
-      }
       <span>{{ store.isLoading() ? 'Connexion…' : 'Se connecter' }}</span>
     </button>
     <div class="mt-2.5 flex items-center">

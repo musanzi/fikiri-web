@@ -28,7 +28,7 @@ export const SignInStore = signalStore(
             tap(({ data }) => {
               patchState(store, { isLoading: false });
               _authStore.setUser(data);
-              void _router.navigate(['/']);
+              void _router.navigate(['/admin']);
             }),
             catchError(() => {
               patchState(store, { isLoading: false });

@@ -8,6 +8,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        title: 'Admin',
         loadComponent: () => import('./modules/stats/features/stats')
       }
     ]

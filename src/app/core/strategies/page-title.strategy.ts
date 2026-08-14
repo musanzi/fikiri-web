@@ -14,7 +14,7 @@ export class PageTitleStrategy extends TitleStrategy {
     const title = this.buildTitle(routerState);
 
     if (title !== undefined) {
-      this.title.setTitle(`Fikiri — ${title}`);
+      this.title.setTitle(`Fikiri | ${title}`);
     }
   }
 }

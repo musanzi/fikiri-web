@@ -1,16 +1,10 @@
-import { AuthStore } from '@/app/domains/auth/data-access/auth.store';
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { AuthStore } from '@/app/domains/auth/data-access/auth.store';
 
 export const unauthGuard: CanActivateFn = () => {
   const authStore = inject(AuthStore);
   const router = inject(Router);
 
-  const hasRights = authStore.hasRights();
-
-  if (!hasRights) {
-    return router.navigate(['/admin']);
-  }
-
-  return true;
+  return authStore.user() && authStore.hasRights() ? router.parseUrl('/admin') : true;
 };
