@@ -14,9 +14,7 @@ import { SolutionSkeleton } from '../../ui/solution-skeleton/solution-skeleton';
 export class SolutionDetails {
   readonly slug = input.required<string>();
 
-  readonly solutionResource = httpResource<{ data: ISolution }>(
-    () => `/solutions/slug/${encodeURIComponent(this.slug())}`
-  );
+  readonly solutionResource = httpResource<{ data: ISolution }>(() => `/solutions/slug/${this.slug()}`);
 
   solutionImage(image: string | null): string {
     return image ? `${environment.apiUrl}/uploads/solutions/${image}` : '/images/no-img.png';
