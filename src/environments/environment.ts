@@ -1,3 +1,3 @@
 export const environment = {
-  apiUrl: 'https://api.fikiri.me'
+  apiUrl: 'https://api.fikiri.co'
 };
