@@ -20,7 +20,7 @@ import { AdminSidebar } from '@/app/domains/admin/layout/ui/sidebar';
   template: `
     <mat-sidenav-container>
       <mat-sidenav
-        class="w-70 border-r border-neutral-200 scheme-dark dark:border-neutral-800 dark:bg-neutral-900"
+        class="w-70 border-r border-neutral-200 scheme-dark"
         [mode]="isMobile() ? 'over' : 'side'"
         [opened]="!isMobile()"
         [disableClose]="!isMobile()"
