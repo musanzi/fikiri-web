@@ -10,6 +10,16 @@ const routes: Routes = [
         path: '',
         title: 'Admin',
         loadComponent: () => import('./modules/stats/features/stats')
+      },
+      {
+        path: 'users',
+        title: 'Utilisateurs',
+        loadComponent: () => import('./modules/users/features/list-users/users')
+      },
+      {
+        path: 'outreachers',
+        title: 'Ambassadeurs',
+        loadComponent: () => import('./modules/outreachers/features/outreachers')
       }
     ]
   }

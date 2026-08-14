@@ -23,7 +23,22 @@ export const NAVIGATION: NavigationItem[] = [
         id: 'stats',
         label: 'Statistiques',
         icon: 'chart-no-axes-combined',
-        route: ''
+        route: '/admin',
+        activeOptions: { exact: true }
+      },
+      {
+        id: 'users',
+        label: 'Utilisateurs',
+        icon: 'users',
+        route: 'users',
+        activeOptions: { exact: false }
+      },
+      {
+        id: 'outreachers',
+        label: 'Ambassadeurs',
+        icon: 'user-round-search',
+        route: 'outreachers',
+        activeOptions: { exact: false }
       }
     ]
   }

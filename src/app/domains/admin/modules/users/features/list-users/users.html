@@ -1,0 +1,101 @@
+<section class="flex flex-col px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
+  <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold tracking-tight">Utilisateurs</h1>
+      <p class="mt-1 text-sm text-neutral-500">Liste des utilisateurs enregistrés sur la plateforme.</p>
+    </div>
+
+    <div class="flex w-full max-w-md gap-2">
+      <label class="sr-only" for="user-search">Rechercher un utilisateur</label>
+      <div class="relative flex-auto">
+        <mat-icon
+          class="pointer-events-none absolute top-1/2 left-3 z-10 size-5 -translate-y-1/2 text-neutral-500"
+          svgIcon="search" />
+        <input
+          class="h-10 w-full rounded-lg border border-neutral-300 bg-transparent pr-3 pl-10 text-sm outline-none focus:border-primary"
+          id="user-search"
+          type="search"
+          placeholder="Nom ou adresse e-mail"
+          [(ngModel)]="q" />
+      </div>
+    </div>
+  </div>
+
+  @if (usersResource.isLoading()) {
+    <div class="flex min-h-64 items-center justify-center" aria-label="Chargement des utilisateurs">
+      <span class="text-sm text-neutral-500">Chargement…</span>
+    </div>
+  } @else if (usersResource.hasValue()) {
+    @let users = usersResource.value().data[0];
+    @let usersCount = usersResource.value().data[1];
+
+    <div class="flex flex-col overflow-hidden rounded-xl border border-neutral-200">
+      <div class="relative isolate overflow-x-auto">
+        <table class="w-full whitespace-nowrap" mat-table [dataSource]="users">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Nom</th>
+            <td class="font-medium" mat-cell *matCellDef="let user">{{ user.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>E-mail</th>
+            <td mat-cell *matCellDef="let user">
+              <a class="text-primary hover:underline" [href]="'mailto:' + user.email">{{ user.email }}</a>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="phoneNumber">
+            <th mat-header-cell *matHeaderCellDef>Téléphone</th>
+            <td mat-cell *matCellDef="let user">{{ user.phone_number || '—' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="roles">
+            <th mat-header-cell *matHeaderCellDef>Rôles</th>
+            <td mat-cell *matCellDef="let user">
+              @for (role of user.roles; track role.id) {
+                <span class="mr-1 rounded-full bg-neutral-100 px-2 py-1 text-xs">{{ role.name }}</span>
+              } @empty {
+                <span class="text-neutral-500">—</span>
+              }
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="createdAt">
+            <th mat-header-cell *matHeaderCellDef>Inscription</th>
+            <td mat-cell *matCellDef="let user">{{ user.created_at | date: 'dd/MM/yyyy' }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            class="group relative hover:bg-on-surface-variant/4"
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"></tr>
+
+          <tr class="h-32" *matNoDataRow>
+            <td class="text-center text-sm text-neutral-500" [attr.colspan]="displayedColumns.length">
+              Aucun utilisateur trouvé.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      @if (usersCount > 40) {
+        <mat-paginator
+          [length]="usersCount"
+          [pageIndex]="pageIndex()"
+          [pageSize]="40"
+          [hidePageSize]="true"
+          (page)="onPageChange($event)" />
+      }
+    </div>
+  } @else {
+    <div class="flex min-h-64 flex-col items-center justify-center gap-4 text-center" role="alert">
+      <mat-icon class="text-neutral-500" svgIcon="triangle-alert" />
+      <div>
+        <div class="font-medium">Impossible de charger les utilisateurs</div>
+        <div class="mt-1 text-sm text-neutral-500">Veuillez réessayer dans quelques instants.</div>
+      </div>
+      <button matButton="outlined" type="button" (click)="usersResource.reload()">Réessayer</button>
+    </div>
+  }
+</section>

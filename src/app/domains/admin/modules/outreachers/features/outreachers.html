@@ -1,0 +1,90 @@
+<section class="flex flex-col px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
+  <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold tracking-tight">Ambassadeurs</h1>
+      <p class="mt-1 text-sm text-neutral-500">Utilisateurs classés selon le nombre de personnes mobilisées.</p>
+    </div>
+
+    <div class="flex w-full max-w-md gap-2">
+      <label class="sr-only" for="outreacher-search">Rechercher un ambassadeur</label>
+      <div class="relative flex-auto">
+        <mat-icon
+          class="pointer-events-none absolute top-1/2 left-3 z-10 size-5 -translate-y-1/2 text-neutral-500"
+          svgIcon="search" />
+        <input
+          class="h-10 w-full rounded-lg border border-neutral-300 bg-transparent pr-3 pl-10 text-sm outline-none focus:border-primary"
+          id="outreacher-search"
+          type="search"
+          placeholder="Nom ou adresse e-mail"
+          [(ngModel)]="q" />
+      </div>
+    </div>
+  </div>
+
+  @if (outreachersResource.isLoading()) {
+    <div class="flex min-h-64 items-center justify-center" aria-label="Chargement des ambassadeurs">
+      <span class="text-sm text-neutral-500">Chargement…</span>
+    </div>
+  } @else if (outreachersResource.hasValue()) {
+    @let outreachers = outreachersResource.value().data[0];
+    @let outreachersCount = outreachersResource.value().data[1];
+
+    <div class="flex flex-col overflow-hidden rounded-xl border border-neutral-200">
+      <div class="relative isolate overflow-x-auto">
+        <table class="w-full whitespace-nowrap" mat-table [dataSource]="outreachers">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Nom</th>
+            <td class="font-medium" mat-cell *matCellDef="let outreacher">{{ outreacher.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>E-mail</th>
+            <td mat-cell *matCellDef="let outreacher">
+              <a class="text-primary hover:underline" [href]="'mailto:' + outreacher.email">
+                {{ outreacher.email }}
+              </a>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="outreachCount">
+            <th mat-header-cell *matHeaderCellDef>Personnes mobilisées</th>
+            <td mat-cell *matCellDef="let outreacher">
+              <span class="tabular-nums">{{ outreacher.outreachCount | number }}</span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            class="group relative hover:bg-on-surface-variant/4"
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"></tr>
+
+          <tr class="h-32" *matNoDataRow>
+            <td class="text-center text-sm text-neutral-500" [attr.colspan]="displayedColumns.length">
+              Aucun ambassadeur trouvé.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      @if (outreachersCount > 40) {
+        <mat-paginator
+          aria-label="Sélectionner une page d’ambassadeurs"
+          [length]="outreachersCount"
+          [pageIndex]="pageIndex()"
+          [pageSize]="40"
+          [hidePageSize]="true"
+          (page)="onPageChange($event)" />
+      }
+    </div>
+  } @else {
+    <div class="flex min-h-64 flex-col items-center justify-center gap-4 text-center" role="alert">
+      <mat-icon class="text-neutral-500" svgIcon="triangle-alert" />
+      <div>
+        <div class="font-medium">Impossible de charger les ambassadeurs</div>
+        <div class="mt-1 text-sm text-neutral-500">Veuillez réessayer dans quelques instants.</div>
+      </div>
+      <button matButton="outlined" type="button" (click)="outreachersResource.reload()">Réessayer</button>
+    </div>
+  }
+</section>
