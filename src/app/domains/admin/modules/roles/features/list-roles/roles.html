@@ -1,0 +1,54 @@
+<section class="flex flex-col px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
+  <div class="mb-6">
+    <h1 class="text-2xl font-semibold tracking-tight">Rôles</h1>
+    <p class="mt-1 text-sm text-neutral-500">Liste des rôles disponibles sur la plateforme.</p>
+  </div>
+
+  @if (rolesResource.isLoading()) {
+    <div class="flex min-h-64 items-center justify-center" aria-label="Chargement des rôles">
+      <span class="text-sm text-neutral-500">Chargement…</span>
+    </div>
+  } @else if (rolesResource.hasValue()) {
+    <div class="flex flex-col overflow-hidden rounded-xl border border-neutral-200">
+      <div class="relative isolate overflow-x-auto">
+        <table class="w-full whitespace-nowrap" mat-table [dataSource]="rolesResource.value().data">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Nom</th>
+            <td class="font-medium" mat-cell *matCellDef="let role">{{ role.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="createdAt">
+            <th mat-header-cell *matHeaderCellDef>Création</th>
+            <td mat-cell *matCellDef="let role">{{ role.created_at | date: 'dd/MM/yyyy' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="updatedAt">
+            <th mat-header-cell *matHeaderCellDef>Mise à jour</th>
+            <td mat-cell *matCellDef="let role">{{ role.updated_at | date: 'dd/MM/yyyy' }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            class="group relative hover:bg-on-surface-variant/4"
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"></tr>
+
+          <tr class="h-32" *matNoDataRow>
+            <td class="text-center text-sm text-neutral-500" [attr.colspan]="displayedColumns.length">
+              Aucun rôle trouvé.
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  } @else {
+    <div class="flex min-h-64 flex-col items-center justify-center gap-4 text-center" role="alert">
+      <mat-icon class="text-neutral-500" svgIcon="triangle-alert" />
+      <div>
+        <div class="font-medium">Impossible de charger les rôles</div>
+        <div class="mt-1 text-sm text-neutral-500">Veuillez réessayer dans quelques instants.</div>
+      </div>
+      <button matButton="outlined" type="button" (click)="rolesResource.reload()">Réessayer</button>
+    </div>
+  }
+</section>
