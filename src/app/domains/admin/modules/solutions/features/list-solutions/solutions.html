@@ -5,7 +5,22 @@
       <p class="mt-1 text-sm text-neutral-500">Liste des solutions proposées sur la plateforme.</p>
     </div>
 
-    <div class="flex w-full max-w-md gap-2">
+    <div class="flex w-full max-w-2xl flex-col gap-2 sm:flex-row sm:items-center">
+      <mat-form-field appearance="outline" class="w-full sm:w-64" subscriptSizing="dynamic">
+        <mat-select
+          aria-label="Filtrer les solutions par appel"
+          [disabled]="callsResource.isLoading()"
+          [ngModel]="call()"
+          (ngModelChange)="onCallChange($event)">
+          <mat-option value="">Tous les appels</mat-option>
+          @if (callsResource.hasValue()) {
+            @for (callOption of callsResource.value().data; track callOption.id) {
+              <mat-option [value]="callOption.id">{{ callOption.name }}</mat-option>
+            }
+          }
+        </mat-select>
+      </mat-form-field>
+
       <label class="sr-only" for="solution-search">Rechercher une solution</label>
       <div class="relative flex-auto">
         <mat-icon

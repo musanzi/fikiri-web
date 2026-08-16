@@ -30,7 +30,8 @@
 
       <div class="mt-9 flex flex-col gap-3 sm:mt-10 sm:flex-row">
         <a
-          [routerLink]="['/sign-up']"
+          [routerLink]="submitSolutionLink()"
+          [queryParams]="submitSolutionQueryParams()"
           class="inline-flex min-h-13 items-center justify-center rounded-md bg-primary-500 px-4 py-2 text-base font-semibold text-white shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-0.5 hover:bg-primary-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
           Proposer une solution
         </a>

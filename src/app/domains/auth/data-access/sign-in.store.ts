@@ -4,7 +4,7 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { ISignInPayload } from '../interfaces/sign-in.interface';
 import { catchError, of, pipe, switchMap, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthStore } from './auth.store';
 import { IUser } from '@/app/core/interfaces';
 
@@ -17,9 +17,10 @@ export const SignInStore = signalStore(
   withProps(() => ({
     _http: inject(HttpClient),
     _router: inject(Router),
+    _route: inject(ActivatedRoute),
     _authStore: inject(AuthStore)
   })),
-  withMethods(({ _http, _authStore, _router, ...store }) => ({
+  withMethods(({ _http, _authStore, _route, _router, ...store }) => ({
     signIn: rxMethod<ISignInPayload>(
       pipe(
         tap(() => patchState(store, { isLoading: true })),
@@ -28,7 +29,10 @@ export const SignInStore = signalStore(
             tap(({ data }) => {
               patchState(store, { isLoading: false });
               _authStore.setUser(data);
-              void _router.navigate(['/admin']);
+              const returnUrl = _route.snapshot.queryParamMap.get('returnUrl');
+              void (returnUrl?.startsWith('/') && !returnUrl.startsWith('//')
+                ? _router.navigateByUrl(returnUrl)
+                : _router.navigate(['/admin']));
             }),
             catchError(() => {
               patchState(store, { isLoading: false });

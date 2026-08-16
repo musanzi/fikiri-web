@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authenticatedGuard } from '@/app/core/guards';
 import { WebLayout } from '@/app/domains/website/layout/layout';
 
 const routes: Routes = [
@@ -10,6 +11,11 @@ const routes: Routes = [
         path: 'solutions',
         title: 'Solutions',
         loadChildren: () => import('./modules/solutions/routes')
+      },
+      {
+        path: 'submit-solution',
+        canActivate: [authenticatedGuard],
+        loadChildren: () => import('./modules/submissions/routes')
       },
       {
         path: '',
