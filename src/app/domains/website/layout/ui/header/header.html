@@ -42,9 +42,6 @@
       type="button"
       class="flex size-11 items-center justify-center rounded-full border shadow-sm transition-colors sm:hidden"
       [class]="overlaysHero() ? 'border-white/25 bg-white/10 text-white' : 'border-gray-200 bg-white text-gray-900'"
-      [attr.aria-expanded]="menuOpen()"
-      aria-controls="mobile-navigation"
-      [attr.aria-label]="menuOpen() ? 'Fermer le menu' : 'Ouvrir le menu'"
       (click)="toggleMenu()">
       <span class="sr-only">Menu</span>
       <span class="relative block h-4 w-5">
@@ -84,7 +81,7 @@
       <div class="mt-5 grid grid-cols-1 gap-3 border-t border-gray-100 pt-5">
         <a
           routerLink="/auth/sign-in"
-          class="rounded-full border border-gray-200 px-4 py-3 text-center font-semibold"
+          class="rounded-md border border-gray-200 px-4 py-3 text-center font-semibold"
           (click)="closeMenu()">
           Connexion
         </a>
