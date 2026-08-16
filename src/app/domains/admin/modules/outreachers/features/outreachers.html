@@ -71,7 +71,7 @@
         <mat-paginator
           aria-label="Sélectionner une page d’ambassadeurs"
           [length]="outreachersCount"
-          [pageIndex]="pageIndex()"
+          [pageIndex]="page() - 1"
           [pageSize]="40"
           [hidePageSize]="true"
           (page)="onPageChange($event)" />
