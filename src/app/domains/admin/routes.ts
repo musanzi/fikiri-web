@@ -17,6 +17,21 @@ const routes: Routes = [
         loadComponent: () => import('./modules/users/features/list-users/users')
       },
       {
+        path: 'solutions',
+        title: 'Solutions',
+        loadComponent: () => import('./modules/solutions/features/list-solutions/solutions')
+      },
+      {
+        path: 'calls',
+        title: 'Appels',
+        loadComponent: () => import('./modules/calls/features/list-calls/calls')
+      },
+      {
+        path: 'roles',
+        title: 'Rôles',
+        loadComponent: () => import('./modules/roles/features/list-roles/roles')
+      },
+      {
         path: 'outreachers',
         title: 'Ambassadeurs',
         loadComponent: () => import('./modules/outreachers/features/outreachers')
