@@ -23,8 +23,23 @@ const routes: Routes = [
       },
       {
         path: 'calls',
-        title: 'Appels',
-        loadComponent: () => import('./modules/calls/features/list-calls/calls')
+        children: [
+          {
+            path: '',
+            title: 'Appels',
+            loadComponent: () => import('./modules/calls/features/list-calls/calls')
+          },
+          {
+            path: 'add',
+            title: 'Ajouter un appel',
+            loadComponent: () => import('./modules/calls/features/add-call/add-call')
+          },
+          {
+            path: ':id',
+            title: 'Modifier un appel',
+            loadComponent: () => import('./modules/calls/features/update-call/update-call')
+          }
+        ]
       },
       {
         path: 'roles',
