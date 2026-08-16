@@ -1,0 +1,98 @@
+<section class="flex flex-col px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
+  <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold tracking-tight">Appels</h1>
+      <p class="mt-1 text-sm text-neutral-500">Liste des appels à solutions créés sur la plateforme.</p>
+    </div>
+
+    <div class="flex w-full max-w-md gap-2">
+      <label class="sr-only" for="call-search">Rechercher un appel</label>
+      <div class="relative flex-auto">
+        <mat-icon
+          class="pointer-events-none absolute top-1/2 left-3 z-10 size-5 -translate-y-1/2 text-neutral-500"
+          svgIcon="search" />
+        <input
+          class="h-10 w-full rounded-lg border border-neutral-300 bg-transparent pr-3 pl-10 text-sm outline-none focus:border-primary"
+          id="call-search"
+          type="search"
+          placeholder="Nom ou description"
+          [(ngModel)]="q" />
+      </div>
+    </div>
+  </div>
+
+  @if (callsResource.isLoading()) {
+    <div class="flex min-h-64 items-center justify-center" aria-label="Chargement des appels">
+      <span class="text-sm text-neutral-500">Chargement…</span>
+    </div>
+  } @else if (callsResource.hasValue()) {
+    @let calls = callsResource.value().data[0];
+    @let callsCount = callsResource.value().data[1];
+
+    <div class="flex flex-col overflow-hidden rounded-xl border border-neutral-200">
+      <div class="relative isolate overflow-x-auto">
+        <table class="w-full whitespace-nowrap" mat-table [dataSource]="calls">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Appel</th>
+            <td class="max-w-md" mat-cell *matCellDef="let call">
+              <div class="truncate font-medium">{{ call.name }}</div>
+              <div class="truncate text-xs text-neutral-500">{{ call.description }}</div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="period">
+            <th mat-header-cell *matHeaderCellDef>Période</th>
+            <td mat-cell *matCellDef="let call">
+              {{ call.started_at | date: 'dd/MM/yyyy' }} – {{ call.ended_at | date: 'dd/MM/yyyy' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="solutionsCount">
+            <th mat-header-cell *matHeaderCellDef>Solutions</th>
+            <td class="tabular-nums" mat-cell *matCellDef="let call">{{ call.solutionsCount }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Statut</th>
+            <td mat-cell *matCellDef="let call">
+              <span class="rounded-full bg-neutral-100 px-2 py-1 text-xs">
+                {{ call.published_at ? 'Publié' : 'Non publié' }}
+              </span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr
+            class="group relative hover:bg-on-surface-variant/4"
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"></tr>
+
+          <tr class="h-32" *matNoDataRow>
+            <td class="text-center text-sm text-neutral-500" [attr.colspan]="displayedColumns.length">
+              Aucun appel trouvé.
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      @if (callsCount > 20) {
+        <mat-paginator
+          aria-label="Sélectionner une page d’appels"
+          [length]="callsCount"
+          [pageIndex]="page() - 1"
+          [pageSize]="20"
+          [hidePageSize]="true"
+          (page)="onPageChange($event)" />
+      }
+    </div>
+  } @else {
+    <div class="flex min-h-64 flex-col items-center justify-center gap-4 text-center" role="alert">
+      <mat-icon class="text-neutral-500" svgIcon="triangle-alert" />
+      <div>
+        <div class="font-medium">Impossible de charger les appels</div>
+        <div class="mt-1 text-sm text-neutral-500">Veuillez réessayer dans quelques instants.</div>
+      </div>
+      <button matButton="outlined" type="button" (click)="callsResource.reload()">Réessayer</button>
+    </div>
+  }
+</section>
