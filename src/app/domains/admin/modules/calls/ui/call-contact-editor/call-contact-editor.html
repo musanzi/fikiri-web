@@ -1,0 +1,101 @@
+<div class="flex flex-col gap-5">
+  <div>
+    <h3 class="font-medium">Personne à contacter</h3>
+    <p class="mt-1 text-sm text-neutral-500">Coordonnées publiques pour les questions concernant cet appel.</p>
+  </div>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <mat-form-field appearance="outline">
+      <mat-label>Nom complet</mat-label>
+      <input
+        matInput
+        type="text"
+        autocomplete="name"
+        [value]="value().name"
+        (input)="updateContact({ name: $any($event.target).value })" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fonction</mat-label>
+      <input
+        matInput
+        type="text"
+        autocomplete="organization-title"
+        [value]="value().role"
+        (input)="updateContact({ role: $any($event.target).value })" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Adresse e-mail</mat-label>
+      <input
+        matInput
+        type="email"
+        autocomplete="email"
+        [value]="value().email"
+        (input)="updateContact({ email: $any($event.target).value })" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Numéro de téléphone</mat-label>
+      <input
+        matInput
+        type="tel"
+        autocomplete="tel"
+        [value]="value().phone"
+        (input)="updateContact({ phone: $any($event.target).value })" />
+    </mat-form-field>
+  </div>
+
+  <div class="flex items-center justify-between gap-4">
+    <div>
+      <h3 class="font-medium">Liens utiles</h3>
+      <p class="mt-1 text-sm text-neutral-500">Documentation, règlement ou ressources externes.</p>
+    </div>
+    <button matButton="outlined" type="button" (click)="addLink()">
+      <mat-icon svgIcon="plus" />
+      Ajouter un lien
+    </button>
+  </div>
+
+  <div class="flex flex-col gap-3">
+    @for (link of value().links; track $index; let linkIndex = $index) {
+      <mat-card appearance="outlined" class="grid gap-3 p-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_auto]">
+        <mat-form-field appearance="outline">
+          <mat-label>Libellé</mat-label>
+          <input
+            matInput
+            type="text"
+            [value]="link.label"
+            (input)="updateLink(linkIndex, { label: $any($event.target).value })" />
+          @if (!link.label.trim()) {
+            <mat-hint class="text-red-600">Le libellé est requis.</mat-hint>
+          }
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>URL</mat-label>
+          <input
+            matInput
+            type="url"
+            placeholder="https://"
+            [value]="link.url"
+            (input)="updateLink(linkIndex, { url: $any($event.target).value })" />
+          @if (!link.url.trim()) {
+            <mat-hint class="text-red-600">L'URL est requise.</mat-hint>
+          }
+        </mat-form-field>
+        <button
+          matIconButton
+          type="button"
+          aria-label="Supprimer le lien"
+          matTooltip="Supprimer"
+          (click)="deleteLink(linkIndex)">
+          <mat-icon svgIcon="trash-2" />
+        </button>
+      </mat-card>
+    } @empty {
+      <div class="rounded-lg border border-dashed border-neutral-300 px-4 py-8 text-center text-sm text-neutral-500">
+        Aucun lien utile ajouté.
+      </div>
+    }
+  </div>
+</div>
