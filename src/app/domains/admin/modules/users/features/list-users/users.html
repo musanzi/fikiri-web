@@ -82,7 +82,7 @@
       @if (usersCount > 40) {
         <mat-paginator
           [length]="usersCount"
-          [pageIndex]="pageIndex()"
+          [pageIndex]="page() - 1"
           [pageSize]="40"
           [hidePageSize]="true"
           (page)="onPageChange($event)" />
