@@ -1,0 +1,173 @@
+<section class="px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
+  <div class="max-w-4xl">
+    <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <div>
+        <h1 class="text-2xl font-semibold tracking-tight">Modifier l'appel</h1>
+        <p class="mt-1 text-sm text-neutral-500">Mettez à jour les informations de l'appel à solutions.</p>
+      </div>
+      <a matButton="outlined" routerLink="/admin/calls">
+        <mat-icon svgIcon="arrow-left" />
+        Retour aux appels
+      </a>
+    </div>
+
+    @if (callResource.isLoading()) {
+      <div class="flex min-h-64 items-center justify-center" aria-label="Chargement de l’appel">
+        <span class="text-sm text-neutral-500">Chargement…</span>
+      </div>
+    } @else if (callResource.hasValue()) {
+      <form class="flex flex-col gap-6" (submit)="onSubmit(); $event.preventDefault()">
+        <mat-card appearance="outlined" class="grid gap-4 p-5 sm:grid-cols-2">
+          <mat-form-field appearance="outline" class="sm:col-span-2">
+            <mat-label>Nom</mat-label>
+            <input matInput type="text" autocomplete="off" [formField]="callForm.name" />
+            @if (callForm.name().touched() && callForm.name().invalid()) {
+              <mat-error>{{ callForm.name().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Date de début</mat-label>
+            <input matInput [matDatepicker]="startedAtPicker" [formField]="callForm.started_at" />
+            <mat-datepicker-toggle matIconSuffix [for]="startedAtPicker" />
+            <mat-datepicker #startedAtPicker />
+            @if (callForm.started_at().touched() && callForm.started_at().invalid()) {
+              <mat-error>{{ callForm.started_at().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Date de fin</mat-label>
+            <input matInput [matDatepicker]="endedAtPicker" [formField]="callForm.ended_at" />
+            <mat-datepicker-toggle matIconSuffix [for]="endedAtPicker" />
+            <mat-datepicker #endedAtPicker />
+            @if (callForm.ended_at().touched() && callForm.ended_at().invalid()) {
+              <mat-error>{{ callForm.ended_at().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="sm:col-span-2">
+            <mat-label>Description</mat-label>
+            <textarea matInput rows="5" [formField]="callForm.description"></textarea>
+            @if (callForm.description().touched() && callForm.description().invalid()) {
+              <mat-error>{{ callForm.description().errors()[0].message }}</mat-error>
+            }
+          </mat-form-field>
+        </mat-card>
+
+        <mat-card appearance="outlined" class="overflow-hidden">
+          <div class="px-5 pt-5 mb-4">
+            <h2 class="font-semibold">Conception des formulaires</h2>
+            <p class="mt-1 text-sm text-neutral-500">
+              Configurez la candidature, l'évaluation, les contacts et les conditions de soumission.
+            </p>
+          </div>
+
+          <mat-tab-group animationDuration="200ms" dynamicHeight>
+            <mat-tab label="Candidature">
+              <div class="p-5"><call-form-builder [(value)]="applicationForm" /></div>
+            </mat-tab>
+            <mat-tab label="Exigences">
+              <div class="p-5"><call-requirements-editor [(value)]="requirements" /></div>
+            </mat-tab>
+            <mat-tab label="Évaluation">
+              <div class="p-5"><call-form-builder [(value)]="reviewForm" /></div>
+            </mat-tab>
+            <mat-tab label="Contact">
+              <div class="p-5"><call-contact-editor [(value)]="contactInfo" /></div>
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card>
+
+        <mat-card appearance="outlined" class="p-5">
+          <div class="flex flex-col gap-4">
+            <div>
+              <h2 class="font-semibold">Couverture</h2>
+              <p class="mt-1 text-sm text-neutral-500">
+                Laissez vide pour conserver la couverture actuelle, ou choisissez une image JPEG, PNG ou WebP de 5 Mo
+                maximum.
+              </p>
+            </div>
+
+            <input
+              #coverInput
+              class="sr-only"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              (change)="onCoverSelected($event)" />
+
+            <div class="flex items-center gap-2">
+              <button matButton="outlined" type="button" (click)="coverInput.click()">
+                <mat-icon svgIcon="image-plus" />
+                {{ cover() ? 'Remplacer' : 'Choisir une nouvelle image' }}
+              </button>
+              @if (cover()) {
+                <button
+                  matIconButton
+                  type="button"
+                  aria-label="Annuler le remplacement de la couverture"
+                  (click)="removeCover(coverInput)">
+                  <mat-icon svgIcon="trash-2" />
+                </button>
+              }
+            </div>
+          </div>
+
+          @if (cover(); as selectedCover) {
+            <div class="mt-4 flex items-center gap-3 rounded-lg bg-neutral-50 px-4 py-3">
+              <mat-icon class="text-primary" svgIcon="image" />
+              <div class="min-w-0">
+                <p class="truncate text-sm font-medium">{{ selectedCover.name }}</p>
+                <p class="text-xs text-neutral-500">{{ coverSize(selectedCover) }}</p>
+              </div>
+            </div>
+          }
+
+          @if (coverError()) {
+            <p class="mt-3 text-sm text-red-600" role="alert">{{ coverError() }}</p>
+          }
+        </mat-card>
+
+        @if (!configurationValid()) {
+          <p class="flex items-center gap-2 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-800" role="alert">
+            <mat-icon svgIcon="triangle-alert" />
+            Complétez les informations obligatoires de la configuration.
+          </p>
+        }
+
+        @if (store.error()) {
+          <p class="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">{{ store.error() }}</p>
+        }
+
+        <div class="flex justify-end gap-3">
+          <a matButton="outlined" routerLink="/admin/calls">Annuler</a>
+          <button
+            matButton="filled"
+            type="submit"
+            [disabled]="store.isLoading() || callForm().invalid() || !configurationValid()">
+            {{ store.isLoading() ? 'Enregistrement…' : 'Enregistrer les modifications' }}
+          </button>
+        </div>
+      </form>
+    } @else {
+      <div class="flex min-h-64 flex-col items-center justify-center gap-4 text-center" role="alert">
+        <mat-icon class="text-neutral-500" svgIcon="triangle-alert" />
+        <div>
+          <div class="font-medium">
+            {{ loadErrorStatus === 404 ? 'Appel introuvable' : "Impossible de charger l'appel" }}
+          </div>
+          <div class="mt-1 text-sm text-neutral-500">
+            {{
+              loadErrorStatus === 404
+                ? "Cet appel n'existe pas ou a été supprimé."
+                : 'Veuillez réessayer dans quelques instants.'
+            }}
+          </div>
+        </div>
+        @if (loadErrorStatus !== 404) {
+          <button matButton="outlined" type="button" (click)="callResource.reload()">Réessayer</button>
+        }
+      </div>
+    }
+  </div>
+</section>
