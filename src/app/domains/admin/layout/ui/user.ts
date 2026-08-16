@@ -35,12 +35,12 @@ import { environment } from '@/environments/environment';
           <div class="text-on-surface-variant truncate text-xs">{{ user()?.email }}</div>
         </div>
       </button>
-      <mat-divider />
+      <!-- <mat-divider />
       <button mat-menu-item>
         <mat-icon svgIcon="user-round" />
         Account
       </button>
-      <mat-divider />
+      <mat-divider /> -->
       <mat-divider />
       <button mat-menu-item (click)="authStore.signOut()">
         <mat-icon svgIcon="log-out" />
