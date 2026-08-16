@@ -6,10 +6,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
+import { RouterLink } from '@angular/router';
 import { CallRow, QueryParams } from '../../interfaces/calls.interface';
 
 @Component({
-  imports: [DatePipe, FormsModule, MatButtonModule, MatIconModule, MatPaginatorModule, MatTableModule],
+  imports: [DatePipe, FormsModule, MatButtonModule, MatIconModule, MatPaginatorModule, MatTableModule, RouterLink],
   templateUrl: './calls.html'
 })
 export default class Calls {
@@ -17,7 +18,7 @@ export default class Calls {
   readonly q = signal<string>('');
 
   readonly debouncedQuery = debounced(this.q, 300);
-  readonly displayedColumns = ['name', 'period', 'solutionsCount', 'status'];
+  readonly displayedColumns = ['name', 'period', 'solutionsCount', 'actions'];
 
   private readonly queryParams = computed<QueryParams>(() => ({
     page: String(this.page()),
