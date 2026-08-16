@@ -4,144 +4,65 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'app-page-loader',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="page-loader" role="status" aria-live="polite" aria-label="Chargement de la page">
-      <div class="page-loader__glow" aria-hidden="true"></div>
+    <div
+      class="relative grid min-h-dvh place-items-center overflow-hidden bg-white"
+      role="status"
+      aria-live="polite"
+      aria-label="Chargement de la page">
+      <div
+        class="loader-glow absolute aspect-square w-[min(30rem,90vw)] rounded-full bg-primary-500/10 blur-[5rem]"
+        aria-hidden="true"></div>
 
-      <div class="page-loader__content">
-        <div class="page-loader__mark" aria-hidden="true">
-          <span class="page-loader__orbit page-loader__orbit--outer"></span>
-          <span class="page-loader__orbit page-loader__orbit--inner"></span>
-          <img src="/images/favicon.png" alt="" class="page-loader__logo" />
+      <div class="relative flex flex-col items-center p-8 text-center">
+        <div class="relative grid aspect-square w-28 place-items-center" aria-hidden="true">
+          <span
+            class="loader-orbit-outer absolute inset-0 rounded-full border-2 border-solid border-primary-500/20 border-t-primary-500"></span>
+          <span
+            class="loader-orbit-inner absolute inset-3 rounded-full border border-solid border-primary-500/15 border-b-primary-400"></span>
+          <img src="/images/favicon.png" alt="" class="loader-logo size-12 object-contain drop-shadow-xl" />
         </div>
 
-        <p class="page-loader__brand">fikiri<span>.</span></p>
-        <p class="page-loader__message">Chargement de votre expérience</p>
+        <p class="mt-6 text-[2rem] font-bold tracking-[-0.04em] text-slate-900">
+          fikiri<span class="text-primary-500">.</span>
+        </p>
+        <p class="mt-1.5 text-sm font-medium tracking-[0.08em] text-slate-500 uppercase">
+          Chargement de votre expérience
+        </p>
 
-        <div class="page-loader__dots" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
+        <div class="mt-5 flex gap-1.5" aria-hidden="true">
+          <span class="loader-dot size-1.5 rounded-full bg-primary-500"></span>
+          <span class="loader-dot loader-dot--two size-1.5 rounded-full bg-primary-500"></span>
+          <span class="loader-dot loader-dot--three size-1.5 rounded-full bg-primary-500"></span>
         </div>
       </div>
     </div>
   `,
   styles: `
-    :host {
-      display: block;
-    }
-
-    .page-loader {
-      position: relative;
-      display: grid;
-      min-height: 100dvh;
-      place-items: center;
-      overflow: hidden;
-      background:
-        radial-gradient(
-          circle at 50% 42%,
-          color-mix(in srgb, var(--color-primary-500) 12%, transparent),
-          transparent 32rem
-        ),
-        linear-gradient(145deg, #f8fafc 0%, #ffffff 48%, #f1f5f9 100%);
-    }
-
-    .page-loader__glow {
-      position: absolute;
-      width: min(30rem, 90vw);
-      aspect-ratio: 1;
-      border-radius: 50%;
-      background: color-mix(in srgb, var(--color-primary-500) 8%, transparent);
-      filter: blur(5rem);
+    .loader-glow {
       animation: loader-breathe 2.4s ease-in-out infinite;
     }
 
-    .page-loader__content {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2rem;
-      text-align: center;
-    }
-
-    .page-loader__mark {
-      position: relative;
-      display: grid;
-      width: 7rem;
-      aspect-ratio: 1;
-      place-items: center;
-    }
-
-    .page-loader__orbit {
-      position: absolute;
-      border-radius: 50%;
-      border-style: solid;
-    }
-
-    .page-loader__orbit--outer {
-      inset: 0;
-      border-width: 2px;
-      border-color: color-mix(in srgb, var(--color-primary-500) 18%, transparent);
-      border-top-color: var(--color-primary-500);
+    .loader-orbit-outer {
       animation: loader-spin 1.4s linear infinite;
     }
 
-    .page-loader__orbit--inner {
-      inset: 0.75rem;
-      border-width: 1px;
-      border-color: color-mix(in srgb, var(--color-primary-500) 14%, transparent);
-      border-bottom-color: color-mix(in srgb, var(--color-primary-500) 70%, white);
+    .loader-orbit-inner {
       animation: loader-spin 2s linear infinite reverse;
     }
 
-    .page-loader__logo {
-      width: 3rem;
-      height: 3rem;
-      object-fit: contain;
-      filter: drop-shadow(0 0.5rem 1rem color-mix(in srgb, var(--color-primary-500) 20%, transparent));
+    .loader-logo {
       animation: loader-float 1.8s ease-in-out infinite;
     }
 
-    .page-loader__brand {
-      margin: 1.5rem 0 0;
-      color: #0f172a;
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: -0.04em;
-    }
-
-    .page-loader__brand span {
-      color: var(--color-primary-500);
-    }
-
-    .page-loader__message {
-      margin: 0.4rem 0 0;
-      color: #64748b;
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .page-loader__dots {
-      display: flex;
-      gap: 0.4rem;
-      margin-top: 1.25rem;
-    }
-
-    .page-loader__dots span {
-      width: 0.35rem;
-      aspect-ratio: 1;
-      border-radius: 50%;
-      background: var(--color-primary-500);
+    .loader-dot {
       animation: loader-dot 1.2s ease-in-out infinite;
     }
 
-    .page-loader__dots span:nth-child(2) {
+    .loader-dot--two {
       animation-delay: 150ms;
     }
 
-    .page-loader__dots span:nth-child(3) {
+    .loader-dot--three {
       animation-delay: 300ms;
     }
 
@@ -190,15 +111,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .page-loader__glow,
-      .page-loader__orbit,
-      .page-loader__logo,
-      .page-loader__dots span {
+      .loader-glow,
+      .loader-orbit-outer,
+      .loader-orbit-inner,
+      .loader-logo,
+      .loader-dot {
         animation: none;
-      }
-
-      .page-loader__orbit--outer {
-        border-right-color: var(--color-primary-500);
       }
     }
   `
