@@ -5,6 +5,7 @@ import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/mat
 import { RouterOutlet } from '@angular/router';
 import { Media } from '@/app/core/media';
 import { AdminSidebar } from '@/app/domains/admin/layout/ui/sidebar';
+import { PageLoader } from '@/app/shared/ui/page-loader/page-loader';
 
 @Component({
   selector: 'admin-layout',
@@ -15,40 +16,47 @@ import { AdminSidebar } from '@/app/domains/admin/layout/ui/sidebar';
     MatSidenavContainer,
     MatSidenav,
     MatSidenavContent,
-    AdminSidebar
+    AdminSidebar,
+    PageLoader
   ],
   template: `
-    <mat-sidenav-container>
-      <mat-sidenav
-        class="w-70 border-r border-neutral-200 scheme-dark"
-        [mode]="isMobile() ? 'over' : 'side'"
-        [opened]="!isMobile()"
-        [disableClose]="!isMobile()"
-        fixedInViewport
-        #sidenav="matSidenav">
-        <admin-sidebar />
-      </mat-sidenav>
+    @defer (on immediate) {
+      <mat-sidenav-container>
+        <mat-sidenav
+          class="w-70 border-r border-neutral-200 scheme-dark"
+          [mode]="isMobile() ? 'over' : 'side'"
+          [opened]="!isMobile()"
+          [disableClose]="!isMobile()"
+          fixedInViewport
+          #sidenav="matSidenav">
+          <admin-sidebar />
+        </mat-sidenav>
 
-      <mat-sidenav-content class="flex flex-col lg:h-dvh lg:overflow-hidden">
-        <!-- Toolbar -->
-        <div class="flex items-center border-b px-4 py-2.5">
-          <button matIconButton (click)="sidenav.toggle()">
-            <mat-icon svgIcon="panel-left" />
-          </button>
+        <mat-sidenav-content class="flex flex-col lg:h-dvh lg:overflow-hidden">
+          <!-- Toolbar -->
+          <div class="flex items-center border-b px-4 py-2.5">
+            <button matIconButton (click)="sidenav.toggle()">
+              <mat-icon svgIcon="panel-left" />
+            </button>
 
-          <!-- Separator -->
-          <div class="mx-3 h-5 border-l"></div>
+            <!-- Separator -->
+            <div class="mx-3 h-5 border-l"></div>
 
-          <!-- Spacer -->
-          <div class="flex-auto"></div>
-        </div>
+            <!-- Spacer -->
+            <div class="flex-auto"></div>
+          </div>
 
-        <!-- Content -->
-        <div class="flex flex-col lg:min-h-0 lg:flex-auto lg:overflow-auto">
-          <router-outlet />
-        </div>
-      </mat-sidenav-content>
-    </mat-sidenav-container>
+          <!-- Content -->
+          <div class="flex flex-col lg:min-h-0 lg:flex-auto lg:overflow-auto">
+            <router-outlet />
+          </div>
+        </mat-sidenav-content>
+      </mat-sidenav-container>
+    } @placeholder {
+      <app-page-loader />
+    } @loading (minimum 500ms) {
+      <app-page-loader />
+    }
   `
 })
 export class AdminLayout {
