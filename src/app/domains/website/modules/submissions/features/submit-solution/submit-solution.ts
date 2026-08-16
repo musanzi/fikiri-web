@@ -9,6 +9,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterLink } from '@angular/router';
 import { IField } from '@/app/core/interfaces';
+import { environment } from '@/environments/environment';
 import { SubmitSolutionStore } from '../../data-access/submit-solution.store';
 import {
   CallSelectionModel,
@@ -51,6 +52,11 @@ export default class SubmitSolution {
   protected callResource = httpResource<SubmissionCallResponse>(() => {
     const callId = this.selectedCallId();
     return callId ? `/calls/${callId}` : undefined;
+  });
+
+  protected callCoverUrl = computed(() => {
+    const cover = this.callResource.hasValue() ? this.callResource.value().data.cover : null;
+    return cover ? `${environment.apiUrl}/uploads/calls/covers/${cover}` : '/images/no-img.png';
   });
 
   protected formSections = computed(() => {

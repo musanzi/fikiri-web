@@ -64,6 +64,10 @@
             @let call = callResource.value().data;
 
             <section class="rounded-xl border border-gray-200 bg-white p-5 sm:p-7" aria-labelledby="call-details-title">
+              <img
+                [src]="callCoverUrl()"
+                [alt]="call.name || 'Couverture de l’appel'"
+                class="mb-7 aspect-video w-full rounded-md bg-gray-100 object-cover" />
               <p class="text-sm font-semibold uppercase tracking-wider text-primary-600">Appel sélectionné</p>
               <h2 id="call-details-title" class="mt-2 text-2xl font-bold text-gray-950">{{ call.name }}</h2>
               <p class="mt-4 whitespace-pre-line leading-7 text-gray-600">{{ call.description }}</p>
