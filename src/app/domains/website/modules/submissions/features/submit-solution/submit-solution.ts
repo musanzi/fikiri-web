@@ -8,13 +8,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterLink } from '@angular/router';
-import { IField } from '@/app/core/interfaces';
+import { ICallSolution, IField } from '@/app/core/interfaces';
 import { environment } from '@/environments/environment';
 import { SubmitSolutionStore } from '../../data-access/submit-solution.store';
 import {
-  CallSelectionModel,
   CreateSolutionPayload,
-  CurrentCallsResponse,
   SolutionDetailsModel,
   SubmissionAnswer,
   SubmissionAnswersModel,
@@ -41,9 +39,9 @@ const MAX_THUMBNAIL_SIZE = 5 * 1024 * 1024;
 export default class SubmitSolution {
   protected store = inject(SubmitSolutionStore);
 
-  protected currentCallsResource = httpResource<CurrentCallsResponse>(() => '/calls/find/current');
+  protected currentCallsResource = httpResource<{ data: ICallSolution[] }>(() => '/calls/find/current');
 
-  protected callSelectionModel = signal<CallSelectionModel>({ call: '' });
+  protected callSelectionModel = signal({ call: '' });
   protected callSelectionForm = form(this.callSelectionModel, (schemaPath) => {
     required(schemaPath.call, { message: 'Sélectionnez un appel.' });
   });
