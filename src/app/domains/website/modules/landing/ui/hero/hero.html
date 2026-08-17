@@ -20,12 +20,12 @@
 
         <h1
           id="hero-title"
-          class="max-w-5xl text-4xl font-bold leading-[0.95] tracking-tightest text-white md:text-[4rem]">
+          class="max-w-5xl text-3xl font-bold leading-[0.95] tracking-tightest text-white md:text-[3.6rem]">
           Faisons grandir les solutions qui
           <span class="text-primary-300">changent demain.</span>
         </h1>
 
-        <p class="mt-7 max-w-2xl text-xl leading-7 text-white/75 sm:mt-9">
+        <p class="mt-7 max-w-2xl text-lg leading-7 text-white/75 sm:mt-9 md:text-xl">
           Fikiri identifie, cartographie et accompagne les idées capables d'accélérer les Objectifs de Développement
           Durable en République Démocratique du Congo.
         </p>
@@ -45,7 +45,29 @@
         </div>
       </div>
 
-      @if (latestCall(); as call) {
+      @if (currentCallsResource.isLoading()) {
+        <div
+          class="w-full max-w-lg animate-pulse justify-self-center overflow-hidden rounded-2xl border border-white/20 bg-white/10 p-2 shadow-2xl shadow-black/30 backdrop-blur-md lg:w-96 lg:justify-self-end xl:w-108"
+          role="status"
+          aria-label="Chargement de l'appel en cours">
+          <div class="relative aspect-4/3 overflow-hidden rounded-xl bg-white/10" aria-hidden="true">
+            <div class="absolute left-4 top-4 h-7 w-32 rounded-full bg-white/15"></div>
+
+            <div class="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+              <div class="h-7 w-4/5 rounded-md bg-white/20"></div>
+              <div class="mt-2 h-7 w-3/5 rounded-md bg-white/20"></div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between gap-4 px-3 py-3 sm:px-4" aria-hidden="true">
+            <div class="space-y-2">
+              <div class="h-4 w-36 rounded bg-white/15"></div>
+              <div class="h-4 w-24 rounded bg-white/20"></div>
+            </div>
+            <div class="h-4 w-20 rounded bg-primary-300/25"></div>
+          </div>
+        </div>
+      } @else if (latestCall(); as call) {
         <a
           [routerLink]="submitSolutionLink()"
           [queryParams]="submitSolutionQueryParams()"
@@ -91,6 +113,47 @@
             </span>
           </span>
         </a>
+      } @else {
+        <div
+          class="w-full max-w-lg justify-self-center overflow-hidden rounded-2xl border border-white/20 bg-white/10 p-2 shadow-2xl shadow-black/30 backdrop-blur-md lg:w-96 lg:justify-self-end xl:w-108">
+          <div
+            class="relative flex aspect-4/3 flex-col items-center justify-center overflow-hidden rounded-xl bg-linear-to-br from-white/15 via-white/5 to-primary-500/20 px-8 text-center">
+            <div
+              class="absolute -right-16 -top-16 size-48 rounded-full bg-primary-300/10 blur-3xl"
+              aria-hidden="true"></div>
+            <div
+              class="mb-5 flex size-14 items-center justify-center rounded-2xl border border-white/20 bg-white/10 text-primary-300 shadow-lg shadow-black/10"
+              aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="size-7">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m9-9H3" />
+              </svg>
+            </div>
+
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-primary-300">Bientôt disponible</p>
+            <h2 class="mt-3 text-2xl font-bold leading-tight text-white">Le prochain appel se prépare</h2>
+            <p class="mt-3 max-w-xs text-sm leading-6 text-white/65">
+              De nouvelles opportunités arrivent. Revenez bientôt pour proposer votre solution.
+            </p>
+          </div>
+
+          <div class="flex items-center justify-between gap-4 px-3 py-3 sm:px-4">
+            <span class="text-sm leading-5 text-white/65">En attendant, découvrez les projets</span>
+            <a
+              [routerLink]="['/solutions']"
+              class="inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-primary-300 transition-colors hover:text-primary-200 focus-visible:rounded focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+              Explorer
+              <svg
+                class="size-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
+              </svg>
+            </a>
+          </div>
+        </div>
       }
     </div>
 
