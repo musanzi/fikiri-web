@@ -5,42 +5,93 @@
 
   <div
     class="mx-auto flex min-h-[calc(100svh-5rem)] max-w-screen-2xl flex-col justify-between px-6 pb-7 pt-12 sm:px-8 sm:pb-9 sm:pt-16 lg:px-16 lg:pb-10 lg:pt-20 xl:px-24 2xl:px-32">
-    <div class="flex items-end justify-end gap-4 mt-32">
+    <!-- <div class="flex items-end justify-end gap-4 mt-32">
       <p class="text-right text-xs font-medium uppercase tracking-[0.22em] text-white/55 md:block">
         Innovation locale<br />Impact durable
       </p>
-    </div>
+    </div> -->
 
-    <div class="my-auto max-w-4xl py-14 sm:py-20 lg:py-24">
-      <p class="mb-6 text-sm font-semibold uppercase tracking-wider text-primary-300 sm:mb-8">
-        Les idées d'ici. L'impact de demain.
-      </p>
+    <div
+      class="my-auto grid w-full items-center gap-12 py-14 sm:py-20 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-14 lg:py-24 xl:gap-20">
+      <div class="min-w-0 max-w-4xl">
+        <p class="mb-6 text-sm font-semibold uppercase tracking-wider text-primary-300 sm:mb-8">
+          Les idées d'ici. L'impact de demain.
+        </p>
 
-      <h1
-        id="hero-title"
-        class="max-w-5xl text-4xl md:text-[4rem] font-bold leading-[0.95] tracking-tightest text-white">
-        Faisons grandir les solutions qui
-        <span class="text-primary-300">changent demain.</span>
-      </h1>
+        <h1
+          id="hero-title"
+          class="max-w-5xl text-4xl font-bold leading-[0.95] tracking-tightest text-white md:text-[4rem]">
+          Faisons grandir les solutions qui
+          <span class="text-primary-300">changent demain.</span>
+        </h1>
 
-      <p class="mt-7 max-w-2xl text-xl leading-7 text-white/75 sm:mt-9">
-        Fikiri identifie, cartographie et accompagne les idées capables d'accélérer les Objectifs de Développement
-        Durable en République Démocratique du Congo.
-      </p>
+        <p class="mt-7 max-w-2xl text-xl leading-7 text-white/75 sm:mt-9">
+          Fikiri identifie, cartographie et accompagne les idées capables d'accélérer les Objectifs de Développement
+          Durable en République Démocratique du Congo.
+        </p>
 
-      <div class="mt-9 flex flex-col gap-3 sm:mt-10 sm:flex-row">
+        <div class="mt-9 flex flex-col gap-3 sm:mt-10 sm:flex-row">
+          <a
+            [routerLink]="submitSolutionLink()"
+            [queryParams]="submitSolutionQueryParams()"
+            class="inline-flex min-h-13 items-center justify-center rounded-md bg-primary-500 px-4 py-2 text-base font-semibold text-white shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-0.5 hover:bg-primary-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+            Proposer une solution
+          </a>
+          <a
+            [routerLink]="['/solutions']"
+            class="inline-flex min-h-13 items-center justify-center rounded-md border border-white/30 bg-white/10 px-4 py-2 text-base font-semibold text-white backdrop-blur-md transition duration-300 hover:-translate-y-0.5 hover:border-white/50 hover:bg-white/18 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+            Explorer les solutions
+          </a>
+        </div>
+      </div>
+
+      @if (latestCall(); as call) {
         <a
           [routerLink]="submitSolutionLink()"
           [queryParams]="submitSolutionQueryParams()"
-          class="inline-flex min-h-13 items-center justify-center rounded-md bg-primary-500 px-4 py-2 text-base font-semibold text-white shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-0.5 hover:bg-primary-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
-          Proposer une solution
+          class="group w-full max-w-lg justify-self-center overflow-hidden rounded-2xl border border-white/20 bg-white/10 p-2 shadow-2xl shadow-black/30 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-primary-300/60 hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white lg:w-96 lg:justify-self-end xl:w-108">
+          <span class="relative block aspect-4/3 overflow-hidden rounded-xl bg-gray-900">
+            <img
+              [src]="latestCallCoverUrl()"
+              [alt]="'Couverture de l\'appel ' + call.name"
+              class="size-full object-cover transition duration-500 group-hover:scale-105"
+              loading="eager" />
+            <span class="absolute inset-0 bg-linear-to-t from-black/90 via-black/15 to-black/10"></span>
+
+            <span
+              class="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/45 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-md">
+              <span class="relative flex size-2" aria-hidden="true">
+                <span class="absolute size-2 animate-ping rounded-full bg-primary-300/60"></span>
+                <span class="relative size-2 rounded-full bg-primary-300"></span>
+              </span>
+              Appel en cours
+            </span>
+
+            <span class="absolute inset-x-0 bottom-0 block p-5 sm:p-6">
+              <span class="block text-2xl font-bold leading-tight text-white">{{ call.name }}</span>
+            </span>
+          </span>
+
+          <span class="flex items-center justify-between gap-4 px-3 py-3 sm:px-4">
+            <span class="text-sm leading-5 text-white/65">
+              Candidatures jusqu'au
+              <span class="block font-semibold text-white">{{ call.ended_at | date: 'dd/MM/yyyy' }}</span>
+            </span>
+            <span class="inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-primary-300">
+              Découvrir
+              <svg
+                class="size-4 transition-transform duration-300 group-hover:translate-x-1"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
+              </svg>
+            </span>
+          </span>
         </a>
-        <a
-          [routerLink]="['/solutions']"
-          class="inline-flex min-h-13 items-center justify-center rounded-md border border-white/30 bg-white/10 px-4 py-2 text-base font-semibold text-white backdrop-blur-md transition duration-300 hover:-translate-y-0.5 hover:border-white/50 hover:bg-white/18 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
-          Explorer les solutions
-        </a>
-      </div>
+      }
     </div>
 
     <div class="grid gap-5 border-t border-white/20 pt-6 text-white/70 sm:grid-cols-[1fr_auto] sm:items-end sm:gap-10">
