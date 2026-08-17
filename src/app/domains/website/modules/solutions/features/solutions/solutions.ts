@@ -4,8 +4,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ISolution } from '@/app/core/interfaces';
-import { SolutionCardSkeletonComponent } from '../../ui/solution-card-skeleton/solution-card-skeleton';
-import { SolutionCardComponent } from '../../ui/solution-card/solution-card';
+import { SolutionCardSkeletonComponent } from '../../../../shared/ui/solution-card-skeleton/solution-card-skeleton';
+import { SolutionCardComponent } from '../../../../shared/ui/solution-card/solution-card';
 
 @Component({
   imports: [MatButtonModule, MatPaginatorModule, SolutionCardComponent, SolutionCardSkeletonComponent],
