@@ -27,14 +27,12 @@ export const appConfig: ApplicationConfig = {
       })
     ),
     { provide: TitleStrategy, useClass: PageTitleStrategy },
-
     provideAppInitializer(() => {
       const platformId = inject(PLATFORM_ID);
       const authStore = inject(AuthStore);
 
       return isPlatformBrowser(platformId) ? authStore.initialize() : undefined;
     }),
-
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: {
@@ -42,14 +40,12 @@ export const appConfig: ApplicationConfig = {
       }
     },
     provideNativeDateAdapter(),
-
     provideIcons(),
     provideTheming({
       scheme: 'light',
       primary: '#006da4',
       error: '#dc2626'
     }),
-
     provideTransloco({
       config: {
         availableLangs: [
