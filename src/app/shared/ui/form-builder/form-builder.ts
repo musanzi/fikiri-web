@@ -21,7 +21,7 @@ interface QuestionTypeOption {
 const OPTION_TYPES = new Set<QuestionType>(['select', 'radio', 'checkbox']);
 
 @Component({
-  selector: 'call-form-builder',
+  selector: 'shared-form-builder',
   imports: [
     MatButtonModule,
     MatCardModule,
@@ -34,9 +34,9 @@ const OPTION_TYPES = new Set<QuestionType>(['select', 'radio', 'checkbox']);
     MatSlideToggleModule,
     MatTooltipModule
   ],
-  templateUrl: './call-form-builder.html'
+  templateUrl: './form-builder.html'
 })
-export class CallFormBuilder {
+export class FormBuilder {
   readonly value = model.required<IForm[]>();
 
   protected readonly questionTypes: QuestionTypeOption[] = [

@@ -8,17 +8,17 @@ import type { IUser } from './user.interface';
 export type SolutionStatus = 'pending' | 'mapped' | 'explored' | 'experimented';
 
 export interface ISolution extends IBaseEntity {
-  name: string | null;
-  slug: string | null;
-  description: string | null;
-  problem_solved: string | null;
+  name: string;
+  slug: string;
+  description: string;
+  problem_solved: string;
   responses: Record<string, JsonValue>;
-  reviewer: string | null;
+  reviewer: string;
   status: SolutionStatus;
   image: string | null;
-  reviews?: IReview[];
-  user?: IUser | null;
-  call?: ICallSolution | null;
-  award?: ICallSolution | null;
-  gallery?: ISolutionGallery[];
+  reviews: IReview[];
+  user: IUser;
+  call: ICallSolution;
+  award: ICallSolution | null;
+  gallery: ISolutionGallery[];
 }

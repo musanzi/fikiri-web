@@ -11,8 +11,8 @@
       <img src="/images/favicon.png" alt="" class="size-6 md:size-8 object-contain" />
       <span
         class="text-xl md:text-3xl font-bold tracking-tight transition-colors"
-        [class.text-white]="overlaysHero()"
-        [class.text-gray-950]="!overlaysHero()">
+        [class.text-white]="!isScrolled()"
+        [class.text-gray-950]="solidHeader()">
         fikiri<span class="text-primary-500">.</span>
       </span>
     </a>
@@ -24,7 +24,7 @@
           [fragment]="link.fragment"
           routerLinkActive
           #desktopLink="routerLinkActive"
-          [routerLinkActiveOptions]="activeLinkMatchOptions"
+          [routerLinkActiveOptions]="{ paths: 'exact', fragment: 'exact' }"
           class="flex h-full items-center py-2 border-b-2 px-0.5 pt-0.5 text-sm font-semibold transition-colors"
           [class]="navLinkClasses(desktopLink.isActive)">
           {{ link.name }}
@@ -41,13 +41,13 @@
     <button
       type="button"
       class="flex size-8 items-center justify-center rounded-full border shadow-sm transition-colors sm:hidden"
-      [class]="overlaysHero() ? 'border-white/25 bg-white/10 text-white' : 'border-gray-200 bg-white text-gray-900'"
+      [class]="!isScrolled() ? 'border-white/25 bg-white/10 text-white' : 'border-gray-200 bg-white text-gray-900'"
       (click)="toggleMenu()">
-      <mat-icon [svgIcon]="menuOpen() ? 'x' : 'menu'" />
+      <mat-icon [svgIcon]="isMenuOpen() ? 'x' : 'menu'" />
     </button>
   </nav>
 
-  @if (menuOpen()) {
+  @if (isMenuOpen()) {
     <div id="mobile-navigation" class="border-t border-gray-100 bg-white px-6 py-6 shadow-xl sm:hidden">
       <div class="flex flex-col gap-1">
         @for (link of links; track link.name) {
@@ -56,7 +56,7 @@
             [fragment]="link.fragment ?? undefined"
             routerLinkActive
             #mobileLink="routerLinkActive"
-            [routerLinkActiveOptions]="activeLinkMatchOptions"
+            [routerLinkActiveOptions]="{ paths: 'exact', fragment: 'exact' }"
             ariaCurrentWhenActive="page"
             class="flex items-center gap-3 rounded-xl px-4 py-3 text-base font-semibold transition"
             [class]="mobileNavLinkClasses(mobileLink.isActive)"

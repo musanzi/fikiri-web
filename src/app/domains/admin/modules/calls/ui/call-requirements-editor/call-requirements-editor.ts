@@ -1,10 +1,10 @@
+import { ICallRequirement } from '@/app/core/interfaces';
 import { Component, model } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { CallRequirement } from '../../interfaces/calls.interface';
 
 @Component({
   selector: 'call-requirements-editor',
@@ -12,13 +12,13 @@ import { CallRequirement } from '../../interfaces/calls.interface';
   templateUrl: './call-requirements-editor.html'
 })
 export class CallRequirementsEditor {
-  readonly value = model.required<CallRequirement[]>();
+  readonly value = model.required<ICallRequirement[]>();
 
   protected addRequirement(): void {
     this.value.update((requirements) => [...requirements, { title: '', description: '' }]);
   }
 
-  protected updateRequirement(index: number, changes: Partial<CallRequirement>): void {
+  protected updateRequirement(index: number, changes: Partial<ICallRequirement>): void {
     this.value.update((requirements) =>
       requirements.map((requirement, requirementIndex) =>
         requirementIndex === index ? { ...requirement, ...changes } : requirement

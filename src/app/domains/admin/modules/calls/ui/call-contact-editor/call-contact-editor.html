@@ -66,7 +66,7 @@
             matInput
             type="text"
             [value]="link.label"
-            (input)="updateLink(linkIndex, { label: $any($event.target).value })" />
+            (input)="updateLink(linkIndex, { label: $event.target.value })" />
           @if (!link.label.trim()) {
             <mat-hint class="text-red-600">Le libellé est requis.</mat-hint>
           }
@@ -78,7 +78,7 @@
             type="url"
             placeholder="https://"
             [value]="link.url"
-            (input)="updateLink(linkIndex, { url: $any($event.target).value })" />
+            (input)="updateLink(linkIndex, { url: $event.target.value })" />
           @if (!link.url.trim()) {
             <mat-hint class="text-red-600">L'URL est requise.</mat-hint>
           }

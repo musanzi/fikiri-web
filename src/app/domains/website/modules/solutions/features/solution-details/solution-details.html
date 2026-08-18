@@ -1,85 +1,127 @@
-<section class="min-h-screen bg-white pb-24 py-24">
-  <div class="mx-auto max-w-screen-2xl px-6 sm:px-8 lg:px-16 xl:px-24 2xl:px-32">
-    <a
-      routerLink="/solutions"
-      class="inline-flex items-center gap-2 text-sm font-semibold text-primary-700 transition hover:text-primary-900">
-      <span aria-hidden="true">←</span>
-      Toutes les solutions
-    </a>
-
-    @if (solutionResource.isLoading()) {
-      <solution-skeleton />
-    } @else if (solutionResource.hasValue()) {
-      @let solution = solutionResource.value().data;
-
-      <div class="mt-10">
-        <div class="max-w-3xl">
-          <h1 class="mt-4 text-4xl font-bold tracking-tight text-gray-950 sm:text-5xl">
-            {{ solution.name || 'Solution innovante' }}
-          </h1>
-
-          <div class="mt-8 flex items-center gap-4 border-t border-gray-200 pt-6">
-            <img
-              [src]="profileImage(solution.user)"
-              [alt]="solution.user?.name || 'Porteur de la solution'"
-              class="size-12 shrink-0 rounded-full bg-gray-200 object-cover" />
-            <div class="min-w-0">
-              <p class="truncate font-semibold text-gray-950">
-                {{ solution.user?.name || 'Porteur de solution' | titlecase }}
-              </p>
-              <p class="mt-1 text-sm text-gray-500">Publiée le {{ solution.created_at | date: 'longDate' }}</p>
-            </div>
-          </div>
-        </div>
-
-        <img
-          [src]="solutionImage(solution.image)"
-          [alt]="solution.name || 'Illustration de la solution'"
-          class="mt-10 aspect-video w-full rounded-md bg-gray-100 object-cover" />
-
-        <div class="mt-12 grid gap-12 lg:grid-cols-[minmax(0,1fr)_16rem]">
-          <div class="space-y-12">
-            @if (solution.description) {
-              <section aria-labelledby="solution-description">
-                <h2 id="solution-description" class="text-2xl font-bold tracking-tight text-gray-950">
-                  À propos de la solution
-                </h2>
-                <p class="mt-4 whitespace-pre-line text-lg leading-8 text-gray-700">{{ solution.description }}</p>
-              </section>
-            }
-
-            @if (solution.problem_solved) {
-              <section aria-labelledby="solution-problem">
-                <h2 id="solution-problem" class="text-2xl font-bold tracking-tight text-gray-950">Problème résolu</h2>
-                <p class="mt-4 whitespace-pre-line text-lg leading-8 text-gray-700">{{ solution.problem_solved }}</p>
-              </section>
-            }
-
-            @if (solution.gallery?.length) {
-              <section aria-labelledby="solution-gallery">
-                <h2 id="solution-gallery" class="text-2xl font-bold tracking-tight text-gray-950">Galerie</h2>
-                <div class="mt-5 grid gap-4 sm:grid-cols-2">
-                  @for (item of solution.gallery; track item.id) {
-                    <img
-                      [src]="solutionImage(item.image)"
-                      [alt]="solution.name || 'Image de la solution'"
-                      class="aspect-4/3 w-full rounded-md bg-gray-100 object-cover" />
-                  }
-                </div>
-              </section>
-            }
-          </div>
+@if (solutionResource.isLoading()) {
+  <div class="flex min-h-[65svh] items-end bg-gray-950 text-white" aria-label="Chargement de la solution">
+    <div
+      class="mx-auto w-full max-w-screen-2xl animate-pulse px-6 pb-14 pt-36 sm:px-8 sm:pb-16 lg:px-16 lg:pb-20 xl:px-24 2xl:px-32">
+      <div class="h-5 w-36 rounded bg-white/15"></div>
+      <div class="mt-8 h-12 max-w-3xl rounded-lg bg-white/15 sm:h-16"></div>
+      <div class="mt-4 h-12 w-2/3 max-w-2xl rounded-lg bg-white/10 sm:h-16"></div>
+      <div class="mt-9 flex items-center gap-4 border-t border-white/15 pt-6">
+        <div class="size-12 rounded-full bg-white/15"></div>
+        <div class="space-y-2">
+          <div class="h-4 w-40 rounded bg-white/15"></div>
+          <div class="h-3 w-28 rounded bg-white/10"></div>
         </div>
       </div>
-    } @else {
-      <div class="mt-12 rounded-md border border-gray-200 bg-gray-50 px-6 py-16 text-center" role="alert">
-        <h1 class="text-2xl font-bold text-gray-950">Solution introuvable</h1>
-        <p class="mt-3 text-gray-600">Impossible de charger les détails de cette solution.</p>
-        <div class="mt-6 flex flex-wrap justify-center gap-3">
-          <button matButton="outlined" type="button" (click)="solutionResource.reload()">Réessayer</button>
-          <a matButton="filled" routerLink="/solutions">Voir toutes les solutions</a>
-        </div>
-      </div>
-    }
+    </div>
   </div>
-</section>
+
+  <div class="bg-white py-16 sm:py-20" aria-label="Chargement du contenu">
+    <div class="mx-auto max-w-screen-2xl px-6 sm:px-8 lg:px-16 xl:px-24 2xl:px-32">
+      <solution-skeleton />
+    </div>
+  </div>
+} @else if (solutionResource.hasValue()) {
+  @let solution = solutionResource.value().data;
+
+  <div class="relative isolate flex min-h-[70svh] items-end overflow-hidden bg-gray-950 text-white">
+    <img
+      [src]="solutionImageUrl(solution.image)"
+      [alt]="'Solutions image ' + solution.name"
+      class="absolute inset-0 -z-30 size-full object-cover object-center"
+      loading="eager"
+      fetchpriority="high" />
+    <div class="absolute inset-0 -z-20 bg-black/70"></div>
+
+    <div class="mx-auto w-full max-w-screen-2xl px-6 pb-14 pt-36 sm:px-8 sm:pb-16 lg:px-16 lg:pb-20 xl:px-24 2xl:px-32">
+      <div class="max-w-4xl">
+        <a
+          routerLink="/solutions"
+          class="inline-flex cursor-pointer items-center gap-2 text-sm font-semibold text-white/75 transition hover:text-white focus-visible:rounded focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+          <span>←</span>
+          Toutes les solutions
+        </a>
+
+        <h1
+          id="solution-title"
+          class="mt-7 text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl uppercase">
+          {{ solution.name || 'Solution innovante' }}
+        </h1>
+
+        <div class="mt-9 flex items-center gap-4 border-t border-white/20 pt-6">
+          <img
+            [src]="profileImageUrl(solution.user)"
+            [alt]="solution.user.name || 'Porteur de la solution'"
+            class="size-12 shrink-0 rounded-full border border-white/25 bg-white/15 object-cover" />
+          <div class="min-w-0">
+            <p class="truncate font-semibold text-white">
+              {{ solution.user.name || 'Porteur de solution' | titlecase }}
+            </p>
+            <p class="mt-1 text-sm text-white/60">Publiée le {{ solution.created_at | date: 'longDate' }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white py-16 sm:py-24" aria-label="Détails de la solution">
+    <div class="mx-auto max-w-screen-2xl px-6 sm:px-8 lg:px-16 xl:px-24 2xl:px-32">
+      <div class="grid gap-12 lg:grid-cols-[minmax(0,1fr)_16rem]">
+        <div class="max-w-4xl space-y-12">
+          @if (solution.description) {
+            <section aria-labelledby="solution-description">
+              <p class="text-sm font-semibold uppercase tracking-widest text-primary-600">Présentation</p>
+              <h2 id="solution-description" class="mt-3 text-3xl font-bold tracking-tight text-gray-950">
+                À propos de la solution
+              </h2>
+              <p class="mt-5 whitespace-pre-line text-lg leading-8 text-gray-700">{{ solution.description }}</p>
+            </section>
+          }
+
+          @if (solution.problem_solved) {
+            <section class="border-t border-gray-200 pt-12" aria-labelledby="solution-problem">
+              <p class="text-sm font-semibold uppercase tracking-widest text-primary-600">Le défi</p>
+              <h2 id="solution-problem" class="mt-3 text-3xl font-bold tracking-tight text-gray-950">
+                Problème résolu
+              </h2>
+              <p class="mt-5 whitespace-pre-line text-lg leading-8 text-gray-700">{{ solution.problem_solved }}</p>
+            </section>
+          }
+
+          @if (solution.gallery.length) {
+            <section class="border-t border-gray-200 pt-12" aria-labelledby="solution-gallery">
+              <p class="text-sm font-semibold uppercase tracking-widest text-primary-600">En images</p>
+              <h2 id="solution-gallery" class="mt-3 text-3xl font-bold tracking-tight text-gray-950">Galerie</h2>
+              <div class="mt-7 grid gap-4 sm:grid-cols-2">
+                @for (item of solution.gallery; track item.id) {
+                  <img
+                    [src]="solutionImageUrl(item.image)"
+                    [alt]="solution.name || 'Image de la solution'"
+                    class="aspect-4/3 w-full rounded-md bg-gray-100 object-cover" />
+                }
+              </div>
+            </section>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="flex min-h-[65svh] items-end bg-gray-950 text-white" aria-labelledby="solution-error-title">
+    <div class="mx-auto w-full max-w-screen-2xl px-6 pb-16 pt-36 sm:px-8 lg:px-16 lg:pb-20 xl:px-24 2xl:px-32">
+      <a
+        routerLink="/solutions"
+        class="inline-flex items-center gap-2 text-sm font-semibold text-white/70 hover:text-white">
+        <span aria-hidden="true">←</span>
+        Toutes les solutions
+      </a>
+      <h1 id="solution-error-title" class="mt-7 text-4xl font-bold tracking-tight sm:text-5xl">Solution introuvable</h1>
+      <p class="mt-4 max-w-xl text-lg text-white/65">Impossible de charger les détails de cette solution.</p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <button matButton="filled" type="button" (click)="solutionResource.reload()">Réessayer</button>
+        <a matButton="outlined" routerLink="/solutions" class="border-white/30! text-white! hover:bg-white/10!">
+          Voir toutes les solutions
+        </a>
+      </div>
+    </div>
+  </div>
+}

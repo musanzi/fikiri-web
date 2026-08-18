@@ -1,8 +1,37 @@
-<section class="min-h-screen bg-white pb-24 py-24">
+<div
+  class="relative isolate flex min-h-[50svh] items-end overflow-hidden bg-gray-950 text-white"
+  aria-labelledby="solutions-title">
+  <img
+    src="/images/hero.webp"
+    alt=""
+    class="absolute inset-0 -z-30 size-full object-cover object-[58%_center]"
+    loading="eager"
+    fetchpriority="high" />
+  <div class="absolute inset-0 -z-20 bg-black/60"></div>
+
+  <div class="mx-auto w-full max-w-screen-2xl px-6 pb-14 pt-36 sm:px-8 sm:pb-16 lg:px-16 lg:pb-20 xl:px-24 2xl:px-32">
+    <div class="max-w-3xl">
+      <p class="text-sm font-semibold uppercase tracking-[0.18em] text-primary-300">L'innovation en action</p>
+      <h1
+        id="solutions-title"
+        class="mt-5 text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
+        Découvrez les solutions qui transforment demain.
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg leading-7 text-white/75 sm:text-xl">
+        Explorez des initiatives congolaises concrètes, pensées pour répondre aux défis locaux et construire un impact
+        durable.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="min-h-screen scroll-mt-20 bg-white py-20 sm:py-24">
   <div class="mx-auto max-w-screen-2xl px-6 sm:px-8 lg:px-16 xl:px-24 2xl:px-32">
     <div class="max-w-3xl">
       <p class="text-sm font-semibold uppercase tracking-widest text-primary-600">Solutions cartographiées</p>
-      <h1 class="mt-4 text-4xl font-bold tracking-tight text-gray-950 sm:text-5xl">Découvrez les solutions Fikiri.</h1>
+      <h2 id="solutions-list-title" class="mt-4 text-3xl font-bold tracking-tight text-gray-950 sm:text-4xl">
+        Les idées deviennent des réponses concrètes.
+      </h2>
     </div>
 
     <div class="mt-12">
@@ -23,8 +52,8 @@
           class="mt-10"
           aria-label="Sélectionner une page de solutions"
           [length]="solutionsResource.value().data[1]"
-          [pageIndex]="pageIndex()"
-          [pageSize]="pageSize()"
+          [pageIndex]="page() - 1"
+          [pageSize]="limit()"
           [pageSizeOptions]="[12, 24, 48]"
           (page)="onPageChange($event)" />
       } @else {
@@ -35,4 +64,4 @@
       }
     </div>
   </div>
-</section>
+</div>

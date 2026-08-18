@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PageLoader } from '@/app/shared/ui/page-loader/page-loader';
 import { Header } from './ui/header/header';
 import { Footer } from './ui/footer/footer';
+import { PageLoader } from '@/app/shared/ui';
 
 @Component({
   selector: 'web-layout',

@@ -33,7 +33,6 @@
         <div class="mt-9 flex flex-col gap-3 sm:mt-10 sm:flex-row">
           <a
             [routerLink]="submitSolutionLink()"
-            [queryParams]="submitSolutionQueryParams()"
             class="inline-flex min-h-13 items-center justify-center rounded-md bg-primary-500 px-4 py-2 text-base font-semibold text-white shadow-xl shadow-black/20 transition duration-300 hover:-translate-y-0.5 hover:bg-primary-400 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
             Proposer une solution
           </a>
@@ -70,7 +69,6 @@
       } @else if (latestCall(); as call) {
         <a
           [routerLink]="submitSolutionLink()"
-          [queryParams]="submitSolutionQueryParams()"
           class="group w-full max-w-lg justify-self-center overflow-hidden rounded-2xl border border-white/20 bg-white/10 p-2 shadow-2xl shadow-black/30 backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-primary-300/60 hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white lg:w-96 lg:justify-self-end xl:w-108">
           <span class="relative block aspect-4/3 overflow-hidden rounded-xl bg-gray-900">
             <img

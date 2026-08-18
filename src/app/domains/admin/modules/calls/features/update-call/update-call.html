@@ -65,13 +65,13 @@
 
           <mat-tab-group animationDuration="200ms" dynamicHeight>
             <mat-tab label="Candidature">
-              <div class="p-5"><call-form-builder [(value)]="applicationForm" /></div>
+              <div class="p-5"><shared-form-builder [(value)]="applicationForm" /></div>
             </mat-tab>
             <mat-tab label="Exigences">
               <div class="p-5"><call-requirements-editor [(value)]="requirements" /></div>
             </mat-tab>
             <mat-tab label="Évaluation">
-              <div class="p-5"><call-form-builder [(value)]="reviewForm" /></div>
+              <div class="p-5"><shared-form-builder [(value)]="reviewForm" /></div>
             </mat-tab>
             <mat-tab label="Contact">
               <div class="p-5"><call-contact-editor [(value)]="contactInfo" /></div>
@@ -118,22 +118,10 @@
               <mat-icon class="text-primary" svgIcon="image" />
               <div class="min-w-0">
                 <p class="truncate text-sm font-medium">{{ selectedCover.name }}</p>
-                <p class="text-xs text-neutral-500">{{ coverSize(selectedCover) }}</p>
               </div>
             </div>
           }
-
-          @if (coverError()) {
-            <p class="mt-3 text-sm text-red-600" role="alert">{{ coverError() }}</p>
-          }
         </mat-card>
-
-        @if (!configurationValid()) {
-          <p class="flex items-center gap-2 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-800" role="alert">
-            <mat-icon svgIcon="triangle-alert" />
-            Complétez les informations obligatoires de la configuration.
-          </p>
-        }
 
         @if (store.error()) {
           <p class="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700" role="alert">{{ store.error() }}</p>
@@ -141,10 +129,7 @@
 
         <div class="flex justify-end gap-3">
           <a matButton="outlined" routerLink="/admin/calls">Annuler</a>
-          <button
-            matButton="filled"
-            type="submit"
-            [disabled]="store.isLoading() || callForm().invalid() || !configurationValid()">
+          <button matButton="filled" type="submit" [disabled]="store.isLoading() || callForm().invalid()">
             {{ store.isLoading() ? 'Enregistrement…' : 'Enregistrer les modifications' }}
           </button>
         </div>

@@ -1,10 +1,10 @@
+import { ICallSolution } from '@/app/core/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { patchState, signalStore, withMethods, withProps, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { catchError, concatMap, EMPTY, finalize, of, pipe, tap } from 'rxjs';
-import { CreateCallPayload } from '../interfaces/calls.interface';
+import { catchError, concatMap, EMPTY, finalize, of, pipe, switchMap, tap } from 'rxjs';
 
 interface UpdateCallState {
   isLoading: boolean;
@@ -13,7 +13,7 @@ interface UpdateCallState {
 
 export interface UpdateCallRequest {
   id: string;
-  payload: CreateCallPayload;
+  payload: ICallSolution;
   cover?: File;
 }
 
@@ -36,8 +36,8 @@ export const UpdateCallStore = signalStore(
           patchState(store, { isLoading: true, error: '' });
 
           return _http.patch(`/calls/${id}`, payload).pipe(
-            concatMap(() => (cover ? _http.post(`/calls/cover/${id}`, coverFormData(cover)) : of(null))),
-            tap(() => void _router.navigate(['/admin/calls'])),
+            switchMap(() => (cover ? _http.post(`/calls/cover/${id}`, coverFormData(cover)) : of(null))),
+            tap(() => _router.navigate(['/admin/calls'])),
             catchError(() => {
               patchState(store, { error: "Impossible de modifier l'appel. Veuillez réessayer." });
               return EMPTY;

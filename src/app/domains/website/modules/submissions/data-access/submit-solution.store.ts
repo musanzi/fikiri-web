@@ -3,22 +3,18 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { patchState, signalStore, withMethods, withProps, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { catchError, concatMap, EMPTY, finalize, map, of, pipe, tap } from 'rxjs';
-import { CreateSolutionPayload } from '../interfaces/submission.interface';
+import { catchError, concatMap, EMPTY, finalize, map, pipe, switchMap, tap } from 'rxjs';
+import { ICreateSolutionPayload } from '../interfaces/submission.interface';
+import { ISolution } from '@/app/core/interfaces';
 
 interface SubmitSolutionState {
   isLoading: boolean;
   error: string;
-  createdSolutionId: string | null;
 }
 
 export interface SubmitSolutionRequest {
-  payload: CreateSolutionPayload;
+  payload: ICreateSolutionPayload;
   thumbnail: File;
-}
-
-interface CreateSolutionResponse {
-  data: { id: string };
 }
 
 const thumbnailFormData = (thumbnail: File): FormData => {
@@ -28,7 +24,7 @@ const thumbnailFormData = (thumbnail: File): FormData => {
 };
 
 export const SubmitSolutionStore = signalStore(
-  withState<SubmitSolutionState>({ isLoading: false, error: '', createdSolutionId: null }),
+  withState<SubmitSolutionState>({ isLoading: false, error: '' }),
   withProps(() => ({
     _http: inject(HttpClient),
     _router: inject(Router)
@@ -38,20 +34,10 @@ export const SubmitSolutionStore = signalStore(
       pipe(
         concatMap(({ payload, thumbnail }) => {
           patchState(store, { isLoading: true, error: '' });
-          const createdSolutionId = store.createdSolutionId();
-          const solutionId$ = createdSolutionId
-            ? of(createdSolutionId)
-            : _http.post<CreateSolutionResponse>('/solutions', payload).pipe(
-                map(({ data }) => data.id),
-                tap((id) => patchState(store, { createdSolutionId: id }))
-              );
-
-          return solutionId$.pipe(
-            concatMap((id) => _http.post(`/solutions/${id}/image`, thumbnailFormData(thumbnail))),
-            tap(() => {
-              patchState(store, { createdSolutionId: null });
-              void _router.navigate(['/submit-solution/success']);
-            }),
+          return _http.post<{ data: ISolution }>('/solutions', payload).pipe(
+            map(({ data }) => data.id),
+            switchMap((id) => _http.post(`/solutions/${id}/image`, thumbnailFormData(thumbnail))),
+            tap(() => _router.navigate(['/submit-solution/success'])),
             catchError(() => {
               patchState(store, {
                 error: 'Impossible de soumettre votre solution. Vérifiez vos informations puis réessayez.'

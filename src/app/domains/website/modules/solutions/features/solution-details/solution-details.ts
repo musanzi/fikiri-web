@@ -16,11 +16,11 @@ export default class SolutionDetails {
 
   solutionResource = httpResource<{ data: ISolution }>(() => `/solutions/slug/${this.slug()}`);
 
-  solutionImage(image: string | null): string {
+  solutionImageUrl(image: string | null): string {
     return image ? `${environment.apiUrl}/uploads/solutions/${image}` : '/images/no-img.png';
   }
 
-  profileImage(user: IUser | null | undefined): string {
+  profileImageUrl(user: IUser): string {
     return user?.profile ? `${environment.apiUrl}/uploads/profiles/${user.profile}` : '/images/avatar.webp';
   }
 }

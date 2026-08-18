@@ -1,10 +1,10 @@
+import { ICallContactInfo } from '@/app/core/interfaces';
 import { Component, model } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { CallContactInfo, CallUsefulLink } from '../../interfaces/calls.interface';
 
 @Component({
   selector: 'call-contact-editor',
@@ -12,9 +12,9 @@ import { CallContactInfo, CallUsefulLink } from '../../interfaces/calls.interfac
   templateUrl: './call-contact-editor.html'
 })
 export class CallContactEditor {
-  readonly value = model.required<CallContactInfo>();
+  readonly value = model.required<ICallContactInfo>();
 
-  protected updateContact(changes: Partial<CallContactInfo>): void {
+  protected updateContact(changes: Partial<ICallContactInfo>): void {
     this.value.update((contact) => ({ ...contact, ...changes }));
   }
 
@@ -25,7 +25,7 @@ export class CallContactEditor {
     }));
   }
 
-  protected updateLink(index: number, changes: Partial<CallUsefulLink>): void {
+  protected updateLink(index: number, changes: Partial<ICallContactInfo['links'][number]>): void {
     this.value.update((contact) => ({
       ...contact,
       links: contact.links.map((link, linkIndex) => (linkIndex === index ? { ...link, ...changes } : link))

@@ -11,3 +11,5 @@ export * from './role.interface';
 export * from './solution-gallery.interface';
 export * from './solution.interface';
 export * from './user.interface';
+export * from './contact-info.interface';
+export * from './call-requirements.interface';
