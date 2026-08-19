@@ -7,11 +7,6 @@ export interface IQueryParams {
 
 export type ICallRow = ICallSolution & { solutionsCount: number };
 
-export type ICreateCallPayload = Omit<
-  ICallSolution,
-  'document' | 'cover' | 'author' | 'publisher' | 'partners' | 'awards' | 'solutions' | 'gallery'
->;
-
 export interface ICreateCallFormModel {
   name: string;
   ended_at: Date;
