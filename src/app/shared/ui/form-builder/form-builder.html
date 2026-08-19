@@ -35,9 +35,24 @@
           </button>
         </div>
 
-        <div class="mt-2 flex flex-col gap-4">
+        <div
+          cdkDropList
+          class="mt-2 flex flex-col gap-4"
+          [cdkDropListData]="section.fields"
+          (cdkDropListDropped)="reorderQuestions(sectionIndex, $event)">
           @for (question of section.fields; track $index; let questionIndex = $index) {
-            <mat-card appearance="outlined" class="flex flex-col gap-4 p-5">
+            <mat-card cdkDrag appearance="outlined" class="flex flex-col gap-4 p-5">
+              <div class="-my-3 flex justify-center">
+                <button
+                  cdkDragHandle
+                  matIconButton
+                  type="button"
+                  class="cursor-grab active:cursor-grabbing"
+                  aria-label="Déplacer la question"
+                  matTooltip="Glisser pour réordonner">
+                  <mat-icon svgIcon="grip-horizontal" />
+                </button>
+              </div>
               <div class="grid gap-x-4 gap-y-6 lg:grid-cols-[minmax(0,1fr)_16rem]">
                 <mat-form-field appearance="outline">
                   <mat-label>Question</mat-label>

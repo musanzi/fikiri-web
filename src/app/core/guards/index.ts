@@ -1,3 +1,3 @@
 export * from './admin.guard';
-export * from './authenticated.guard';
+export * from './auth.guard';
 export * from './unauth.guard';

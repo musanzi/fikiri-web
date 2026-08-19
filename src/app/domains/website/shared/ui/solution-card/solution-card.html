@@ -14,11 +14,11 @@
       <div class="mt-3 flex items-center gap-3 border-t border-gray-100 pt-5">
         <img
           [src]="profileImageUrl()"
-          [alt]="solution().user?.name || 'Porteur de la solution'"
+          [alt]="solution().user['name'] || 'Porteur de la solution'"
           class="size-10 shrink-0 rounded-full bg-gray-200 object-cover" />
         <div class="min-w-0 text-sm">
           <p class="truncate font-semibold text-gray-900">
-            {{ solution().user?.name || 'Porteur de solution' | titlecase }}
+            {{ solution().user['name'] || 'Porteur de solution' | titlecase }}
           </p>
           <p class="truncate text-gray-500">{{ solution().created_at | date: 'longDate' }}</p>
         </div>

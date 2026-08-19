@@ -1,4 +1,5 @@
 import { Component, computed, model } from '@angular/core';
+import { CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -23,6 +24,9 @@ const OPTION_TYPES = new Set<QuestionType>(['select', 'radio', 'checkbox']);
 @Component({
   selector: 'shared-form-builder',
   imports: [
+    CdkDrag,
+    CdkDragHandle,
+    CdkDropList,
     MatButtonModule,
     MatCardModule,
     MatCheckboxModule,
@@ -119,6 +123,18 @@ export class FormBuilder {
       ...section,
       fields: section.fields.filter((_, index) => index !== questionIndex)
     }));
+  }
+
+  protected reorderQuestions(sectionIndex: number, event: CdkDragDrop<IField[]>): void {
+    if (event.previousIndex === event.currentIndex) {
+      return;
+    }
+
+    this.updateSections(sectionIndex, (section) => {
+      const fields = [...section.fields];
+      moveItemInArray(fields, event.previousIndex, event.currentIndex);
+      return { ...section, fields };
+    });
   }
 
   protected hasOptions(type: string): boolean {

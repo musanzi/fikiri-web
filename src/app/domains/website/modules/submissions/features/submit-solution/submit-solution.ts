@@ -6,8 +6,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
 import { RouterLink } from '@angular/router';
-import { ICallSolution } from '@/app/core/interfaces';
+import { ICallContact, ICallContactInfo, ICallSolution } from '@/app/core/interfaces';
 import { FormRenderer } from '@/app/shared/ui/form-renderer/form-renderer';
 import { environment } from '@/environments/environment';
 import { SubmitSolutionStore } from '../../data-access/submit-solution.store';
@@ -22,6 +23,7 @@ import { ICreateSolutionPayload, ISolutionDetailsModel } from '../../interfaces/
     MatIconModule,
     MatInputModule,
     MatSelectModule,
+    MatTabsModule,
     RouterLink
   ],
   providers: [SubmitSolutionStore],
@@ -53,6 +55,7 @@ export default class SubmitSolution {
     return cover ? `${environment.apiUrl}/uploads/calls/covers/${cover}` : '/images/no-img.png';
   });
 
+  protected thumbnail = signal<File | undefined>(undefined);
   protected solutionDetailsModel = signal<ISolutionDetailsModel>({
     name: '',
     description: '',
@@ -65,16 +68,14 @@ export default class SubmitSolution {
     required(schemaPath.problem_solved);
   });
 
-  protected thumbnail = signal<File | undefined>(undefined);
-
   protected onSubmit(): void {
     const thumbnail = this.thumbnail();
     const formRenderer = this.formRenderer();
     if (!thumbnail || !formRenderer) return;
 
     submit(this.callSelectionForm, async () => {
-      await submit(this.solutionDetailsForm, async () => {
-        await submit(formRenderer.answerForm, async () => {
+      submit(this.solutionDetailsForm, async () => {
+        submit(formRenderer.answerForm, async () => {
           const payload: ICreateSolutionPayload = {
             call: this.selectedCallId(),
             ...this.solutionDetailsModel(),
@@ -101,5 +102,18 @@ export default class SubmitSolution {
 
   protected thumbnailSize(file: File): string {
     return `${(file.size / 1024 / 1024).toFixed(1)} Mo`;
+  }
+
+  protected callContacts(contactInfo: ICallContactInfo): ICallContact[] {
+    const primaryContact: ICallContact = {
+      name: contactInfo.name,
+      role: contactInfo.role,
+      email: contactInfo.email,
+      phone: contactInfo.phone
+    };
+
+    return [primaryContact, ...(contactInfo.contacts ?? [])].filter(
+      (contact) => contact.name || contact.role || contact.email || contact.phone
+    );
   }
 }

@@ -1,5 +1,5 @@
 @if (solutionResource.isLoading()) {
-  <div class="flex min-h-[65svh] items-end bg-gray-950 text-white" aria-label="Chargement de la solution">
+  <div class="flex min-h-[50svh] items-end bg-gray-950 text-white" aria-label="Chargement de la solution">
     <div
       class="mx-auto w-full max-w-screen-2xl animate-pulse px-6 pb-14 pt-36 sm:px-8 sm:pb-16 lg:px-16 lg:pb-20 xl:px-24 2xl:px-32">
       <div class="h-5 w-36 rounded bg-white/15"></div>
@@ -23,14 +23,14 @@
 } @else if (solutionResource.hasValue()) {
   @let solution = solutionResource.value().data;
 
-  <div class="relative isolate flex min-h-[70svh] items-end overflow-hidden bg-gray-950 text-white">
+  <div class="relative isolate flex min-h-[50svh] items-end overflow-hidden bg-gray-950 text-white">
     <img
       [src]="solutionImageUrl(solution.image)"
       [alt]="'Solutions image ' + solution.name"
       class="absolute inset-0 -z-30 size-full object-cover object-center"
       loading="eager"
       fetchpriority="high" />
-    <div class="absolute inset-0 -z-20 bg-black/70"></div>
+    <div class="absolute inset-0 -z-20 bg-black/60"></div>
 
     <div class="mx-auto w-full max-w-screen-2xl px-6 pb-14 pt-36 sm:px-8 sm:pb-16 lg:px-16 lg:pb-20 xl:px-24 2xl:px-32">
       <div class="max-w-4xl">

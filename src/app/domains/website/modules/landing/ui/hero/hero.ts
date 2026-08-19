@@ -23,6 +23,6 @@ export class HeroComponent {
   });
 
   protected readonly submitSolutionLink = computed(() =>
-    this.authStore.user() ? '/submit-solution' : '/auth/sign-in?returnUrl=submit-solution'
+    this.authStore.user() ? '/submit-solution' : '/auth/sign-in'
   );
 }

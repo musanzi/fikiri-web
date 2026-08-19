@@ -1,52 +1,77 @@
 <div class="flex flex-col gap-5">
-  <div>
-    <h3 class="font-medium">Personne à contacter</h3>
-    <p class="mt-1 text-sm text-neutral-500">Coordonnées publiques pour les questions concernant cet appel.</p>
-  </div>
-
-  <div class="grid gap-4 sm:grid-cols-2">
-    <mat-form-field appearance="outline">
-      <mat-label>Nom complet</mat-label>
-      <input
-        matInput
-        type="text"
-        autocomplete="name"
-        [value]="value().name"
-        (input)="updateContact({ name: $any($event.target).value })" />
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Fonction</mat-label>
-      <input
-        matInput
-        type="text"
-        autocomplete="organization-title"
-        [value]="value().role"
-        (input)="updateContact({ role: $any($event.target).value })" />
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Adresse e-mail</mat-label>
-      <input
-        matInput
-        type="email"
-        autocomplete="email"
-        [value]="value().email"
-        (input)="updateContact({ email: $any($event.target).value })" />
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Numéro de téléphone</mat-label>
-      <input
-        matInput
-        type="tel"
-        autocomplete="tel"
-        [value]="value().phone"
-        (input)="updateContact({ phone: $any($event.target).value })" />
-    </mat-form-field>
-  </div>
-
   <div class="flex items-center justify-between gap-4">
+    <div>
+      <h3 class="font-medium">Personnes à contacter</h3>
+      <p class="mt-1 text-sm text-neutral-500">Coordonnées publiques pour les questions concernant cet appel.</p>
+    </div>
+    <button matButton="outlined" type="button" (click)="addContact()">
+      <mat-icon svgIcon="user-round-plus" />
+      Ajouter un contact
+    </button>
+  </div>
+
+  <div class="flex flex-col gap-3">
+    @for (contact of contacts(); track $index; let contactIndex = $index) {
+      <mat-card appearance="outlined" class="p-4">
+        <div class="mb-4 flex items-center justify-between gap-3">
+          <p class="text-sm font-medium text-neutral-700">Contact {{ contactIndex + 1 }}</p>
+          <button
+            matIconButton
+            type="button"
+            aria-label="Supprimer le contact"
+            matTooltip="Supprimer"
+            [disabled]="contacts().length === 1"
+            (click)="deleteContact(contactIndex)">
+            <mat-icon svgIcon="trash-2" />
+          </button>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Nom complet</mat-label>
+            <input
+              matInput
+              type="text"
+              autocomplete="name"
+              [value]="contact.name"
+              (input)="updateContact(contactIndex, { name: $any($event.target).value })" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Fonction</mat-label>
+            <input
+              matInput
+              type="text"
+              autocomplete="organization-title"
+              [value]="contact.role"
+              (input)="updateContact(contactIndex, { role: $any($event.target).value })" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Adresse e-mail</mat-label>
+            <input
+              matInput
+              type="email"
+              autocomplete="email"
+              [value]="contact.email"
+              (input)="updateContact(contactIndex, { email: $any($event.target).value })" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Numéro de téléphone</mat-label>
+            <input
+              matInput
+              type="tel"
+              autocomplete="tel"
+              [value]="contact.phone"
+              (input)="updateContact(contactIndex, { phone: $any($event.target).value })" />
+          </mat-form-field>
+        </div>
+      </mat-card>
+    }
+  </div>
+
+  <div class="flex items-center justify-between gap-4 border-t border-neutral-200 pt-5">
     <div>
       <h3 class="font-medium">Liens utiles</h3>
       <p class="mt-1 text-sm text-neutral-500">Documentation, règlement ou ressources externes.</p>
