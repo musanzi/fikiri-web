@@ -46,7 +46,6 @@ export default class AddCall {
   protected contactInfo = signal<ICallContactInfo>({ name: '', role: '', email: '', phone: '', links: [] });
   protected requirements = signal<ICallRequirement[]>([]);
   protected cover = signal<File | undefined>(undefined);
-  protected coverError = signal('');
 
   protected callForm = form(this.callModel, (schemaPath) => {
     required(schemaPath.name);
@@ -63,7 +62,6 @@ export default class AddCall {
   protected onSubmit(): void {
     const cover = this.cover();
     if (!cover) {
-      this.coverError.set('La couverture est requise.');
       return;
     }
 
@@ -87,12 +85,10 @@ export default class AddCall {
     if (!file) return;
 
     this.cover.set(file);
-    this.coverError.set('');
   }
 
   protected removeCover(input: HTMLInputElement): void {
     this.cover.set(undefined);
-    this.coverError.set('');
     input.value = '';
   }
 }
