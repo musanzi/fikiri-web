@@ -12,7 +12,7 @@
     </div>
 
     @if (callResource.isLoading()) {
-      <div class="flex min-h-64 items-center justify-center" aria-label="Chargement de l’appel">
+      <div class="flex min-h-64 items-center justify-center" aria-label="Chargement de l'appel">
         <span class="text-sm text-neutral-500">Chargement…</span>
       </div>
     } @else if (callResource.hasValue()) {
@@ -143,20 +143,9 @@
       <div class="flex min-h-64 flex-col items-center justify-center gap-4 text-center" role="alert">
         <mat-icon class="text-neutral-500" svgIcon="triangle-alert" />
         <div>
-          <div class="font-medium">
-            {{ loadErrorStatus === 404 ? 'Appel introuvable' : "Impossible de charger l'appel" }}
-          </div>
-          <div class="mt-1 text-sm text-neutral-500">
-            {{
-              loadErrorStatus === 404
-                ? "Cet appel n'existe pas ou a été supprimé."
-                : 'Veuillez réessayer dans quelques instants.'
-            }}
-          </div>
+          <div class="mt-1 text-sm text-neutral-500">Impossible de charger l'appel</div>
         </div>
-        @if (loadErrorStatus !== 404) {
-          <button matButton="outlined" type="button" (click)="callResource.reload()">Réessayer</button>
-        }
+        <button matButton="outlined" type="button" (click)="callResource.reload()">Réessayer</button>
       </div>
     }
   </div>

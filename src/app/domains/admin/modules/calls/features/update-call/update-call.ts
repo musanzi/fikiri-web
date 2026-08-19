@@ -1,4 +1,4 @@
-import { HttpErrorResponse, httpResource } from '@angular/common/http';
+import { httpResource } from '@angular/common/http';
 import { Component, inject, linkedSignal, signal } from '@angular/core';
 import { form, FormField, minLength, required, submit, validate } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
@@ -77,18 +77,11 @@ export default class UpdateCall {
     required(schemaPath.started_at);
     required(schemaPath.ended_at);
     validate(schemaPath.ended_at, ({ value, valueOf }) =>
-      value().getTime() <= valueOf(schemaPath.started_at).getTime()
-        ? { kind: 'date-order', message: 'La date de fin doit être postérieure à la date de début.' }
-        : undefined
+      value().getTime() <= valueOf(schemaPath.started_at).getTime() ? { kind: 'date-order' } : undefined
     );
     required(schemaPath.description);
     minLength(schemaPath.description, 10);
   });
-
-  protected get loadErrorStatus(): number | undefined {
-    const error = this.callResource.error();
-    return error instanceof HttpErrorResponse ? error.status : undefined;
-  }
 
   protected onSubmit(): void {
     submit(this.callForm, async (formState) => {
