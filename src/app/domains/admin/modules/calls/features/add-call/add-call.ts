@@ -7,10 +7,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterLink } from '@angular/router';
-import { ICallContactInfo, ICallRequirement, ICallSolution, IForm } from '@/app/core/interfaces';
+import { ICallContactInfo, ICallRequirement, IForm } from '@/app/core/interfaces';
 import { FormBuilder } from '@/app/shared/ui/form-builder/form-builder';
 import { AddCallStore } from '../../data-access/add-call.store';
-import { ICreateCallFormModel } from '../../interfaces/calls.interface';
+import { ICreateCallFormModel, ICreateCallPayload } from '../../interfaces/calls.interface';
 import { CallContactEditor } from '../../ui/call-contact-editor/call-contact-editor';
 import { CallRequirementsEditor } from '../../ui/call-requirements-editor/call-requirements-editor';
 
@@ -67,13 +67,13 @@ export default class AddCall {
 
     submit(this.callForm, async (formState) => {
       const value = formState().value();
-      const payload = {
+      const payload: ICreateCallPayload = {
         ...value,
         form: this.applicationForm(),
         review_form: this.reviewForm(),
         contact_form: this.contactInfo(),
         requirements: this.requirements()
-      } as unknown as ICallSolution;
+      };
 
       this.store.addCall({ payload, cover });
     });
