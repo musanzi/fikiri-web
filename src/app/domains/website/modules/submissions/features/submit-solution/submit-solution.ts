@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { httpResource } from '@angular/common/http';
 import { Component, computed, inject, linkedSignal, signal, viewChild } from '@angular/core';
-import { form, FormField, required, submit } from '@angular/forms/signals';
+import { form, FormField, required } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -13,6 +13,7 @@ import { FormRenderer } from '@/app/shared/ui/form-renderer/form-renderer';
 import { environment } from '@/environments/environment';
 import { SubmitSolutionStore } from '../../data-access/submit-solution.store';
 import { ICreateSolutionPayload, ISolutionDetailsModel } from '../../interfaces/submission.interface';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   imports: [
@@ -24,7 +25,8 @@ import { ICreateSolutionPayload, ISolutionDetailsModel } from '../../interfaces/
     MatInputModule,
     MatSelectModule,
     MatTabsModule,
-    RouterLink
+    RouterLink,
+    FormsModule
   ],
   providers: [SubmitSolutionStore],
   templateUrl: './submit-solution.html'
@@ -35,15 +37,15 @@ export default class SubmitSolution {
 
   protected currentCallsResource = httpResource<{ data: ICallSolution[] }>(() => '/calls/find/current');
 
-  protected callSelectionModel = linkedSignal(() => ({
-    call: this.currentCallsResource.hasValue() ? this.currentCallsResource.value().data[0].id : ''
-  }));
-
-  protected callSelectionForm = form(this.callSelectionModel, (schemaPath) => {
-    required(schemaPath.call);
+  protected selectedCallId = linkedSignal(() => {
+    return this.currentCallsResource.value()?.data.at(-1)?.id ?? '';
   });
-
-  protected selectedCallId = computed(() => this.callSelectionModel().call);
+  protected thumbnail = signal<File | undefined>(undefined);
+  protected solutionDetailsModel = signal<ISolutionDetailsModel>({
+    name: '',
+    description: '',
+    problem_solved: ''
+  });
 
   protected callResource = httpResource<{ data: ICallSolution }>(() => {
     const callId = this.selectedCallId();
@@ -51,15 +53,8 @@ export default class SubmitSolution {
   });
 
   protected callCoverUrl = computed(() => {
-    const cover = this.callResource.hasValue() ? this.callResource.value().data.cover : null;
+    const cover = this.callResource.value()?.data.cover;
     return cover ? `${environment.apiUrl}/uploads/calls/covers/${cover}` : '/images/no-img.png';
-  });
-
-  protected thumbnail = signal<File | undefined>(undefined);
-  protected solutionDetailsModel = signal<ISolutionDetailsModel>({
-    name: '',
-    description: '',
-    problem_solved: ''
   });
 
   protected solutionDetailsForm = form(this.solutionDetailsModel, (schemaPath) => {
@@ -73,18 +68,17 @@ export default class SubmitSolution {
     const formRenderer = this.formRenderer();
     if (!thumbnail || !formRenderer) return;
 
-    submit(this.callSelectionForm, async () => {
-      submit(this.solutionDetailsForm, async () => {
-        submit(formRenderer.answerForm, async () => {
-          const payload: ICreateSolutionPayload = {
-            call: this.selectedCallId(),
-            ...this.solutionDetailsModel(),
-            responses: formRenderer.responses()
-          };
-          this.store.submitSolution({ payload, thumbnail });
-        });
-      });
-    });
+    if (!this.solutionDetailsForm().valid() || !formRenderer.answerForm().valid()) {
+      return;
+    }
+
+    const payload: ICreateSolutionPayload = {
+      call: this.selectedCallId(),
+      ...this.solutionDetailsModel(),
+      responses: formRenderer.responses()
+    };
+
+    this.store.submitSolution({ payload, thumbnail });
   }
 
   protected onThumbnailSelected(event: Event): void {
@@ -98,10 +92,6 @@ export default class SubmitSolution {
   protected removeThumbnail(input: HTMLInputElement): void {
     this.thumbnail.set(undefined);
     input.value = '';
-  }
-
-  protected thumbnailSize(file: File): string {
-    return `${(file.size / 1024 / 1024).toFixed(1)} Mo`;
   }
 
   protected callContacts(contactInfo: ICallContactInfo): ICallContact[] {
