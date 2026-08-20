@@ -12,17 +12,6 @@ interface SubmitSolutionState {
   error: string;
 }
 
-export interface SubmitSolutionRequest {
-  payload: ICreateSolutionPayload;
-  thumbnail: File;
-}
-
-const thumbnailFormData = (thumbnail: File): FormData => {
-  const body = new FormData();
-  body.append('thumb', thumbnail);
-  return body;
-};
-
 export const SubmitSolutionStore = signalStore(
   withState<SubmitSolutionState>({ isLoading: false, error: '' }),
   withProps(() => ({
@@ -30,14 +19,18 @@ export const SubmitSolutionStore = signalStore(
     _router: inject(Router)
   })),
   withMethods(({ _http, _router, ...store }) => ({
-    submitSolution: rxMethod<SubmitSolutionRequest>(
+    submitSolution: rxMethod<{ payload: ICreateSolutionPayload; thumbnail: File }>(
       pipe(
         concatMap(({ payload, thumbnail }) => {
           patchState(store, { isLoading: true, error: '' });
           return _http.post<{ data: ISolution }>('/solutions', payload).pipe(
             map(({ data }) => data.id),
-            switchMap((id) => _http.post(`/solutions/${id}/image`, thumbnailFormData(thumbnail))),
-            tap(() => _router.navigate(['/submit-solution/success'])),
+            switchMap((id) => {
+              const body = new FormData();
+              body.append('thumb', thumbnail);
+              return _http.post(`/solutions/${id}/image`, body);
+            }),
+            tap(() => _router.navigate(['/'])),
             catchError(() => {
               patchState(store, {
                 error: 'Impossible de soumettre votre solution. Vérifiez vos informations puis réessayez.'
