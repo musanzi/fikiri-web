@@ -1,4 +1,4 @@
-import { ICallSolution } from '@/app/core/interfaces';
+import { ICallContactInfo, ICallRequirement, ICallSolution, IForm } from '@/app/core/interfaces';
 
 export interface IQueryParams {
   page: string | null;
@@ -12,4 +12,26 @@ export interface ICreateCallFormModel {
   ended_at: Date;
   started_at: Date;
   description: string;
+}
+
+export interface ICreateCallPayload {
+  name: string;
+  ended_at: Date;
+  started_at: Date;
+  description: string;
+  review_form: IForm[];
+  form: IForm[];
+  contact_form: ICallContactInfo;
+  requirements: ICallRequirement[];
+}
+
+export interface IUpdatedCallPayload {
+  name: string;
+  ended_at: Date;
+  started_at: Date;
+  description: string;
+  review_form: IForm[];
+  form: IForm[];
+  contact_form: ICallContactInfo;
+  requirements: ICallRequirement[];
 }
