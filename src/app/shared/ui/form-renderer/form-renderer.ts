@@ -5,38 +5,21 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { IField, IForm } from '@/app/core/interfaces';
-
-export interface FormAnswerOption {
-  label: string;
-  value: string;
-  checked: boolean;
-}
-
-export interface FormAnswer {
-  name: string;
-  type: string;
-  required: boolean;
-  value: string;
-  options: FormAnswerOption[];
-}
-
-interface FormAnswersModel {
-  answers: FormAnswer[];
-}
+import { FormAnswersModel, FormAnswer } from '../../interfaces/form.interface';
 
 @Component({
-  selector: 'shared-form-renderer',
+  selector: 'form-renderer',
   imports: [FormField, MatCheckboxModule, MatInputModule, MatRadioModule, MatSelectModule],
   templateUrl: './form-renderer.html'
 })
 export class FormRenderer {
-  readonly sections = input.required<IForm[]>();
+  sections = input.required<IForm[]>();
 
-  private readonly answersModel = linkedSignal<FormAnswersModel>(() => ({
+  private answersModel = linkedSignal<FormAnswersModel>(() => ({
     answers: this.sections().flatMap((section) => section.fields.map((field) => this.buildAnswer(field)))
   }));
 
-  readonly answerForm = form(this.answersModel, (schemaPath) => {
+  answerForm = form(this.answersModel, (schemaPath) => {
     applyEach(schemaPath.answers, (answer) => {
       required(answer.value, {
         message: 'Ce champ est requis.',
@@ -50,9 +33,9 @@ export class FormRenderer {
     });
   });
 
-  readonly invalid = computed(() => this.answerForm().invalid());
+  invalid = computed(() => this.answerForm().invalid());
 
-  protected readonly renderedSections = computed(() => {
+  protected renderedSections = computed(() => {
     let answerIndex = 0;
     return this.sections().map((section) => ({
       phase: section.phase,
@@ -72,7 +55,7 @@ export class FormRenderer {
   }
 
   protected fieldInputType(type: string): string {
-    return type === 'email' || type === 'date' ? type : 'text';
+    return type === 'email' || type === 'number' || type === 'date' ? type : 'text';
   }
 
   private buildAnswer(field: IField): FormAnswer {

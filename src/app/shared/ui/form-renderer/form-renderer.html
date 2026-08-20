@@ -62,7 +62,6 @@
                 matInput
                 [id]="question.field.name"
                 [type]="fieldInputType(question.field.type)"
-                [attr.inputmode]="question.field.type === 'number' ? 'decimal' : null"
                 [formField]="answer.value" />
             </mat-form-field>
           }
