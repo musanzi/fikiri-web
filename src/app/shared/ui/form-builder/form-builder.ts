@@ -11,18 +11,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { IField, IForm, IOption } from '@/app/core/interfaces/form.interface';
-
-type QuestionType = 'text' | 'textarea' | 'email' | 'number' | 'date' | 'select' | 'radio' | 'checkbox';
-
-interface QuestionTypeOption {
-  value: QuestionType;
-  label: string;
-}
-
-const OPTION_TYPES = new Set<QuestionType>(['select', 'radio', 'checkbox']);
+import { OPTION_TYPES, IQuestionType, IQuestionTypeOption } from '../../interfaces/form.interface';
 
 @Component({
-  selector: 'shared-form-builder',
+  selector: 'form-builder',
   imports: [
     CdkDrag,
     CdkDragHandle,
@@ -41,9 +33,9 @@ const OPTION_TYPES = new Set<QuestionType>(['select', 'radio', 'checkbox']);
   templateUrl: './form-builder.html'
 })
 export class FormBuilder {
-  readonly value = model.required<IForm[]>();
+  value = model.required<IForm[]>();
 
-  protected readonly questionTypes: QuestionTypeOption[] = [
+  protected questionTypes: IQuestionTypeOption[] = [
     { value: 'text', label: 'Réponse courte' },
     { value: 'textarea', label: 'Paragraphe' },
     { value: 'email', label: 'Adresse e-mail' },
@@ -54,9 +46,7 @@ export class FormBuilder {
     { value: 'checkbox', label: 'Cases à cocher' }
   ];
 
-  protected readonly questionsCount = computed(() =>
-    this.value().reduce((count, section) => count + section.fields.length, 0)
-  );
+  protected questionsCount = computed(() => this.value().reduce((count, section) => count + section.fields.length, 0));
 
   protected addSection(): void {
     this.value.update((sections) => [...sections, { phase: `Section ${sections.length + 1}`, fields: [] }]);
@@ -96,7 +86,7 @@ export class FormBuilder {
     }));
   }
 
-  protected updateQuestionType(sectionIndex: number, questionIndex: number, type: QuestionType): void {
+  protected updateQuestionType(sectionIndex: number, questionIndex: number, type: IQuestionType): void {
     const field = this.value()[sectionIndex].fields[questionIndex];
     this.updateQuestion(sectionIndex, questionIndex, {
       type,
@@ -138,7 +128,7 @@ export class FormBuilder {
   }
 
   protected hasOptions(type: string): boolean {
-    return OPTION_TYPES.has(type as QuestionType);
+    return OPTION_TYPES.has(type as IQuestionType);
   }
 
   protected addOption(sectionIndex: number, questionIndex: number): void {
