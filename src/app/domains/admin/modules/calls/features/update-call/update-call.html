@@ -112,13 +112,13 @@
 
           <mat-tab-group animationDuration="200ms" dynamicHeight>
             <mat-tab label="Candidature">
-              <div class="p-5"><shared-form-builder [(value)]="applicationForm" /></div>
+              <div class="p-5"><form-builder [(value)]="applicationForm" /></div>
             </mat-tab>
             <mat-tab label="Exigences">
               <div class="p-5"><call-requirements-editor [(value)]="requirements" /></div>
             </mat-tab>
             <mat-tab label="Évaluation">
-              <div class="p-5"><shared-form-builder [(value)]="reviewForm" /></div>
+              <div class="p-5"><form-builder [(value)]="reviewForm" /></div>
             </mat-tab>
             <mat-tab label="Contact">
               <div class="p-5"><call-contact-editor [(value)]="contactInfo" /></div>

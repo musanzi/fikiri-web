@@ -11,7 +11,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ICallContactInfo, ICallSolution, IForm } from '@/app/core/interfaces';
 import { FormBuilder } from '@/app/shared/ui/form-builder/form-builder';
 import { UpdateCallStore } from '../../data-access/update-call.store';
-import { ICreateCallFormModel } from '../../interfaces/calls.interface';
+import { ICreateCallFormModel, IUpdatedCallPayload } from '../../interfaces/calls.interface';
 import { CallContactEditor } from '../../ui/call-contact-editor/call-contact-editor';
 import { CallRequirementsEditor } from '../../ui/call-requirements-editor/call-requirements-editor';
 
@@ -39,28 +39,28 @@ export default class UpdateCall {
   protected callResource = httpResource<{ data: ICallSolution }>(() => `/calls/${this.callId}`);
 
   protected callModel = linkedSignal<ICreateCallFormModel>(() => {
-    const call = this.callResource.hasValue() ? this.callResource.value().data : undefined;
+    const call = this.callResource.value()?.data;
 
     return {
       name: call?.name ?? '',
-      started_at: call ? new Date(call.started_at) : new Date(),
-      ended_at: call ? new Date(call.ended_at) : new Date(),
+      started_at: call?.started_at ? new Date(call.started_at) : new Date(),
+      ended_at: call?.ended_at ? new Date(call.ended_at) : new Date(),
       description: call?.description ?? ''
     };
   });
 
   protected applicationForm = linkedSignal<IForm[]>(() => {
-    const form = this.callResource.hasValue() ? this.callResource.value().data.form : undefined;
+    const form = this.callResource.value()?.data.form;
     return form?.length ? form : [{ phase: 'Candidature', fields: [] }];
   });
 
   protected reviewForm = linkedSignal<IForm[]>(() => {
-    const form = this.callResource.hasValue() ? this.callResource.value().data.review_form : undefined;
+    const form = this.callResource.value()?.data.review_form;
     return form?.length ? form : [{ phase: 'Évaluation', fields: [] }];
   });
 
   protected contactInfo = linkedSignal<ICallContactInfo>(() => {
-    const contact = this.callResource.hasValue() ? this.callResource.value().data.contact_form : undefined;
+    const contact = this.callResource.value()?.data.contact_form;
     return contact ?? { name: '', role: '', email: '', phone: '', links: [] };
   });
 
@@ -69,7 +69,6 @@ export default class UpdateCall {
   });
 
   protected cover = signal<File | undefined>(undefined);
-  protected coverError = signal('');
 
   protected callForm = form(this.callModel, (schemaPath) => {
     required(schemaPath.name);
@@ -86,13 +85,13 @@ export default class UpdateCall {
   protected onSubmit(): void {
     submit(this.callForm, async (formState) => {
       const value = formState().value();
-      const payload = {
+      const payload: IUpdatedCallPayload = {
         ...value,
         form: this.applicationForm(),
         review_form: this.reviewForm(),
         contact_form: this.contactInfo(),
         requirements: this.requirements()
-      } as unknown as ICallSolution;
+      };
 
       this.store.updateCall({ id: this.callId, payload, cover: this.cover() });
     });
@@ -104,12 +103,10 @@ export default class UpdateCall {
     if (!file) return;
 
     this.cover.set(file);
-    this.coverError.set('');
   }
 
   protected removeCover(input: HTMLInputElement): void {
     this.cover.set(undefined);
-    this.coverError.set('');
     input.value = '';
   }
 }
