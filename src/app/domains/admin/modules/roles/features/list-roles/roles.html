@@ -1,17 +1,33 @@
 <section class="flex flex-col px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
-  <div class="mb-6">
-    <h1 class="text-2xl font-semibold tracking-tight">Rôles</h1>
-    <p class="mt-1 text-sm text-neutral-500">Liste des rôles disponibles sur la plateforme.</p>
+  <div class="mb-6 flex items-end justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-semibold tracking-tight">Rôles</h1>
+      <p class="mt-1 text-sm text-neutral-500">Liste des rôles disponibles sur la plateforme.</p>
+    </div>
+
+    <button matButton="filled" type="button" [disabled]="store.isSaving()" (click)="openCreateDialog()">
+      <mat-icon svgIcon="plus" />
+      Créer un rôle
+    </button>
   </div>
 
-  @if (rolesResource.isLoading()) {
+  @if (store.error()) {
+    <div
+      class="mb-4 flex items-center justify-between gap-4 rounded-lg bg-error-container p-4 text-on-error-container"
+      role="alert">
+      <span>{{ store.error() }}</span>
+      <button matButton type="button" (click)="store.clearError()">Fermer</button>
+    </div>
+  }
+
+  @if (store.isLoading()) {
     <div class="flex min-h-64 items-center justify-center" aria-label="Chargement des rôles">
       <span class="text-sm text-neutral-500">Chargement…</span>
     </div>
-  } @else if (rolesResource.hasValue()) {
+  } @else {
     <div class="flex flex-col overflow-hidden rounded-xl border border-neutral-200">
       <div class="relative isolate overflow-x-auto">
-        <table class="w-full whitespace-nowrap" mat-table [dataSource]="rolesResource.value().data">
+        <table class="w-full whitespace-nowrap" mat-table [dataSource]="store.roles()">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Nom</th>
             <td class="font-medium" mat-cell *matCellDef="let role">{{ role.name }}</td>
@@ -27,6 +43,28 @@
             <td mat-cell *matCellDef="let role">{{ role.updated_at | date: 'dd/MM/yyyy' }}</td>
           </ng-container>
 
+          <ng-container matColumnDef="actions">
+            <th class="text-right" mat-header-cell *matHeaderCellDef>Actions</th>
+            <td class="text-right" mat-cell *matCellDef="let role">
+              <button
+                matIconButton
+                type="button"
+                aria-label="Modifier le rôle"
+                [disabled]="store.isSaving() || store.removingRoleId() !== ''"
+                (click)="openUpdateDialog(role)">
+                <mat-icon svgIcon="pencil" />
+              </button>
+              <button
+                matIconButton
+                type="button"
+                aria-label="Supprimer le rôle"
+                [disabled]="store.isSaving() || store.removingRoleId() !== ''"
+                (click)="openRemoveDialog(role)">
+                <mat-icon svgIcon="trash-2" />
+              </button>
+            </td>
+          </ng-container>
+
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr
             class="group relative hover:bg-on-surface-variant/4"
@@ -40,15 +78,6 @@
           </tr>
         </table>
       </div>
-    </div>
-  } @else {
-    <div class="flex min-h-64 flex-col items-center justify-center gap-4 text-center" role="alert">
-      <mat-icon class="text-neutral-500" svgIcon="triangle-alert" />
-      <div>
-        <div class="font-medium">Impossible de charger les rôles</div>
-        <div class="mt-1 text-sm text-neutral-500">Veuillez réessayer dans quelques instants.</div>
-      </div>
-      <button matButton="outlined" type="button" (click)="rolesResource.reload()">Réessayer</button>
     </div>
   }
 </section>
