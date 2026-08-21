@@ -47,9 +47,19 @@ const routes: Routes = [
         loadComponent: () => import('./modules/roles/features/list-roles/roles')
       },
       {
+        path: 'organizations',
+        title: 'Organisations',
+        loadComponent: () => import('./modules/organizations/features/list-organizations/organizations')
+      },
+      {
         path: 'outreachers',
         title: 'Ambassadeurs',
         loadComponent: () => import('./modules/outreachers/features/outreachers')
+      },
+      {
+        path: 'profile',
+        title: 'Mon profil',
+        loadComponent: () => import('./modules/profile/features/profile/profile')
       }
     ]
   }
