@@ -7,13 +7,10 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthStore } from './auth.store';
 import { IUser } from '@/app/core/interfaces';
-
-interface ISignInStore {
-  isLoading: boolean;
-}
+import { IAuthRequestState } from '../interfaces/auth-state.interface';
 
 export const SignInStore = signalStore(
-  withState<ISignInStore>({ isLoading: false }),
+  withState<IAuthRequestState>({ isLoading: false, error: '' }),
   withProps(() => ({
     _http: inject(HttpClient),
     _router: inject(Router),
@@ -23,7 +20,7 @@ export const SignInStore = signalStore(
   withMethods(({ _http, _authStore, _route, _router, ...store }) => ({
     signIn: rxMethod<ISignInPayload>(
       pipe(
-        tap(() => patchState(store, { isLoading: true })),
+        tap(() => patchState(store, { isLoading: true, error: '' })),
         switchMap((payload) => {
           return _http.post<{ data: IUser }>('/auth/sign-in', payload).pipe(
             tap(({ data }) => {
@@ -35,12 +32,15 @@ export const SignInStore = signalStore(
                 : _router.navigate(['/admin']));
             }),
             catchError(() => {
-              patchState(store, { isLoading: false });
+              patchState(store, { isLoading: false, error: 'Adresse e-mail ou mot de passe incorrect.' });
               return of(null);
             })
           );
         })
       )
-    )
+    ),
+    clearError(): void {
+      patchState(store, { error: '' });
+    }
   }))
 );

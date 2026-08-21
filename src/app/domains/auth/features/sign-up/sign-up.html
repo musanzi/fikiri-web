@@ -3,6 +3,14 @@
     Vous avez un compte?&nbsp;
     <a routerLink="/auth/sign-in" class="text-primary-500 underline font-medium">Connectez-vous! </a>
   </p>
+  @if (store.error()) {
+    <app-message
+      class="mb-5"
+      type="error"
+      title="Inscription impossible"
+      [message]="store.error()"
+      (dismissed)="store.clearError()" />
+  }
   <form class="flex flex-col gap-4" (submit)="onSignUp(); $event.preventDefault()">
     <mat-form-field appearance="outline" class="w-full">
       <mat-label>Adresse (Ville)</mat-label>
