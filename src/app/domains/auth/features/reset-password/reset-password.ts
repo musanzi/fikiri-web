@@ -4,13 +4,14 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { Message } from '@/app/shared/ui/app-message/app-message';
 import { ResetPasswordStore } from '../../data-access/reset-password.store';
 import { IResetPasswordPayload } from '../../interfaces/reset-password.interface';
 
 @Component({
   templateUrl: './reset-password.html',
   providers: [ResetPasswordStore],
-  imports: [FormField, RouterLink, MatButtonModule, MatIconModule, MatInputModule]
+  imports: [Message, FormField, RouterLink, MatButtonModule, MatIconModule, MatInputModule]
 })
 export class AuthResetPassword {
   protected store = inject(ResetPasswordStore);
