@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>{{ data.organization ? "Modifier l'organisation" : 'Créer une organisation' }}</h2>
+
+<form (submit)="onSubmit(); $event.preventDefault()">
+  <mat-dialog-content>
+    <mat-form-field appearance="outline" class="w-full" subscriptSizing="dynamic">
+      <mat-label>Nom</mat-label>
+      <input matInput [formField]="organizationForm.name" autocomplete="organization" />
+      @if (organizationForm.name().touched() && organizationForm.name().errors().length) {
+        <mat-error>{{ organizationForm.name().errors()[0].message }}</mat-error>
+      }
+    </mat-form-field>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button matButton type="button" [mat-dialog-close]="undefined">Annuler</button>
+    <button matButton="filled" type="submit" [disabled]="organizationForm().invalid()">
+      {{ data.organization ? 'Enregistrer' : 'Créer' }}
+    </button>
+  </mat-dialog-actions>
+</form>
