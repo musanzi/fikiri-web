@@ -6,14 +6,12 @@ import { IForgotPasswordPayload } from '../interfaces/forgot-password.interface'
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { IUser } from '@/app/core/interfaces';
-
-interface IForgotPasswordStore {
-  isLoading: boolean;
-}
+import { IAuthRequestState } from '../interfaces/auth-state.interface';
 
 export const ForgotPasswordStore = signalStore(
-  withState<IForgotPasswordStore>({
-    isLoading: false
+  withState<IAuthRequestState>({
+    isLoading: false,
+    error: ''
   }),
   withProps(() => ({
     _http: inject(HttpClient),
@@ -22,7 +20,7 @@ export const ForgotPasswordStore = signalStore(
   withMethods(({ _http, _router, ...store }) => ({
     forgotPassword: rxMethod<IForgotPasswordPayload>(
       pipe(
-        tap(() => patchState(store, { isLoading: true })),
+        tap(() => patchState(store, { isLoading: true, error: '' })),
         switchMap((payload) => {
           return _http.post<{ data: IUser }>('/auth/forgot-password', payload).pipe(
             tap(() => {
@@ -30,12 +28,18 @@ export const ForgotPasswordStore = signalStore(
               void _router.navigate(['/sign-in']);
             }),
             catchError(() => {
-              patchState(store, { isLoading: false });
+              patchState(store, {
+                isLoading: false,
+                error: "Impossible d'envoyer le lien de réinitialisation. Veuillez réessayer."
+              });
               return of(null);
             })
           );
         })
       )
-    )
+    ),
+    clearError(): void {
+      patchState(store, { error: '' });
+    }
   }))
 );
