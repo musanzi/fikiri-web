@@ -16,7 +16,7 @@ export interface NavigationItem {
 export const NAVIGATION: NavigationItem[] = [
   {
     id: 'overview',
-    label: 'Vue d’ensemble',
+    label: "Vue d'ensemble",
     description: 'Suivez les indicateurs clés',
     children: [
       {
@@ -46,6 +46,13 @@ export const NAVIGATION: NavigationItem[] = [
         icon: 'lightbulb',
         route: 'solutions',
         activeOptions: { exact: false }
+      },
+      {
+        id: 'outreachers',
+        label: 'Ambassadeurs',
+        icon: 'user-round-search',
+        route: 'outreachers',
+        activeOptions: { exact: false }
       }
     ]
   },
@@ -62,17 +69,17 @@ export const NAVIGATION: NavigationItem[] = [
         activeOptions: { exact: false }
       },
       {
-        id: 'outreachers',
-        label: 'Ambassadeurs',
-        icon: 'user-round-search',
-        route: 'outreachers',
-        activeOptions: { exact: false }
-      },
-      {
         id: 'roles',
         label: 'Rôles',
         icon: 'shield-check',
         route: 'roles',
+        activeOptions: { exact: false }
+      },
+      {
+        id: 'organizations',
+        label: 'Organisations',
+        icon: 'building-2',
+        route: 'organizations',
         activeOptions: { exact: false }
       }
     ]
