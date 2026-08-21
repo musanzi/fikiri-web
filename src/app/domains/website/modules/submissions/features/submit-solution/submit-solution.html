@@ -3,7 +3,7 @@
     <div
       class="mx-auto w-full max-w-screen-2xl animate-pulse px-6 pb-14 pt-36 sm:px-8 sm:pb-16 lg:px-16 lg:pb-20 xl:px-24 2xl:px-32">
       <div class="h-5 w-36 rounded bg-white/15"></div>
-      <div class="mt-8 h-12 max-w-3xl rounded-lg bg-white/15 sm:h-16"></div>
+      <div class="mt-8 h-12 max-w-3xl rounded-md bg-white/15 sm:h-16"></div>
       <div class="mt-9 flex gap-8 border-t border-white/15 pt-6">
         <div class="h-4 w-40 rounded bg-white/15"></div>
         <div class="h-4 w-40 rounded bg-white/10"></div>
@@ -64,11 +64,11 @@
 <div class="min-h-screen bg-gray-50 pt-10 pb-20">
   <div class="mx-auto max-w-5xl px-6 sm:px-8 lg:px-16 xl:px-24 2xl:px-32">
     @if (currentCallsResource.isLoading()) {
-      <div class="mt-10 flex min-h-56 items-center justify-center rounded-xl border border-gray-200 bg-white">
+      <div class="mt-10 flex min-h-56 items-center justify-center rounded-md border border-gray-200 bg-white">
         <p class="text-sm text-gray-500">Chargement des appels en cours…</p>
       </div>
     } @else if (currentCallsResource.error()) {
-      <div class="mt-10 rounded-xl border border-gray-200 bg-white px-6 py-14 text-center" role="alert">
+      <div class="mt-10 rounded-md border border-gray-200 bg-white px-6 py-14 text-center" role="alert">
         <h2 class="text-xl font-bold text-gray-950">Impossible de charger les appels</h2>
         <p class="mt-2 text-gray-600">Veuillez réessayer dans quelques instants.</p>
         <button matButton="outlined" class="mt-5" type="button" (click)="currentCallsResource.reload()">
@@ -76,7 +76,7 @@
         </button>
       </div>
     } @else if (!currentCallsResource.hasValue()) {
-      <div class="mt-10 rounded-xl border border-gray-200 bg-white px-6 py-14 text-center">
+      <div class="mt-10 rounded-md border border-gray-200 bg-white px-6 py-14 text-center">
         <div class="mx-auto flex size-12 items-center justify-center rounded-full bg-primary-50 text-primary-700">
           <mat-icon svgIcon="calendar-x" />
         </div>
@@ -88,7 +88,7 @@
       </div>
     } @else {
       <div class="mt-10 flex flex-col gap-6 md:max-w-7xl">
-        <div class="rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
+        <div class="rounded-md border border-gray-200 bg-white p-5 sm:p-7">
           <h2 id="call-selection-title" class="text-lg font-bold text-gray-950 mb-4">1. Choisissez un appel</h2>
           <mat-form-field appearance="outline" class="mt-5 w-full">
             <mat-label>Appel en cours</mat-label>
@@ -102,11 +102,11 @@
 
         @if (selectedCallId()) {
           @if (callResource.isLoading()) {
-            <div class="flex min-h-48 items-center justify-center rounded-xl border border-gray-200 bg-white">
+            <div class="flex min-h-48 items-center justify-center rounded-md border border-gray-200 bg-white">
               <p class="text-sm text-gray-500">Chargement du formulaire…</p>
             </div>
           } @else if (!callResource.hasValue()) {
-            <div class="rounded-xl border border-red-200 bg-red-50 px-6 py-10 text-center" role="alert">
+            <div class="rounded-md border border-red-200 bg-red-50 px-6 py-10 text-center" role="alert">
               <h2 class="font-bold text-red-900">Impossible de charger cet appel</h2>
               <p class="mt-2 text-sm text-red-700">Sélectionnez un autre appel ou réessayez.</p>
               <button matButton="outlined" class="mt-5" type="button" (click)="callResource.reload()">Réessayer</button>
@@ -116,7 +116,7 @@
 
             <mat-tab-group animationDuration="200ms" dynamicHeight>
               <mat-tab label="Formulaire de soumission">
-                <div class="mt-6 flex min-w-0 flex-col gap-6 rounded-xl border border-gray-200 bg-white p-5 sm:p-7">
+                <div class="mt-6 flex min-w-0 flex-col gap-6 rounded-md border border-gray-200 bg-white p-5 sm:p-7">
                   <section aria-labelledby="solution-details-title">
                     <h2 id="solution-details-title" class="text-lg font-bold text-gray-950">
                       2. Présentez votre solution.
