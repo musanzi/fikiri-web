@@ -1,0 +1,111 @@
+<h2 mat-dialog-title>{{ data.user ? "Modifier l'utilisateur" : 'Créer un utilisateur' }}</h2>
+
+<form (submit)="onSubmit(); $event.preventDefault()">
+  <mat-dialog-content class="flex flex-col gap-5">
+    <div class="grid gap-4 sm:grid-cols-2">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Nom</mat-label>
+        <input matInput [formField]="userForm.name" autocomplete="name" />
+        @if (userForm.name().touched() && userForm.name().errors().length) {
+          <mat-error>{{ userForm.name().errors()[0].message }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Adresse e-mail</mat-label>
+        <input matInput type="email" [formField]="userForm.email" autocomplete="email" />
+        @if (userForm.email().touched() && userForm.email().errors().length) {
+          <mat-error>{{ userForm.email().errors()[0].message }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Téléphone</mat-label>
+        <input matInput type="tel" [formField]="userForm.phone_number" autocomplete="tel" />
+        @if (userForm.phone_number().touched() && userForm.phone_number().errors().length) {
+          <mat-error>{{ userForm.phone_number().errors()[0].message }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Organisation</mat-label>
+        <mat-select [value]="userModel().organisation" (selectionChange)="setOrganization($event.value)">
+          <mat-option value="">Aucune organisation</mat-option>
+          @for (organization of data.organizations; track organization.id) {
+            <mat-option [value]="organization.id">{{ organization.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>Adresse</mat-label>
+      <input matInput [formField]="userForm.address" autocomplete="street-address" />
+      @if (userForm.address().touched() && userForm.address().errors().length) {
+        <mat-error>{{ userForm.address().errors()[0].message }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>Biographie</mat-label>
+      <textarea matInput rows="3" [formField]="userForm.bio"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-label>Rôles</mat-label>
+      <mat-select multiple [value]="userModel().roles" (selectionChange)="setRoles($event.value)">
+        @for (role of data.roles; track role.id) {
+          <mat-option [value]="role.id">{{ role.name }}</mat-option>
+        }
+      </mat-select>
+      @if (userForm.roles().touched() && userForm.roles().errors().length) {
+        <mat-error>{{ userForm.roles().errors()[0].message }}</mat-error>
+      }
+    </mat-form-field>
+
+    <section aria-labelledby="socials-title">
+      <div class="mb-3 flex items-center justify-between gap-4">
+        <h3 class="font-medium" id="socials-title">Réseaux sociaux</h3>
+        <button matButton="outlined" type="button" (click)="addSocial()">
+          <mat-icon svgIcon="plus" />
+          Ajouter
+        </button>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        @for (social of userForm.socials; track $index) {
+          <div class="grid items-start gap-2 sm:grid-cols-[1fr_2fr_auto]">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>Réseau</mat-label>
+              <input matInput [formField]="social.name" />
+              @if (social.name().touched() && social.name().errors().length) {
+                <mat-error>{{ social.name().errors()[0].message }}</mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>Lien</mat-label>
+              <input matInput type="url" [formField]="social.link" />
+              @if (social.link().touched() && social.link().errors().length) {
+                <mat-error>{{ social.link().errors()[0].message }}</mat-error>
+              }
+            </mat-form-field>
+
+            <button matIconButton type="button" aria-label="Supprimer ce réseau" (click)="removeSocial($index)">
+              <mat-icon svgIcon="trash-2" />
+            </button>
+          </div>
+        } @empty {
+          <p class="text-sm text-neutral-500">Aucun réseau social.</p>
+        }
+      </div>
+    </section>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button matButton type="button" [mat-dialog-close]="undefined">Annuler</button>
+    <button matButton="filled" type="submit" [disabled]="userForm().invalid()">
+      {{ data.user ? 'Enregistrer' : 'Créer' }}
+    </button>
+  </mat-dialog-actions>
+</form>

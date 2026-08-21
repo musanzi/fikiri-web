@@ -1,36 +1,95 @@
 import { DatePipe } from '@angular/common';
-import { HttpParams, httpResource } from '@angular/common/http';
-import { Component, computed, debounced, signal } from '@angular/core';
+import { Component, computed, debounced, DestroyRef, effect, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
-import { IQueryParams, UserRow } from '../../interfaces/users.interface';
-import { FormsModule } from '@angular/forms';
+import { filter } from 'rxjs';
+import { UsersStore } from '../../data-access/users.store';
+import {
+  IQueryParams,
+  IRemoveUserDialogData,
+  IUserDialogData,
+  IUserDialogResult,
+  IUserRow
+} from '../../interfaces/users.interface';
+import { RemoveUserDialog } from '../../ui/remove-user-dialog/remove-user-dialog';
+import { UserFormDialog } from '../../ui/user-form-dialog/user-form-dialog';
 
 @Component({
-  imports: [DatePipe, MatButtonModule, FormsModule, MatIconModule, MatPaginatorModule, MatTableModule],
-  templateUrl: './users.html'
+  imports: [DatePipe, FormsModule, MatButtonModule, MatDialogModule, MatIconModule, MatPaginatorModule, MatTableModule],
+  templateUrl: './users.html',
+  providers: [UsersStore]
 })
-export default class Users {
-  page = signal<number>(1);
-  q = signal<string>('');
+export default class Users implements OnInit {
+  protected readonly store = inject(UsersStore);
+  private readonly dialog = inject(MatDialog);
+  private readonly destroyRef = inject(DestroyRef);
 
-  debouncedQuery = debounced(this.q, 300);
+  protected readonly page = signal<number>(1);
+  protected readonly q = signal<string>('');
+  protected readonly debouncedQuery = debounced(this.q, 300);
+  protected readonly displayedColumns = ['name', 'email', 'phoneNumber', 'roles', 'createdAt', 'actions'];
 
-  displayedColumns = ['name', 'email', 'phoneNumber', 'roles', 'createdAt'];
-
-  private queryParams = computed<IQueryParams>(() => ({
+  private readonly queryParams = computed<IQueryParams>(() => ({
     page: this.page(),
     q: this.debouncedQuery.value()
   }));
 
-  usersResource = httpResource<{ data: [UserRow[], number] }>(() => ({
-    url: '/users',
-    params: this.queryParams() as unknown as HttpParams
-  }));
+  private readonly loadUsersEffect = effect(() => this.store.loadUsers(this.queryParams()));
 
-  onPageChange(event: PageEvent): void {
+  ngOnInit(): void {
+    this.store.loadLookups();
+  }
+
+  protected onPageChange(event: PageEvent): void {
     this.page.set(event.pageIndex + 1);
+  }
+
+  protected openCreateDialog(): void {
+    this.dialog
+      .open<UserFormDialog, IUserDialogData, IUserDialogResult>(UserFormDialog, {
+        data: { organizations: this.store.organizations(), roles: this.store.roles() },
+        maxWidth: '95vw',
+        width: '48rem'
+      })
+      .afterClosed()
+      .pipe(
+        filter((result): result is IUserDialogResult => result !== undefined),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(({ payload }) => this.store.createUser(payload));
+  }
+
+  protected openUpdateDialog(user: IUserRow): void {
+    this.dialog
+      .open<UserFormDialog, IUserDialogData, IUserDialogResult>(UserFormDialog, {
+        data: { organizations: this.store.organizations(), roles: this.store.roles(), user },
+        maxWidth: '95vw',
+        width: '48rem'
+      })
+      .afterClosed()
+      .pipe(
+        filter((result): result is IUserDialogResult => result !== undefined),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(({ payload }) => this.store.updateUser({ id: user.id, payload }));
+  }
+
+  protected openRemoveDialog(user: IUserRow): void {
+    this.dialog
+      .open<RemoveUserDialog, IRemoveUserDialogData, boolean>(RemoveUserDialog, {
+        data: { user },
+        width: '28rem'
+      })
+      .afterClosed()
+      .pipe(
+        filter((confirmed) => confirmed === true),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => this.store.removeUser({ id: user.id }));
   }
 }

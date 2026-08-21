@@ -21,3 +21,5 @@ export interface IUser extends IBaseEntity {
   roles?: string[];
   organization?: IOrganization | null;
 }
+
+export type IUpdateProfilePayload = Partial<IUser>;

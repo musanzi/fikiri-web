@@ -2,13 +2,14 @@ import { Component, computed, inject } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { MatDivider } from '@angular/material/list';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
+import { RouterLink } from '@angular/router';
 import { Scheme, Theming } from '@/app/core/theming';
 import { AuthStore } from '@/app/domains/auth/data-access/auth.store';
 import { environment } from '@/environments/environment';
 
 @Component({
   selector: 'user',
-  imports: [MatDivider, MatIcon, MatMenu, MatMenuItem, MatMenuTrigger],
+  imports: [MatDivider, MatIcon, MatMenu, MatMenuItem, MatMenuTrigger, RouterLink],
   template: `
     <button
       class="flex w-full cursor-pointer items-center gap-x-3 rounded-xl p-2 text-left hover:bg-neutral-700/10 dark:hover:bg-neutral-300/10"
@@ -35,12 +36,11 @@ import { environment } from '@/environments/environment';
           <div class="text-on-surface-variant truncate text-xs">{{ user()?.email }}</div>
         </div>
       </button>
-      <!-- <mat-divider />
-      <button mat-menu-item>
+      <mat-divider />
+      <a mat-menu-item routerLink="/admin/profile">
         <mat-icon svgIcon="user-round" />
-        Account
-      </button>
-      <mat-divider /> -->
+        Mon profil
+      </a>
       <mat-divider />
       <button mat-menu-item (click)="authStore.signOut()">
         <mat-icon svgIcon="log-out" />
