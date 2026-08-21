@@ -2,7 +2,7 @@
   <div class="max-w-7xl">
     <div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
       <div>
-        <h1 class="text-2xl font-semibold tracking-tight">Ajouter un appel</h1>
+        <h1 class="text-2xl font-semibold tracking-tight">Ajouter un appel.</h1>
         <p class="mt-1 text-sm text-neutral-500">Créez un nouvel appel à solutions.</p>
       </div>
       <a matButton="outlined" routerLink="/admin/calls">
@@ -15,7 +15,7 @@
       class="grid gap-6 lg:grid-cols-[minmax(20rem,32rem)_minmax(0,1fr)] lg:items-start"
       (submit)="onSubmit(); $event.preventDefault()">
       <div class="flex flex-col gap-6">
-        <mat-card appearance="outlined" class="grid gap-4 p-5 sm:grid-cols-2">
+        <mat-card appearance="outlined" class="grid gap-4 p-5 sm:grid-cols-2 rounded-md">
           <mat-form-field appearance="outline" class="sm:col-span-2">
             <mat-label>Nom</mat-label>
             <input matInput type="text" autocomplete="off" [formField]="callForm.name" />
@@ -53,7 +53,7 @@
           </mat-form-field>
         </mat-card>
 
-        <mat-card appearance="outlined" class="p-5 lg:col-start-1 lg:row-start-2">
+        <mat-card appearance="outlined" class="p-5 lg:col-start-1 lg:row-start-2 rounded-md">
           <div class="flex flex-col gap-4">
             <div>
               <h2 class="font-semibold">Couverture</h2>
@@ -85,7 +85,7 @@
           </div>
 
           @if (cover(); as selectedCover) {
-            <div class="mt-4 flex items-center gap-3 rounded-lg bg-neutral-50 px-4 py-3">
+            <div class="mt-4 flex items-center gap-3 rounded-md bg-neutral-50 px-4 py-3">
               <mat-icon class="text-primary" svgIcon="image" />
               <div class="min-w-0">
                 <p class="truncate text-sm font-medium">{{ selectedCover.name }}</p>
@@ -95,7 +95,9 @@
         </mat-card>
       </div>
 
-      <mat-card appearance="outlined" class="min-w-0 overflow-hidden lg:col-start-2 lg:row-span-2 lg:row-start-1">
+      <mat-card
+        appearance="outlined"
+        class="min-w-0 overflow-hidden lg:col-start-2 lg:row-span-2 lg:row-start-1 rounded-md">
         <div class="mb-4">
           <div class="px-5 pt-5">
             <h2 class="font-semibold">Conception des formulaires</h2>
@@ -130,7 +132,7 @@
       </mat-card>
 
       @if (store.error()) {
-        <p class="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700 lg:col-span-2" role="alert">
+        <p class="rounded-md bg-red-50 px-4 py-3 text-sm text-red-700 lg:col-span-2" role="alert">
           {{ store.error() }}
         </p>
       }
