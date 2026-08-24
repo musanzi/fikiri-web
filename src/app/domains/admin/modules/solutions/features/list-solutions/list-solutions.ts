@@ -9,7 +9,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { ICallSolution, ISolution, SolutionStatus } from '@/app/core/interfaces';
-import { QueryParams } from '../../interfaces/solutions.interface';
+import { QueryParams } from '../../interfaces';
 
 @Component({
   imports: [
@@ -22,9 +22,9 @@ import { QueryParams } from '../../interfaces/solutions.interface';
     MatSelectModule,
     MatTableModule
   ],
-  templateUrl: './solutions.html'
+  templateUrl: './list-solutions.html'
 })
-export default class Solutions {
+export default class ListSolutions {
   readonly page = signal<number>(1);
   readonly q = signal<string>('');
   readonly call = signal<string>('');
