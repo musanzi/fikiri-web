@@ -1,4 +1,3 @@
-import { Theming, Scheme } from '@/app/core/theming';
 import { AuthStore } from '@/app/domains/auth/data-access';
 import { environment } from '@/environments/environment';
 import { Component, computed, inject } from '@angular/core';
@@ -21,12 +20,6 @@ export class User {
       ? `${environment.apiUrl}/uploads/profiles/${this.user()?.profile}`
       : '/images/avatar.webp';
   });
-
-  private theming = inject(Theming);
-
-  updateScheme(scheme: Scheme) {
-    this.theming.scheme.set(scheme);
-  }
 
   signOut(): void {
     this.authStore.signOut();

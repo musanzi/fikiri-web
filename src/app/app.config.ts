@@ -1,13 +1,11 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
-import { ApplicationConfig, inject, isDevMode, PLATFORM_ID, provideAppInitializer } from '@angular/core';
+import { ApplicationConfig, inject, PLATFORM_ID, provideAppInitializer } from '@angular/core';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { provideRouter, TitleStrategy, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
-import { provideTransloco } from '@jsverse/transloco';
 import { provideIcons } from '@/app/core/icons/provider';
 import { provideTheming } from '@/app/core/theming';
-import { TranslocoHttpLoader } from '@/app/core/transloco/transloco-http-loader';
 import { routes } from './app.routes';
 import { httpInterceptor } from './core/interceptors';
 import { PageTitleStrategy } from './core/strategies';
@@ -42,21 +40,8 @@ export const appConfig: ApplicationConfig = {
     provideNativeDateAdapter(),
     provideIcons(),
     provideTheming({
-      scheme: 'light',
       primary: '#006da4',
       error: '#dc2626'
-    }),
-    provideTransloco({
-      config: {
-        availableLangs: [
-          { id: 'en', label: 'English' },
-          { id: 'fr', label: 'Français' }
-        ],
-        defaultLang: 'en',
-        reRenderOnLangChange: true,
-        prodMode: !isDevMode()
-      },
-      loader: TranslocoHttpLoader
     })
   ]
 };

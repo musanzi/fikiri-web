@@ -29,8 +29,8 @@
           <a
             cdkMonitorElementFocus
             ngTreeItem
-            routerLinkActive="bg-neutral-700/10 dark:bg-neutral-300/10"
-            class="navigation-item flex cursor-pointer items-center gap-x-2 rounded-lg px-2.5 py-2 select-none hover:bg-neutral-700/10 dark:hover:bg-neutral-300/10"
+            routerLinkActive="bg-primary-300/10"
+            class="navigation-item flex cursor-pointer items-center gap-x-2 rounded-lg px-2.5 py-2 select-none hover:bg-primary-300/10"
             [parent]="parent"
             [value]="node.id"
             [label]="node.label"
@@ -61,7 +61,7 @@
 
             <!-- Badge -->
             @if (node.badge) {
-              <div class="rounded bg-pink-400 px-1.5 py-0.5 text-xs font-semibold dark:bg-pink-700">
+              <div class="rounded bg-pink-400 px-1.5 py-0.5 text-xs font-semibold">
                 {{ node.badge }}
               </div>
             }

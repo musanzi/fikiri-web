@@ -12,7 +12,6 @@ This repository contains one application: `fikiri-web`. The API is maintained se
 - Angular SSR 22.1 with Express 5
 - Angular Material and Angular CDK
 - Tailwind CSS 4 through PostCSS
-- Transloco 8 (scaffolded, but the current page copy is written directly in French)
 - TypeScript 6 in strict mode
 - pnpm 11 and Node.js 24
 - ESLint 10, Prettier 3, Husky, and Commitlint
@@ -56,7 +55,7 @@ API base URLs are defined in Angular environment files:
 
 Angular replaces the production environment with the development environment for `ng serve` and development builds. There is no runtime `.env` file or environment-variable override for the API URL at present.
 
-The HTTP interceptor prefixes every Angular `HttpClient` request with the configured API URL and sets `withCredentials: true`. This includes requests for translation JSON, so a compatible API/proxy and credential-aware CORS configuration are required when those resources are used.
+The HTTP interceptor prefixes every Angular `HttpClient` request with the configured API URL and sets `withCredentials: true`.
 
 ## Available commands
 
@@ -79,11 +78,7 @@ The production server serves static browser assets with a one-year cache and han
 
 Global styles enter through `src/styles/styles.css`, which loads Tailwind, the Angular CDK overlay styles, the Material Azure Blue base theme, project typography, and component overrides.
 
-The application uses bundled Geist fonts. Lucide SVG icons are registered centrally through `provideIcons()`. The theme service generates primary and error tonal palettes as CSS variables; the configured default is a light scheme with an orange primary color.
-
-## Localization status
-
-The document language and current UI copy are French. Transloco is configured with English and French language IDs, while the checked-in translation assets are currently English and Spanish starter files (`public/i18n/en.json` and `public/i18n/es.json`). Templates do not currently consume those translation keys. Align the configured languages and assets before enabling a language switcher.
+The application uses bundled Geist fonts. Lucide SVG icons are registered centrally through `provideIcons()`. The theme service generates primary and error tonal palettes as CSS variables for the light interface.
 
 ## Docker
 

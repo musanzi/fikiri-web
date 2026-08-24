@@ -114,69 +114,49 @@
   /* ------------------------------------------------------------------------ */
 
   /* Background */
-  --mat-sys-background: light-dark(var(--color-neutral-100), var(--color-neutral-900));
-  --mat-sys-on-background: light-dark(var(--color-neutral-950), var(--color-white));
+  --mat-sys-background: var(--color-neutral-100);
+  --mat-sys-on-background: var(--color-neutral-950);
 
   /* Surface */
-  --mat-sys-surface: light-dark(var(--color-neutral-100), var(--color-neutral-900));
-  --mat-sys-surface-dim: light-dark(var(--color-neutral-100), var(--color-neutral-950));
-  --mat-sys-surface-bright: light-dark(var(--color-white), var(--color-neutral-900));
-  --mat-sys-surface-tint: light-dark(var(--color-primary-50), var(--color-primary-950));
-  --mat-sys-surface-variant: light-dark(var(--color-neutral-50), var(--color-neutral-800));
-  --mat-sys-surface-container-lowest: light-dark(var(--color-white), var(--color-neutral-950));
-  --mat-sys-surface-container-low: light-dark(var(--color-neutral-50), var(--color-neutral-900));
-  --mat-sys-surface-container: light-dark(var(--color-neutral-100), var(--color-neutral-800));
-  --mat-sys-surface-container-high: light-dark(var(--color-neutral-200), var(--color-neutral-700));
-  --mat-sys-surface-container-highest: light-dark(var(--color-neutral-300), var(--color-neutral-600));
-  --mat-sys-on-surface: light-dark(var(--color-neutral-950), var(--color-white));
+  --mat-sys-surface: var(--color-neutral-100);
+  --mat-sys-surface-dim: var(--color-neutral-100);
+  --mat-sys-surface-bright: var(--color-white);
+  --mat-sys-surface-tint: var(--color-primary-50);
+  --mat-sys-surface-variant: var(--color-neutral-50);
+  --mat-sys-surface-container-lowest: var(--color-white);
+  --mat-sys-surface-container-low: var(--color-neutral-50);
+  --mat-sys-surface-container: var(--color-neutral-100);
+  --mat-sys-surface-container-high: var(--color-neutral-200);
+  --mat-sys-surface-container-highest: var(--color-neutral-300);
+  --mat-sys-on-surface: var(--color-neutral-950);
   --mat-sys-on-surface-variant: var(--color-neutral-500);
 
   /* Primary */
   --mat-sys-primary: var(--color-primary-600);
-  --mat-sys-primary-container: light-dark(var(--color-primary-50), var(--color-primary-950));
+  --mat-sys-primary-container: var(--color-primary-50);
   --mat-sys-primary-fixed: var(--color-primary-600);
   --mat-sys-primary-fixed-dim: var(--color-primary-500);
   --mat-sys-on-primary: var(--color-primary-50);
-  --mat-sys-on-primary-container: light-dark(var(--color-primary-950), var(--color-primary-50));
+  --mat-sys-on-primary-container: var(--color-primary-950);
   --mat-sys-on-primary-fixed: var(--color-primary-50);
   --mat-sys-on-primary-fixed-variant: var(--color-primary-50);
 
-  /* Secondary */
-  /*--mat-sys-secondary: light-dark(${hexFromArgb(theme.light.secondary)}, ${hexFromArgb(theme.dark.secondary)});*/
-  /*--mat-sys-secondary-container: light-dark(${hexFromArgb(theme.light.secondaryContainer)}, ${hexFromArgb(theme.dark.secondaryContainer)});*/
-  /*--mat-sys-secondary-fixed: light-dark(${hexFromArgb(theme.light.secondaryFixed)}, ${hexFromArgb(theme.dark.secondaryFixed)});*/
-  /*--mat-sys-secondary-fixed-dim: light-dark(${hexFromArgb(theme.light.secondaryFixedDim)}, ${hexFromArgb(theme.dark.secondaryFixedDim)});*/
-  /*--mat-sys-on-secondary: light-dark(${hexFromArgb(theme.light.onSecondary)}, ${hexFromArgb(theme.dark.onSecondary)});*/
-  /*--mat-sys-on-secondary-container: light-dark(${hexFromArgb(theme.light.onSecondaryContainer)}, ${hexFromArgb(theme.dark.onSecondaryContainer)});*/
-  /*--mat-sys-on-secondary-fixed: light-dark(${hexFromArgb(theme.light.onSecondaryFixed)}, ${hexFromArgb(theme.dark.onSecondaryFixed)});*/
-  /*--mat-sys-on-secondary-fixed-variant: light-dark(${hexFromArgb(theme.light.onSecondaryFixedVariant)}, ${hexFromArgb(theme.dark.onSecondaryFixedVariant)});*/
-
-  /* Tertiary */
-  /*--mat-sys-tertiary: light-dark(${hexFromArgb(theme.light.tertiary)}, ${hexFromArgb(theme.dark.tertiary)});*/
-  /*--mat-sys-tertiary-container: light-dark(${hexFromArgb(theme.light.tertiaryContainer)}, ${hexFromArgb(theme.dark.tertiaryContainer)});*/
-  /*--mat-sys-tertiary-fixed: light-dark(${hexFromArgb(theme.light.tertiaryFixed)}, ${hexFromArgb(theme.dark.tertiaryFixed)});*/
-  /*--mat-sys-tertiary-fixed-dim: light-dark(${hexFromArgb(theme.light.tertiaryFixedDim)}, ${hexFromArgb(theme.dark.tertiaryFixedDim)});*/
-  /*--mat-sys-on-tertiary: light-dark(${hexFromArgb(theme.light.onTertiary)}, ${hexFromArgb(theme.dark.onTertiary)});*/
-  /*--mat-sys-on-tertiary-container: light-dark(${hexFromArgb(theme.light.onTertiaryContainer)}, ${hexFromArgb(theme.dark.onTertiaryContainer)});*/
-  /*--mat-sys-on-tertiary-fixed: light-dark(${hexFromArgb(theme.light.onTertiaryFixed)}, ${hexFromArgb(theme.dark.onTertiaryFixed)});*/
-  /*--mat-sys-on-tertiary-fixed-variant: light-dark(${hexFromArgb(theme.light.onTertiaryFixedVariant)}, ${hexFromArgb(theme.dark.onTertiaryFixedVariant)});*/
-
   /* Error */
   --mat-sys-error: var(--color-error-600);
-  --mat-sys-error-container: light-dark(var(--color-error-50), var(--color-error-950));
+  --mat-sys-error-container: var(--color-error-50);
   --mat-sys-on-error: var(--color-error-50);
-  --mat-sys-on-error-container: light-dark(var(--color-error-950), var(--color-error-50));
+  --mat-sys-on-error-container: var(--color-error-950);
 
   /* Others */
-  --mat-sys-outline: light-dark(var(--color-neutral-300), var(--color-neutral-700));
-  --mat-sys-outline-variant: light-dark(var(--color-neutral-300), var(--color-neutral-700));
-  --mat-sys-scrim: light-dark(var(--color-neutral-950), var(--color-black));
+  --mat-sys-outline: var(--color-neutral-300);
+  --mat-sys-outline-variant: var(--color-neutral-300);
+  --mat-sys-scrim: var(--color-neutral-950);
   --mat-sys-shadow: var(--color-black);
 
   /* Inverse */
   --mat-sys-inverse-primary: var(--color-primary-600);
-  --mat-sys-inverse-surface: light-dark(var(--color-neutral-900), var(--color-neutral-100));
-  --mat-sys-inverse-on-surface: light-dark(var(--color-white), var(--color-neutral-950));
+  --mat-sys-inverse-surface: var(--color-neutral-900);
+  --mat-sys-inverse-on-surface: var(--color-white);
 
   /* Angular Material fixed color extensions */
   --mat-sys-neutral-variant20: var(--color-neutral-900);
@@ -263,12 +243,9 @@
   --mat-button-outlined-container-height: 2.25rem;
   --mat-button-outlined-horizontal-padding: 0.75rem;
   --mat-button-outlined-icon-offset: 0rem;
-  --mat-button-outlined-label-text-color: light-dark(var(--color-neutral-950), var(--color-white));
-  --mat-button-outlined-state-layer-color: light-dark(var(--color-neutral-950), var(--color-white));
-  --mat-button-outlined-ripple-color: light-dark(
-    color-mix(in oklch, var(--color-neutral-950) 10%, transparent),
-    color-mix(in oklch, var(--color-white) 10%, transparent)
-  );
+  --mat-button-outlined-label-text-color: var(--color-neutral-950);
+  --mat-button-outlined-state-layer-color: var(--color-neutral-950);
+  --mat-button-outlined-ripple-color: color-mix(in oklch, var(--color-neutral-950) 10%, transparent);
 
   --mat-button-tonal-container-shape: 0.5rem;
   --mat-button-tonal-container-height: 2.25rem;
@@ -331,13 +308,13 @@
   /* Card                                                                     */
   /* ------------------------------------------------------------------------ */
   --mat-card-elevated-container-shape: 0.75rem;
-  --mat-card-elevated-container-color: light-dark(var(--color-white), var(--color-neutral-800));
+  --mat-card-elevated-container-color: var(--color-white);
 
   --mat-card-filled-container-shape: 0.75rem;
-  --mat-card-filled-container-color: light-dark(var(--color-neutral-100), var(--color-neutral-800));
+  --mat-card-filled-container-color: var(--color-neutral-100);
 
   --mat-card-outlined-container-shape: 0.75rem;
-  --mat-card-outlined-container-color: light-dark(var(--color-white), var(--color-neutral-800));
+  --mat-card-outlined-container-color: var(--color-white);
 
   mat-card {
     /* Raised */
@@ -358,10 +335,10 @@
       }
 
       .mat-mdc-card-content {
-        background: light-dark(var(--color-white), var(--color-neutral-900));
+        background: var(--color-white);
         border-radius: 0.5rem;
         padding: 1rem;
-        border: 1px solid light-dark(var(--color-neutral-200), var(--color-neutral-700));
+        border: 1px solid var(--color-neutral-200);
       }
     }
   }
@@ -403,7 +380,7 @@
   /* ------------------------------------------------------------------------ */
   /* Datepicker                                                               */
   /* ------------------------------------------------------------------------ */
-  --mat-datepicker-calendar-container-background-color: light-dark(var(--color-white), var(--color-neutral-800));
+  --mat-datepicker-calendar-container-background-color: var(--color-white);
 
   --mat-datepicker-calendar-container-elevation-shadow: var(--mat-sys-level2);
   --mat-datepicker-calendar-container-shape: 0.5rem; /* 8px */
@@ -752,16 +729,16 @@
     --form-field-icon-margin-x: -0.125rem; /* -2px */
 
     /* Color */
-    --form-field-text-color: light-dark(var(--color-neutral-950), var(--color-white));
+    --form-field-text-color: var(--color-neutral-950);
     --form-field-text-color-error: var(--color-error-500);
     --form-field-hint-color: var(--color-neutral-500);
     --form-field-placeholder-color: var(--color-neutral-500);
     --form-field-affix-color: var(--color-neutral-500);
 
-    --form-field-bg-color: light-dark(var(--color-white), var(--color-neutral-800));
+    --form-field-bg-color: var(--color-white);
 
-    --form-field-border-color: light-dark(var(--color-neutral-300), var(--color-neutral-700));
-    --form-field-border-color-error: light-dark(var(--color-error-600), var(--color-error-500));
+    --form-field-border-color: var(--color-neutral-300);
+    --form-field-border-color-error: var(--color-error-600);
 
     --form-field-shadow-color: color-mix(in oklch, var(--color-black), transparent 95%);
     --form-field-outline-color: transparent;
@@ -816,16 +793,16 @@
   --mat-list-list-item-one-line-container-height: 2.25rem;
   --mat-list-list-item-label-text-size: var(--text-base);
   --mat-list-list-item-label-text-tracking: var(--tracking-normal);
-  --mat-list-active-indicator-color: light-dark(var(--color-neutral-200), var(--color-neutral-800));
+  --mat-list-active-indicator-color: var(--color-neutral-200);
 
   /* ------------------------------------------------------------------------ */
   /* Menu                                                                     */
   /* ------------------------------------------------------------------------ */
   --mat-menu-container-shape: 0.5rem;
-  --mat-menu-container-color: light-dark(var(--color-white), var(--color-neutral-800));
+  --mat-menu-container-color: var(--color-white);
   --mat-menu-divider-bottom-spacing: 0.25rem;
   --mat-menu-divider-top-spacing: 0.25rem;
-  --mat-menu-divider-color: light-dark(var(--color-neutral-200), var(--color-neutral-700));
+  --mat-menu-divider-color: var(--color-neutral-200);
 
   --mat-menu-item-icon-color: currentColor;
   --mat-menu-item-icon-size: 1rem;
@@ -843,12 +820,12 @@
   /* ------------------------------------------------------------------------ */
   /* Paginator                                                                */
   /* ------------------------------------------------------------------------ */
-  --mat-paginator-container-background-color: light-dark(var(--color-white), var(--color-neutral-800));
+  --mat-paginator-container-background-color: var(--color-white);
 
   /* ------------------------------------------------------------------------ */
   /* Progress Bar                                                             */
   /* ------------------------------------------------------------------------ */
-  --mat-progress-bar-track-color: light-dark(var(--color-neutral-200), var(--color-neutral-800));
+  --mat-progress-bar-track-color: var(--color-neutral-200);
 
   .mdc-linear-progress {
     border-radius: 0.5rem;
@@ -874,7 +851,7 @@
   --mat-select-trigger-text-line-height: var(--leading-5); /* 20px */
   --mat-select-trigger-text-tracking: var(--tracking-normal);
 
-  --mat-select-panel-background-color: light-dark(var(--color-white), var(--color-neutral-800));
+  --mat-select-panel-background-color: var(--color-white);
 
   .mat-mdc-select-arrow-wrapper {
     height: 1.25rem; /* 20px */
@@ -893,11 +870,11 @@
   /* ------------------------------------------------------------------------ */
   /* Sidenav                                                                  */
   /* ------------------------------------------------------------------------ */
-  --mat-sidenav-container-background-color: light-dark(var(--color-neutral-100), var(--color-neutral-950));
-  --mat-sidenav-sidenav-background-color: light-dark(var(--color-neutral-100), var(--color-neutral-950));
-  --mat-sidenav-content-background-color: light-dark(var(--color-white), var(--color-neutral-900));
+  --mat-sidenav-container-background-color: var(--color-neutral-100);
+  --mat-sidenav-sidenav-background-color: var(--color-neutral-100);
+  --mat-sidenav-content-background-color: var(--color-white);
 
-  --mat-sidenav-container-text-color: light-dark(var(--color-neutral-950), var(--color-white));
+  --mat-sidenav-container-text-color: var(--color-neutral-950);
 
   --mat-sidenav-container-shape: 0;
   --mat-sidenav-container-divider-color: transparent;
@@ -945,10 +922,7 @@
   --mat-slide-toggle-selected-handle-horizontal-margin: 0 1.25rem;
 
   /* handle icon colors */
-  --mat-slide-toggle-unselected-icon-color: light-dark(
-    color-mix(in oklch, var(--color-black) 40%, transparent),
-    color-mix(in oklch, var(--color-white) 40%, transparent)
-  );
+  --mat-slide-toggle-unselected-icon-color: color-mix(in oklch, var(--color-black) 40%, transparent);
   --mat-slide-toggle-selected-icon-color: var(--color-neutral-950);
 
   /* ------------------------------------------------------------------------ */
@@ -971,7 +945,7 @@
   /* Table                                                                    */
   /* ------------------------------------------------------------------------ */
   --mat-table-background-color: transparent;
-  --mat-table-row-item-outline-color: light-dark(var(--color-neutral-200), var(--color-neutral-800));
+  --mat-table-row-item-outline-color: var(--color-neutral-200);
 
   /* Restore the bottom border on last row */
   .mdc-data-table__row:last-child > .mat-mdc-cell {
@@ -984,7 +958,7 @@
   /* Tabs                                                                     */
   /* ------------------------------------------------------------------------ */
   --mat-tab-container-height: 2.25rem;
-  --mat-tab-divider-color: light-dark(var(--color-neutral-200), var(--color-neutral-800));
+  --mat-tab-divider-color: var(--color-neutral-200);
 
   /* ------------------------------------------------------------------------ */
   /* Timepicker                                                               */

@@ -23,7 +23,7 @@ import { Sidebar } from '@/app/shared/ui/sidebar/sidebar';
     @defer (on immediate) {
       <mat-sidenav-container>
         <mat-sidenav
-          class="w-70  scheme-dark"
+          class="w-70"
           [mode]="isMobile() ? 'over' : 'side'"
           [opened]="!isMobile()"
           [disableClose]="!isMobile()"

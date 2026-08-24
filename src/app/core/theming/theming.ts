@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { computed, inject, Service, signal } from '@angular/core';
 import { TonalPalette } from '@/app/core/theming/palette';
-import { Scheme, Colors, Theme } from './models/theming';
+import { Colors, Theme } from './models/theming';
 import { THEME_CONFIG } from './provider';
 
 @Service()
@@ -15,22 +15,15 @@ export class Theming {
     primary: this.themeConfig.primary,
     error: this.themeConfig.error
   });
-  scheme = signal<Scheme>('light');
   theme = computed<Theme>(() => this.generateTheme(this.colors()));
-  isDark = computed(() => false);
-  isLight = computed(() => true);
 
   // DOM
-  private rootEl = this.document.documentElement;
   private themeStyleEl = this.document.createElement('style');
 
   constructor() {
     // Append the themeStyleEl to the DOM
     this.document.head.appendChild(this.themeStyleEl);
     this.themeStyleEl.classList.add('theme-colors');
-    this.rootEl.classList.remove('scheme-dark');
-    this.rootEl.classList.add('scheme-light');
-    this.rootEl.style.colorScheme = 'light';
 
     // Generate the theme for the first time
     this.generateTheme(this.themeConfig);
