@@ -8,13 +8,13 @@ import { MatTableModule } from '@angular/material/table';
 import { IRole } from '@/app/core/interfaces';
 import { filter } from 'rxjs';
 import { RolesStore } from '../../data-access/roles.store';
-import { IRemoveRoleDialogData, IRoleDialogData, IRoleDialogResult } from '../../interfaces/roles.interface';
+import { IRemoveRoleDialogData, IRoleDialogData, IRoleDialogResult } from '../../interfaces';
 import { RemoveRoleDialog } from '../../ui/remove-role-dialog/remove-role-dialog';
 import { RoleFormDialog } from '../../ui/role-form-dialog/role-form-dialog';
 
 @Component({
   imports: [DatePipe, MatButtonModule, MatDialogModule, MatIconModule, MatTableModule],
-  templateUrl: './roles.html',
+  templateUrl: './list-roles.html',
   providers: [RolesStore]
 })
 export default class Roles implements OnInit {
