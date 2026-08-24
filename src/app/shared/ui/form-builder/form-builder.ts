@@ -10,8 +10,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { IField, IForm, IOption } from '@/app/core/interfaces/form.interface';
-import { OPTION_TYPES, IQuestionType, IQuestionTypeOption } from '../../interfaces/form.interface';
+import { IField, IForm, IOption } from '@/app/core/interfaces';
+import { OPTION_TYPES, IQuestionType, IQuestionTypeOption } from '../../interfaces';
 
 @Component({
   selector: 'form-builder',
