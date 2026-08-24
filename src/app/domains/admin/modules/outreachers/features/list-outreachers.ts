@@ -6,13 +6,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
-import { IQueryParams, IOutreacher } from '../interfaces/outreachers.interface';
+import { IQueryParams, IOutreacher } from '../interfaces/';
 
 @Component({
   imports: [DecimalPipe, FormsModule, MatButtonModule, MatIconModule, MatPaginatorModule, MatTableModule],
-  templateUrl: './outreachers.html'
+  templateUrl: './list-outreachers.html'
 })
-export default class Outreachers {
+export default class ListOutreachers {
   page = signal<number>(1);
   q = signal<string>('');
 
