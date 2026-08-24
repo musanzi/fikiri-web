@@ -2,9 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-page-loader',
-  template: `<div class="min-h-screen flex justify-center items-center">
-    <div class="loader"></div>
-  </div>`,
+  templateUrl: './page-loader.html',
   styles: `
     .loader {
       width: 50px;

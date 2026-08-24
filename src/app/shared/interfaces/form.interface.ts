@@ -7,20 +7,20 @@ export interface IQuestionTypeOption {
 
 export const OPTION_TYPES = new Set<IQuestionType>(['select', 'radio', 'checkbox']);
 
-export interface FormAnswerOption {
+export interface IFormAnswerOption {
   label: string;
   value: string;
   checked: boolean;
 }
 
-export interface FormAnswer {
+export interface IFormAnswer {
   name: string;
   type: string;
   required: boolean;
   value: string;
-  options: FormAnswerOption[];
+  options: IFormAnswerOption[];
 }
 
-export interface FormAnswersModel {
-  answers: FormAnswer[];
+export interface IFormAnswersModel {
+  answers: IFormAnswer[];
 }

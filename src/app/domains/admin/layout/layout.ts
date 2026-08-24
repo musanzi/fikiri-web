@@ -4,8 +4,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { Media } from '@/app/core/media';
-import { AdminSidebar } from '@/app/domains/admin/layout/ui/sidebar';
 import { PageLoader } from '@/app/shared/ui/page-loader/page-loader';
+import { Sidebar } from '@/app/shared/ui/sidebar/sidebar';
 
 @Component({
   selector: 'admin-layout',
@@ -13,23 +13,23 @@ import { PageLoader } from '@/app/shared/ui/page-loader/page-loader';
     MatIconModule,
     MatButtonModule,
     RouterOutlet,
+    Sidebar,
     MatSidenavContainer,
     MatSidenav,
     MatSidenavContent,
-    AdminSidebar,
     PageLoader
   ],
   template: `
     @defer (on immediate) {
       <mat-sidenav-container>
         <mat-sidenav
-          class="w-70 border-r border-neutral-200 scheme-dark"
+          class="w-70  scheme-dark"
           [mode]="isMobile() ? 'over' : 'side'"
           [opened]="!isMobile()"
           [disableClose]="!isMobile()"
           fixedInViewport
           #sidenav="matSidenav">
-          <admin-sidebar />
+          <sidebar />
         </mat-sidenav>
 
         <mat-sidenav-content class="flex flex-col lg:h-dvh lg:overflow-hidden">

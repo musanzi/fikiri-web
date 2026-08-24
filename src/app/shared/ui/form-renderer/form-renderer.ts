@@ -1,11 +1,11 @@
-import { Component, computed, input, linkedSignal } from '@angular/core';
+import { Component, computed, input, InputSignal, linkedSignal } from '@angular/core';
 import { applyEach, form, FormField, required, validate } from '@angular/forms/signals';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { IField, IForm } from '@/app/core/interfaces';
-import { FormAnswersModel, FormAnswer } from '../../interfaces/form.interface';
+import { IFormAnswer, IFormAnswersModel } from '../../interfaces';
 
 @Component({
   selector: 'form-renderer',
@@ -13,13 +13,13 @@ import { FormAnswersModel, FormAnswer } from '../../interfaces/form.interface';
   templateUrl: './form-renderer.html'
 })
 export class FormRenderer {
-  sections = input.required<IForm[]>();
+  readonly sections: InputSignal<IForm[]> = input.required<IForm[]>();
 
-  private answersModel = linkedSignal<FormAnswersModel>(() => ({
+  private readonly answersModel = linkedSignal<IFormAnswersModel>(() => ({
     answers: this.sections().flatMap((section) => section.fields.map((field) => this.buildAnswer(field)))
   }));
 
-  answerForm = form(this.answersModel, (schemaPath) => {
+  readonly answerForm = form(this.answersModel, (schemaPath) => {
     applyEach(schemaPath.answers, (answer) => {
       required(answer.value, {
         message: 'Ce champ est requis.',
@@ -33,9 +33,9 @@ export class FormRenderer {
     });
   });
 
-  invalid = computed(() => this.answerForm().invalid());
+  readonly invalid = computed(() => this.answerForm().invalid());
 
-  protected renderedSections = computed(() => {
+  protected readonly renderedSections = computed(() => {
     let answerIndex = 0;
     return this.sections().map((section) => ({
       phase: section.phase,
@@ -58,7 +58,7 @@ export class FormRenderer {
     return type === 'email' || type === 'number' || type === 'date' ? type : 'text';
   }
 
-  private buildAnswer(field: IField): FormAnswer {
+  private buildAnswer(field: IField): IFormAnswer {
     return {
       name: field.name,
       type: field.type,
