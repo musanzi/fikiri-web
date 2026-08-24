@@ -5,7 +5,7 @@ import { catchError, of, pipe, switchMap, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ISignUpPayload } from '../interfaces/sign-up.interface';
-import { IUser } from '@/app/core/interfaces';
+import { IUser } from '@/app/shared/interfaces';
 import { ISignUpState } from '../interfaces/auth-state.interface';
 
 export const SignUpStore = signalStore(

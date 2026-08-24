@@ -1,4 +1,4 @@
-import { ICallRequirement } from '@/app/core/interfaces';
+import { ICallRequirement } from '@/app/shared/interfaces';
 import { Component, model } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';

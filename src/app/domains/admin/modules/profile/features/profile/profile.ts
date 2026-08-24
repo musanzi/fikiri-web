@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { IUpdateProfilePayload } from '@/app/core/interfaces';
+import { IUpdateProfilePayload } from '@/app/shared/interfaces';
 import { AuthStore } from '@/app/domains/auth/data-access/auth.store';
 import { Message } from '@/app/shared/ui/app-message/app-message';
 import { environment } from '@/environments/environment';

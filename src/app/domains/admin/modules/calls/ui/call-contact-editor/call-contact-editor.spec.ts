@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ICallContactInfo } from '@/app/core/interfaces';
+import { ICallContactInfo } from '@/app/shared/interfaces';
 import { CallContactEditor } from './call-contact-editor';
 
 describe('CallContactEditor', () => {

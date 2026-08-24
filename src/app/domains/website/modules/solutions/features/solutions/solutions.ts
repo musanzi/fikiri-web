@@ -2,7 +2,7 @@ import { httpResource } from '@angular/common/http';
 import { Component, computed, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { ISolution } from '@/app/core/interfaces';
+import { ISolution } from '@/app/shared/interfaces';
 import { SolutionCardComponent, SolutionCardSkeletonComponent } from '@/app/domains/website/shared/ui';
 
 @Component({

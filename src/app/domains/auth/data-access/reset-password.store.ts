@@ -5,7 +5,7 @@ import { catchError, of, pipe, switchMap, tap } from 'rxjs';
 import { IResetPasswordPayload } from '../interfaces/reset-password.interface';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { IUser } from '@/app/core/interfaces';
+import { IUser } from '@/app/shared/interfaces';
 import { IAuthRequestState } from '../interfaces/auth-state.interface';
 
 export const ResetPasswordStore = signalStore(

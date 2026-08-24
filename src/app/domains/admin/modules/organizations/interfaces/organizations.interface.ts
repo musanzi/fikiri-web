@@ -1,4 +1,4 @@
-import { IOrganization } from '@/app/core/interfaces';
+import { IOrganization } from '@/app/shared/interfaces';
 
 export interface IOrganizationPayload {
   name: string;

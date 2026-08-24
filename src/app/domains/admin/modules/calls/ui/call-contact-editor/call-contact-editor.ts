@@ -1,4 +1,4 @@
-import { ICallContact, ICallContactInfo } from '@/app/core/interfaces';
+import { ICallContact, ICallContactInfo } from '@/app/shared/interfaces';
 import { Component, computed, model } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';

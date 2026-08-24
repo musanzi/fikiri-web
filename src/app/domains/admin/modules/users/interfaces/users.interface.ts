@@ -1,4 +1,4 @@
-import { IOrganization, IRole, IUser } from '@/app/core/interfaces';
+import { IOrganization, IRole, IUser } from '@/app/shared/interfaces';
 
 export interface IQueryParams {
   page: number;

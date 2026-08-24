@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
 import { SolutionCardComponent } from '../../../../shared/ui/solution-card/solution-card';
 import { SolutionCardSkeletonComponent } from '../../../../shared/ui/solution-card-skeleton/solution-card-skeleton';
 import { httpResource } from '@angular/common/http';
-import { ISolution } from '@/app/core/interfaces';
+import { ISolution } from '@/app/shared/interfaces';
 
 @Component({
   selector: 'awards',

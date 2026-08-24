@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ICallContactInfo, ICallSolution, IForm } from '@/app/core/interfaces';
+import { ICallContactInfo, ICallSolution, IForm } from '@/app/shared/interfaces';
 import { FormBuilder } from '@/app/shared/ui/form-builder/form-builder';
 import { UpdateCallStore } from '../../data-access/update-call.store';
 import { ICreateCallFormModel, IUpdatedCallPayload } from '../../interfaces/calls.interface';

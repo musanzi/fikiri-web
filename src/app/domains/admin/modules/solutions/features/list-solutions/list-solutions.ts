@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
-import { ICallSolution, ISolution, SolutionStatus } from '@/app/core/interfaces';
+import { ICallSolution, ISolution, SolutionStatus } from '@/app/shared/interfaces';
 import { QueryParams } from '../../interfaces';
 
 @Component({

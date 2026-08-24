@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
-import { IOrganization } from '@/app/core/interfaces';
+import { IOrganization } from '@/app/shared/interfaces';
 import { filter } from 'rxjs';
 import { OrganizationsStore } from '../../data-access/organizations.store';
 import { IOrganizationDialogData, IOrganizationDialogResult, IRemoveOrganizationDialogData } from '../../interfaces';

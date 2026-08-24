@@ -1,4 +1,4 @@
-import { ICallContactInfo, ICallRequirement, ICallSolution, IForm } from '@/app/core/interfaces';
+import { ICallContactInfo, ICallRequirement, ICallSolution, IForm } from '@/app/shared/interfaces';
 
 export interface IQueryParams {
   page: string | null;

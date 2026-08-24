@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterLink } from '@angular/router';
-import { ICallContact, ICallContactInfo, ICallSolution } from '@/app/core/interfaces';
+import { ICallContact, ICallContactInfo, ICallSolution } from '@/app/shared/interfaces';
 import { FormRenderer } from '@/app/shared/ui/form-renderer/form-renderer';
 import { environment } from '@/environments/environment';
 import { SubmitSolutionStore } from '../../data-access/submit-solution.store';

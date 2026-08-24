@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { httpResource } from '@angular/common/http';
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ICallSolution } from '@/app/core/interfaces';
+import { ICallSolution } from '@/app/shared/interfaces';
 import { AuthStore } from '@/app/domains/auth/data-access/auth.store';
 import { environment } from '@/environments/environment';
 

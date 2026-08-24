@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { patchState, signalStore, withMethods, withProps, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { catchError, concatMap, EMPTY, finalize, map, pipe, switchMap, tap } from 'rxjs';
-import { ICallSolution } from '@/app/core/interfaces';
+import { ICallSolution } from '@/app/shared/interfaces';
 import { ICreateCallPayload } from '../interfaces/calls.interface';
 
 interface AddCallState {

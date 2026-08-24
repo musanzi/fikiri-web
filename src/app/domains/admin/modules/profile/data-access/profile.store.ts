@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { IUpdateProfilePayload } from '@/app/core/interfaces';
+import { IUpdateProfilePayload } from '@/app/shared/interfaces';
 import { AuthStore } from '@/app/domains/auth/data-access/auth.store';
 import { patchState, signalStore, withMethods, withProps, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';

@@ -5,7 +5,7 @@ import { patchState, signalStore, withMethods, withProps, withState } from '@ngr
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { catchError, concatMap, EMPTY, finalize, map, pipe, switchMap, tap } from 'rxjs';
 import { ICreateSolutionPayload } from '../interfaces/submission.interface';
-import { ISolution } from '@/app/core/interfaces';
+import { ISolution } from '@/app/shared/interfaces';
 
 interface SubmitSolutionState {
   isLoading: boolean;

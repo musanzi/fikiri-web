@@ -1,7 +1,7 @@
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { Component, input, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ISolution } from '@/app/core/interfaces';
+import { ISolution } from '@/app/shared/interfaces';
 import { environment } from '@/environments/environment';
 
 @Component({
