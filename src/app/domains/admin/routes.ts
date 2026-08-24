@@ -19,7 +19,7 @@ const routes: Routes = [
       {
         path: 'solutions',
         title: 'Solutions',
-        loadComponent: () => import('./modules/solutions/features/list-solutions/solutions')
+        loadComponent: () => import('./modules/solutions/features/list-solutions/list-solutions')
       },
       {
         path: 'calls',
@@ -44,17 +44,17 @@ const routes: Routes = [
       {
         path: 'roles',
         title: 'Rôles',
-        loadComponent: () => import('./modules/roles/features/list-roles/roles')
+        loadComponent: () => import('./modules/roles/features/list-roles/list-roles')
       },
       {
         path: 'organizations',
         title: 'Organisations',
-        loadComponent: () => import('./modules/organizations/features/list-organizations/organizations')
+        loadComponent: () => import('./modules/organizations/features/list-organizations/list-organizations')
       },
       {
         path: 'outreachers',
         title: 'Ambassadeurs',
-        loadComponent: () => import('./modules/outreachers/features/outreachers')
+        loadComponent: () => import('./modules/outreachers/features/list-outreachers')
       },
       {
         path: 'profile',
