@@ -10,7 +10,7 @@ import { AuthStore } from '@/app/domains/auth/data-access/auth.store';
 import { Message } from '@/app/shared/ui/app-message/app-message';
 import { environment } from '@/environments/environment';
 import { ProfileStore } from '../../data-access/profile.store';
-import { IProfileFormModel, IUpdatePasswordFormModel } from '../../interfaces/profile.interface';
+import { IProfileFormModel, IUpdatePasswordFormModel } from '../../interfaces';
 
 @Component({
   imports: [Message, FormField, MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule],
