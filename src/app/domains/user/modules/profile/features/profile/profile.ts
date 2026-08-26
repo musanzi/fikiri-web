@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { AuthStore } from '@/app/domains/auth/data-access/auth.store';
+import { AuthStore } from '@/app/domains/auth/data-access';
 import { Message } from '@/app/shared/ui/app-message/app-message';
 import { environment } from '@/environments/environment';
 import { ProfileStore } from '../../data-access/profile.store';
@@ -23,22 +23,19 @@ export default class Profile {
   private readonly user = this.authStore.user();
 
   protected readonly profileImageUrl = computed(() => {
-    const profile = this.authStore.user()?.profile;
-    return profile ? `${environment.apiUrl}/uploads/profiles/${profile}` : '/images/avatar.webp';
+    const avatar = this.authStore.user()?.profile;
+    return avatar ? `${environment.apiUrl}/uploads/profiles/${avatar}` : '/images/avatar.webp';
   });
 
   protected readonly profileModel = signal<IProfileFormModel>({
     name: this.user?.name ?? '',
-    email: this.user?.email ?? '',
-    phone_number: this.user?.phone_number ?? '',
-    address: this.user?.address ?? '',
-    bio: this.user?.bio ?? ''
+    email: this.user?.email ?? ''
   });
 
   protected readonly profileForm = form(this.profileModel, (schemaPath) => {
-    required(schemaPath.name, { message: 'Le nom est requis.' });
-    required(schemaPath.email, { message: "L'adresse e-mail est requise." });
-    email(schemaPath.email, { message: "L'adresse e-mail est invalide." });
+    required(schemaPath.name, { message: 'Name is required.' });
+    required(schemaPath.email, { message: 'Email address is required.' });
+    email(schemaPath.email, { message: 'Email address is invalid.' });
   });
 
   protected readonly passwordModel = signal<IUpdatePasswordFormModel>({
@@ -47,12 +44,12 @@ export default class Profile {
   });
 
   protected readonly passwordForm = form(this.passwordModel, (schemaPath) => {
-    required(schemaPath.password, { message: 'Le mot de passe est requis.' });
-    minLength(schemaPath.password, 8, { message: 'Le mot de passe doit contenir au moins 8 caractères.' });
-    required(schemaPath.confirmPassword, { message: 'La confirmation est requise.' });
+    required(schemaPath.password, { message: 'Password is required.' });
+    minLength(schemaPath.password, 6, { message: 'The password must contain at least 6 characters.' });
+    required(schemaPath.confirmPassword, { message: 'Confirmation is required.' });
     validate(schemaPath.confirmPassword, ({ value, valueOf }) =>
       value() !== valueOf(schemaPath.password)
-        ? { kind: 'password-match', message: 'Les mots de passe ne correspondent pas.' }
+        ? { kind: 'password-match', message: 'Passwords do not match.' }
         : undefined
     );
   });
@@ -76,10 +73,7 @@ export default class Profile {
       const value = formState().value();
       const payload: IUpdateProfilePayload = {
         name: value.name.trim(),
-        email: value.email.trim(),
-        phone_number: value.phone_number.trim() || null,
-        address: value.address.trim() || null,
-        bio: value.bio.trim() || null
+        email: value.email.trim()
       };
 
       this.store.updateProfile(payload);

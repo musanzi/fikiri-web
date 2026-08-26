@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { adminGuard, unauthGuard } from './core/guards';
+import { adminGuard, authGuard, unauthGuard } from './core/guards';
 
 export const routes: Route[] = [
   {
@@ -11,6 +11,11 @@ export const routes: Route[] = [
     path: 'admin',
     canActivate: [adminGuard],
     loadChildren: () => import('./domains/admin/routes')
+  },
+  {
+    path: 'user',
+    canActivate: [authGuard],
+    loadChildren: () => import('./domains/user/routes')
   },
   {
     path: '',

@@ -18,8 +18,11 @@ export const AuthStore = signalStore(
     _router: inject(Router)
   })),
   withComputed(({ user }) => ({
-    hasRights: computed(() => {
+    isAdmin: computed(() => {
       return user()?.roles?.some((r) => r === 'admin');
+    }),
+    isUser: computed(() => {
+      return user()?.roles?.some((r) => r === 'user');
     })
   })),
   withMethods(({ _http, _router, ...store }) => ({

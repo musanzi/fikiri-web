@@ -4,21 +4,21 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { Media } from '@/app/core/media';
-import { PageLoader } from '@/app/shared/ui';
-import { NAVIGATION } from './data/navigation';
+import { PageLoader } from '@/app/shared/ui/page-loader/page-loader';
 import { Sidebar } from '@/app/shared/ui';
+import { NAVIGATION } from './data/navigation';
 
 @Component({
-  selector: 'admin-layout',
+  selector: 'user-layout',
   imports: [
     MatIconModule,
     MatButtonModule,
     RouterOutlet,
+    Sidebar,
     MatSidenavContainer,
     MatSidenav,
     MatSidenavContent,
-    PageLoader,
-    Sidebar
+    PageLoader
   ],
   template: `
     @defer (on immediate) {
@@ -30,24 +30,19 @@ import { Sidebar } from '@/app/shared/ui';
           [disableClose]="!isMobile()"
           fixedInViewport
           #sidenav="matSidenav">
-          <sidebar [navigation]="navigation" profileRoute="/admin/profile" />
+          <sidebar [navigation]="navigation" [profileRoute]="'/user/profile'" />
         </mat-sidenav>
 
         <mat-sidenav-content class="flex flex-col lg:h-dvh lg:overflow-hidden">
-          <!-- Toolbar -->
           <div class="flex items-center border-b px-4 py-2.5">
             <button matIconButton (click)="sidenav.toggle()">
               <mat-icon svgIcon="panel-left" />
             </button>
 
-            <!-- Separator -->
             <div class="mx-3 h-5 border-l"></div>
-
-            <!-- Spacer -->
             <div class="flex-auto"></div>
           </div>
 
-          <!-- Content -->
           <div class="flex flex-col lg:min-h-0 lg:flex-auto lg:overflow-auto">
             <router-outlet />
           </div>
@@ -60,9 +55,9 @@ import { Sidebar } from '@/app/shared/ui';
     }
   `
 })
-export class AdminLayout {
-  private media = inject(Media);
+export class UserLayout {
+  private readonly media = inject(Media);
 
   protected readonly navigation = NAVIGATION;
-  protected isMobile = computed(() => this.media.match(`(max-width: 1023px)`)());
+  protected readonly isMobile = computed(() => this.media.match('(max-width: 1023px)')());
 }

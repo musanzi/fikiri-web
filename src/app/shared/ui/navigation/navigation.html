@@ -1,13 +1,13 @@
 <div class="flex flex-col gap-y-4">
-  @for (section of navigation(); track section.id) {
+  @for (section of items(); track section.id) {
     <div class="flex flex-col px-4">
       <!-- Section title -->
-      <div class="px-2.5 py-1.5 text-sm font-semibold text-blue-400">
+      <div class="px-2.5 py-1.5 text-sm font-semibold text-primary-300">
         {{ section.label }}
 
         <!-- Section description -->
         @if (section.description) {
-          <div class="text-xs font-medium text-neutral-400">
+          <div class="text-xs font-medium text-primary-300/70">
             {{ section.description }}
           </div>
         }

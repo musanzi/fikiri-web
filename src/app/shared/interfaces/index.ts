@@ -14,3 +14,4 @@ export * from './user.interface';
 export * from './contact-info.interface';
 export * from './call-requirements.interface';
 export * from './message.interface';
+export * from './navigation.interface';

@@ -3,9 +3,6 @@ import { IUser } from '@/app/shared/interfaces';
 export interface IProfileFormModel {
   name: string;
   email: string;
-  phone_number: string;
-  address: string;
-  bio: string;
 }
 
 export interface IUpdatePasswordFormModel {
@@ -19,9 +16,7 @@ export interface IUpdatePasswordPayload {
 
 export type IUpdateProfilePayload = Partial<IUser>;
 
-export interface IProfileResponse {
-  data: IUser;
-}
+export type IProfileResponse = IUser;
 
 export interface IProfileState {
   isUpdatingProfile: boolean;

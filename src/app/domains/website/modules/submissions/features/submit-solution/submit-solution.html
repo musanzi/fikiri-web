@@ -1,5 +1,5 @@
 @if (currentCallsResource.isLoading() || (selectedCallId() && callResource.isLoading())) {
-  <div class="flex min-h-[50svh] items-end bg-gray-950 text-white">
+  <div class="flex min-h-[65svh] items-end bg-gray-950 text-white">
     <div
       class="mx-auto w-full max-w-screen-2xl animate-pulse px-6 pb-14 pt-36 sm:px-8 sm:pb-16 lg:px-16 lg:pb-20 xl:px-24 2xl:px-32">
       <div class="h-5 w-36 rounded bg-white/15"></div>
@@ -13,7 +13,7 @@
 } @else if (callResource.hasValue()) {
   @let call = callResource.value().data;
 
-  <div class="relative isolate flex min-h-[50svh] items-end overflow-hidden bg-gray-950 text-white">
+  <div class="relative isolate flex min-h-[65svh] items-end overflow-hidden bg-gray-950 text-white">
     <img
       [src]="callCoverUrl()"
       [alt]="'Couverture de l\'appel ' + call.name"

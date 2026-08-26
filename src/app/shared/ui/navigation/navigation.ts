@@ -1,12 +1,12 @@
 import { Tree, TreeItem, TreeItemGroup } from '@angular/aria/tree';
 import { CdkMonitorFocus } from '@angular/cdk/a11y';
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatIcon } from '@angular/material/icon';
 import { isActive, IsActiveMatchOptions, NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { filter, take } from 'rxjs';
-import { NAVIGATION, NavigationItem } from '@/app/domains/admin/layout/data/navigation';
+import { INavigationItem } from '../../interfaces';
 
 @Component({
   selector: 'navigation',
@@ -16,7 +16,7 @@ import { NAVIGATION, NavigationItem } from '@/app/domains/admin/layout/data/navi
 export class Navigation {
   private router = inject(Router);
 
-  protected navigation = signal<NavigationItem[]>(NAVIGATION);
+  readonly items = input.required<INavigationItem[]>();
   protected navigationEnd = toSignal(
     this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd),
@@ -31,11 +31,11 @@ export class Navigation {
         return;
       }
 
-      this.navigation.set(this.expandActiveRoute(this.navigation()));
+      this.expandActiveRoute(this.items());
     });
   }
 
-  expandActiveRoute(items: NavigationItem[]): NavigationItem[] {
+  expandActiveRoute(items: INavigationItem[]): INavigationItem[] {
     for (const item of items) {
       if (item.children?.length) {
         item.children = this.expandActiveRoute(item.children);

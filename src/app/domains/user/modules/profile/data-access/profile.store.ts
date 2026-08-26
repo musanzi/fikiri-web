@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AuthStore } from '@/app/domains/auth/data-access/auth.store';
+import { AuthStore } from '@/app/domains/auth/data-access';
 import { patchState, signalStore, withMethods, withProps, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { catchError, concatMap, EMPTY, finalize, pipe, tap } from 'rxjs';
@@ -26,14 +26,14 @@ export const ProfileStore = signalStore(
       pipe(
         concatMap((payload) => {
           patchState(store, { isUpdatingProfile: true, profileUpdated: false, profileError: '' });
-          return _http.patch<IProfileResponse>('/auth/profile', payload).pipe(
-            tap(({ data }) => {
-              _authStore.setUser(data);
+          return _http.patch<IProfileResponse>('/auth/me/update', payload).pipe(
+            tap((user) => {
+              _authStore.setUser(user);
               patchState(store, { profileUpdated: true });
             }),
             catchError(() => {
               patchState(store, {
-                profileError: 'Impossible de mettre à jour le profil. Veuillez réessayer.'
+                profileError: 'Unable to update the profile. Please try again.'
               });
               return EMPTY;
             }),
@@ -46,11 +46,11 @@ export const ProfileStore = signalStore(
       pipe(
         concatMap((payload) => {
           patchState(store, { isUpdatingPassword: true, passwordUpdated: false, passwordError: '' });
-          return _http.patch<void>('/auth/update-password', payload).pipe(
+          return _http.patch<void>('/auth/password/update', payload).pipe(
             tap(() => patchState(store, { passwordUpdated: true })),
             catchError(() => {
               patchState(store, {
-                passwordError: 'Impossible de mettre à jour le mot de passe. Veuillez réessayer.'
+                passwordError: 'Unable to update the password. Please try again.'
               });
               return EMPTY;
             }),
