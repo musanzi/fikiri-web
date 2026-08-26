@@ -1,0 +1,96 @@
+<section class="px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
+  <div class="w-full max-w-4xl">
+    <a matButton routerLink="/user/solutions">
+      <mat-icon svgIcon="arrow-left" />
+      Retour aux solutions
+    </a>
+
+    @if (solutionsResource.isLoading()) {
+      <div class="flex min-h-64 items-center justify-center" aria-label="Chargement de la solution">
+        <span class="text-sm text-on-surface-variant">Chargement…</span>
+      </div>
+    } @else if (solutionsResource.error()) {
+      <div
+        class="mt-6 flex min-h-64 flex-col items-center justify-center gap-4 rounded-md border border-outline-variant text-center"
+        role="alert">
+        <mat-icon class="text-on-surface-variant" svgIcon="triangle-alert" />
+        <div>
+          <h1 class="font-medium">Impossible de charger la solution</h1>
+          <p class="mt-1 text-sm text-on-surface-variant">Veuillez réessayer dans quelques instants.</p>
+        </div>
+        <button matButton="outlined" type="button" (click)="solutionsResource.reload()">Réessayer</button>
+      </div>
+    } @else if (solution(); as currentSolution) {
+      <div class="mb-7 mt-5">
+        <p class="text-sm font-medium text-primary-600">{{ currentSolution.call.name }}</p>
+        <h1 class="mt-1 text-3xl font-semibold tracking-tight">Modifier la solution</h1>
+        <p class="mt-2 max-w-2xl text-sm text-on-surface-variant">
+          Mettez à jour les informations et les réponses de votre candidature.
+        </p>
+      </div>
+
+      <form (submit)="onSubmit(); $event.preventDefault()">
+        <mat-card appearance="outlined" class="overflow-hidden rounded-md border-outline-variant shadow-sm">
+          <mat-card-content class="flex flex-col gap-7 p-6">
+            <section aria-labelledby="solution-information-title">
+              <h2 id="solution-information-title" class="text-lg font-semibold">Informations principales</h2>
+              <div class="mt-5 flex flex-col gap-5">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nom de la solution</mat-label>
+                  <input matInput [formField]="solutionForm.name" />
+                  @if (solutionForm.name().touched() && solutionForm.name().errors().length) {
+                    <mat-error>{{ solutionForm.name().errors()[0].message }}</mat-error>
+                  }
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Description de la solution</mat-label>
+                  <textarea matInput rows="5" [formField]="solutionForm.description"></textarea>
+                  @if (solutionForm.description().touched() && solutionForm.description().errors().length) {
+                    <mat-error>{{ solutionForm.description().errors()[0].message }}</mat-error>
+                  }
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Problème résolu</mat-label>
+                  <textarea matInput rows="5" [formField]="solutionForm.problem_solved"></textarea>
+                  @if (solutionForm.problem_solved().touched() && solutionForm.problem_solved().errors().length) {
+                    <mat-error>{{ solutionForm.problem_solved().errors()[0].message }}</mat-error>
+                  }
+                </mat-form-field>
+              </div>
+            </section>
+
+            <section class="border-t border-outline-variant pt-6" aria-labelledby="solution-responses-title">
+              <h2 id="solution-responses-title" class="mb-5 text-lg font-semibold">Réponses à l'appel</h2>
+              <form-renderer [sections]="currentSolution.call.form" [initialResponses]="currentSolution.responses" />
+            </section>
+
+            @if (store.error()) {
+              <p class="rounded-md border border-error px-4 py-3 text-sm text-error" role="alert">
+                {{ store.error() }}
+              </p>
+            }
+          </mat-card-content>
+
+          <mat-card-actions align="end" class="gap-2 border-t border-outline-variant px-5 py-4">
+            <a matButton="outlined" routerLink="/user/solutions">Annuler</a>
+            <button
+              matButton="filled"
+              type="submit"
+              [disabled]="store.isLoading() || solutionForm().invalid() || formRenderer()?.invalid()">
+              <mat-icon svgIcon="save" />
+              {{ store.isLoading() ? 'Enregistrement…' : 'Enregistrer' }}
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </form>
+    } @else {
+      <div class="mt-6 rounded-md border border-outline-variant px-6 py-14 text-center" role="alert">
+        <h1 class="text-lg font-semibold">Solution introuvable</h1>
+        <p class="mt-1 text-sm text-on-surface-variant">Cette solution n'existe pas ou ne vous appartient pas.</p>
+        <a matButton="outlined" class="mt-5" routerLink="/user/solutions">Voir mes solutions</a>
+      </div>
+    }
+  </div>
+</section>

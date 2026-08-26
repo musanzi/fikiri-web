@@ -30,7 +30,7 @@ export const SubmitSolutionStore = signalStore(
               body.append('thumb', thumbnail);
               return _http.post(`/solutions/${id}/image`, body);
             }),
-            tap(() => _router.navigate(['/'])),
+            tap(() => _router.navigate(['/user/solutions'])),
             catchError(() => {
               patchState(store, {
                 error: 'Impossible de soumettre votre solution. Vérifiez vos informations puis réessayez.'

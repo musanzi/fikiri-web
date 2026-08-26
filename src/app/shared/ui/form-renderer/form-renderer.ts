@@ -4,7 +4,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { IField, IForm } from '@/app/shared/interfaces';
+import { IField, IForm, JsonValue } from '@/app/shared/interfaces';
 import { IFormAnswer, IFormAnswersModel } from '../../interfaces';
 
 @Component({
@@ -14,6 +14,7 @@ import { IFormAnswer, IFormAnswersModel } from '../../interfaces';
 })
 export class FormRenderer {
   readonly sections: InputSignal<IForm[]> = input.required<IForm[]>();
+  readonly initialResponses = input<Record<string, JsonValue>>({});
 
   private readonly answersModel = linkedSignal<IFormAnswersModel>(() => ({
     answers: this.sections().flatMap((section) => section.fields.map((field) => this.buildAnswer(field)))
@@ -59,12 +60,20 @@ export class FormRenderer {
   }
 
   private buildAnswer(field: IField): IFormAnswer {
+    const initialResponse = this.initialResponses()[field.name];
+    const selectedOptions = Array.isArray(initialResponse)
+      ? initialResponse.filter((value): value is string => typeof value === 'string')
+      : [];
+
     return {
       name: field.name,
       type: field.type,
       required: field.required ?? false,
-      value: '',
-      options: (field.options ?? []).map((option) => ({ ...option, checked: false }))
+      value: typeof initialResponse === 'string' ? initialResponse : '',
+      options: (field.options ?? []).map((option) => ({
+        ...option,
+        checked: selectedOptions.includes(option.value)
+      }))
     };
   }
 }
