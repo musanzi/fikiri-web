@@ -233,44 +233,65 @@
   /* ------------------------------------------------------------------------ */
   /* Button                                                                   */
   /* ------------------------------------------------------------------------ */
-  --mat-button-text-container-shape: 0.5rem;
+  --mat-button-text-container-shape: 0.375rem;
   --mat-button-text-container-height: 2.25rem;
   --mat-button-text-horizontal-padding: 0.75rem;
   --mat-button-text-with-icon-horizontal-padding: 0.75rem;
   --mat-button-text-icon-offset: 0rem;
+  --mat-button-text-icon-spacing: 0rem;
 
-  --mat-button-outlined-container-shape: 0.5rem;
+  --mat-button-outlined-container-shape: 0.375rem;
   --mat-button-outlined-container-height: 2.25rem;
   --mat-button-outlined-horizontal-padding: 0.75rem;
   --mat-button-outlined-icon-offset: 0rem;
+  --mat-button-outlined-icon-spacing: 0rem;
+  --mat-button-outlined-outline-color: var(--color-neutral-300);
   --mat-button-outlined-label-text-color: var(--color-neutral-950);
   --mat-button-outlined-state-layer-color: var(--color-neutral-950);
   --mat-button-outlined-ripple-color: color-mix(in oklch, var(--color-neutral-950) 10%, transparent);
 
-  --mat-button-tonal-container-shape: 0.5rem;
+  --mat-button-tonal-container-shape: 0.375rem;
   --mat-button-tonal-container-height: 2.25rem;
   --mat-button-tonal-horizontal-padding: 0.75rem;
   --mat-button-tonal-icon-offset: 0rem;
+  --mat-button-tonal-icon-spacing: 0rem;
 
-  --mat-button-filled-container-shape: 0.5rem;
+  --mat-button-filled-container-shape: 0.375rem;
   --mat-button-filled-container-height: 2.25rem;
   --mat-button-filled-horizontal-padding: 0.75rem;
   --mat-button-filled-icon-offset: 0rem;
+  --mat-button-filled-icon-spacing: 0rem;
 
-  --mat-button-protected-container-shape: 0.5rem;
+  --mat-button-protected-container-shape: 0.375rem;
   --mat-button-protected-container-height: 2.25rem;
   --mat-button-protected-horizontal-padding: 0.75rem;
   --mat-button-protected-icon-offset: 0rem;
+  --mat-button-protected-icon-spacing: 0rem;
 
-  --mat-icon-button-container-shape: 0.5rem;
+  --mat-icon-button-container-shape: 0.375rem;
   --mat-icon-button-icon-size: 1rem;
   --mat-icon-button-state-layer-size: 2.25rem;
 
   .mat-mdc-button-base {
     --mat-icon-color: currentColor;
 
+    gap: 0.5rem;
+    min-width: 0;
+    white-space: nowrap;
+    transition:
+      color 150ms ease,
+      background-color 150ms ease,
+      border-color 150ms ease,
+      box-shadow 150ms ease;
+
+    &:disabled,
+    &.mat-mdc-button-disabled {
+      opacity: 0.5;
+    }
+
     /* Text */
     &.mat-mdc-button {
+      box-shadow: none;
     }
 
     /* Tonal */
@@ -283,10 +304,13 @@
 
     /* Outlined */
     &.mat-mdc-outlined-button {
+      background-color: var(--color-white);
+      box-shadow: 0 1px 2px 0 color-mix(in oklch, var(--color-black), transparent 95%);
     }
 
     /* Filled */
     &.mat-mdc-unelevated-button {
+      box-shadow: 0 1px 2px 0 color-mix(in oklch, var(--color-black), transparent 95%);
     }
 
     &.small {
@@ -719,7 +743,7 @@
     --form-field-subscript-letter-spacing: var(--tracking-normal);
 
     /* Size */
-    --form-field-border-radius: 0.5rem; /* 8px */
+    --form-field-border-radius: 0.375rem; /* 6px */
     --form-field-margin-top: 1.5rem; /* 24px */
     --form-field-padding-y: 0.5rem; /* 8px */
     --form-field-padding-x: 0.75rem; /* 12px */
@@ -745,7 +769,8 @@
 
     /* Focus */
     &.mat-focused {
-      --form-field-outline-color: var(--color-primary-600);
+      --form-field-border-color: var(--color-primary-600);
+      --form-field-outline-color: color-mix(in oklch, var(--color-primary-600), transparent 65%);
     }
 
     /* Suffix & Prefix */

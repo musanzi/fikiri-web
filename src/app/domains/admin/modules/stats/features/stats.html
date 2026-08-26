@@ -1,43 +1,208 @@
-<div class="px-10 py-16">
+<section class="px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
+  <div class="mb-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold tracking-tight">Vue d'ensemble</h1>
+      <p class="mt-1 text-sm text-neutral-500">Activité et performance de la plateforme.</p>
+    </div>
+    @if (statsResource.hasValue()) {
+      @let stats = statsResource.value().data;
+      <div class="text-sm text-neutral-500">
+        {{ stats.range.from | date: 'dd MMM yyyy' }} - {{ stats.range.to | date: 'dd MMM yyyy' }}
+      </div>
+    }
+  </div>
+
   @if (statsResource.isLoading()) {
-    <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-5" aria-label="Chargement des statistiques">
-      @for (item of [1, 2, 3, 4, 5]; track item) {
-        <mat-card appearance="filled" class="animate-pulse">
-          <mat-card-header>
-            <div class="h-4 w-28 rounded bg-neutral-300"></div>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="h-12 w-20 rounded bg-neutral-300"></div>
-            <div class="mt-2 h-4 w-40 rounded bg-neutral-200"></div>
-          </mat-card-content>
-        </mat-card>
-      }
+    <div class="space-y-6" aria-label="Chargement des statistiques" aria-busy="true">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+        @for (item of [1, 2, 3]; track item) {
+          <mat-card appearance="outlined" class="animate-pulse rounded-md">
+            <mat-card-content class="space-y-4">
+              <div class="h-4 w-28 rounded bg-neutral-300"></div>
+              <div class="h-10 w-20 rounded bg-neutral-300"></div>
+              <div class="h-4 w-40 rounded bg-neutral-200"></div>
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+      <div class="grid grid-cols-1 gap-6 xl:grid-cols-2">
+        @for (item of [1, 2]; track item) {
+          <div class="h-80 animate-pulse rounded-md border border-neutral-200 bg-neutral-100"></div>
+        }
+      </div>
     </div>
   } @else if (statsResource.hasValue()) {
-    <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-5">
+    @let stats = statsResource.value().data;
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
       @for (item of summary(); track item.title) {
-        <mat-card appearance="filled">
-          <mat-card-header>
-            <div class="flex items-center gap-x-2">
-              <mat-icon class="size-4" [svgIcon]="item.icon" />
-              <div class="font-medium tracking-tight">
-                {{ item.title }}
+        <mat-card appearance="outlined" class="rounded-md">
+          <mat-card-content>
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="text-sm font-medium text-neutral-500">{{ item.title }}</div>
+                <div class="mt-2 text-4xl font-semibold tracking-tight tabular-nums">{{ item.value | number }}</div>
+              </div>
+              <div class="flex size-10 items-center justify-center rounded-md bg-primary-50 text-primary-700">
+                <mat-icon class="size-5" [svgIcon]="item.icon" />
               </div>
             </div>
-          </mat-card-header>
-          <mat-card-content>
-            <div class="text-5xl font-semibold">
-              {{ item.value | number }}
-            </div>
-            <div class="mt-2 text-sm font-medium text-neutral-500">
-              {{ item.description }}
+            <div class="mt-4 flex items-center justify-between gap-3 text-xs">
+              <span class="truncate text-neutral-500">{{ item.description }}</span>
+              <span
+                class="flex shrink-0 items-center gap-1 font-medium tabular-nums"
+                [class.text-emerald-600]="item.growth !== null && item.growth > 0"
+                [class.text-red-600]="item.growth !== null && item.growth < 0"
+                [class.text-neutral-500]="item.growth === null || item.growth === 0">
+                <mat-icon class="size-4" [svgIcon]="growthIcon(item.growth)" />
+                @if (item.growth === null) {
+                  N/D
+                } @else {
+                  {{ item.growth > 0 ? '+' : '' }}{{ item.growth | number: '1.0-1' }} %
+                }
+              </span>
             </div>
           </mat-card-content>
         </mat-card>
       }
     </div>
+
+    <div class="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
+      <mat-card appearance="outlined" class="rounded-md xl:col-span-2">
+        <mat-card-header>
+          <mat-card-title class="text-lg">Évolution mensuelle</mat-card-title>
+          <mat-card-subtitle class="text-xs">Appels, solutions et nouveaux utilisateurs</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          @if (stats.trends.monthly.length) {
+            <apx-chart
+              [chart]="lineChart"
+              [colors]="chartColors"
+              [dataLabels]="chartDataLabels"
+              [fill]="chartFill"
+              [grid]="chartGrid"
+              [legend]="chartLegend"
+              [series]="monthlySeries()"
+              [stroke]="lineStroke"
+              [tooltip]="chartTooltip"
+              [xaxis]="monthlyXAxis()"
+              [yaxis]="chartYAxis" />
+          } @else {
+            <div class="flex h-72 items-center justify-center text-sm text-neutral-500">
+              Aucune tendance disponible.
+            </div>
+          }
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card appearance="outlined" class="rounded-md">
+        <mat-card-header>
+          <mat-card-title class="text-lg">Indicateurs clés</mat-card-title>
+          <mat-card-subtitle class="text-xs">Sur la période sélectionnée</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="space-y-6 pt-4">
+          <div class="flex items-end justify-between gap-4">
+            <div class="text-sm text-neutral-600">Solutions par appel publié</div>
+            <div class="font-semibold tabular-nums">
+              {{ stats.overview.rates.submissionsPerPublishedCall | number: '1.0-1' }}
+            </div>
+          </div>
+          <div>
+            <div class="mb-2 flex items-end justify-between gap-4">
+              <div class="text-sm text-neutral-600">Affectation aux évaluateurs</div>
+              <div class="font-semibold tabular-nums">
+                {{ stats.overview.rates.reviewAssignment | number: '1.0-1' }} %
+              </div>
+            </div>
+            <mat-progress-bar
+              mode="determinate"
+              [value]="stats.overview.rates.reviewAssignment"
+              aria-label="Taux d'affectation aux évaluateurs" />
+          </div>
+          <div>
+            <div class="mb-2 flex items-end justify-between gap-4">
+              <div class="text-sm text-neutral-600">Solutions cartographiées</div>
+              <div class="font-semibold tabular-nums">
+                {{ stats.overview.rates.mappedSolutions | number: '1.0-1' }} %
+              </div>
+            </div>
+            <mat-progress-bar
+              mode="determinate"
+              [value]="stats.overview.rates.mappedSolutions"
+              aria-label="Taux de solutions cartographiées" />
+          </div>
+          <div class="grid grid-cols-2 gap-3 border-t border-neutral-200 pt-5">
+            <div>
+              <div class="text-2xl font-semibold tabular-nums">
+                {{ stats.overview.solutions.assignedForReview | number }}
+              </div>
+              <div class="mt-1 text-xs text-neutral-500">Affectées</div>
+            </div>
+            <div>
+              <div class="text-2xl font-semibold tabular-nums">
+                {{ stats.overview.solutions.unassignedForReview | number }}
+              </div>
+              <div class="mt-1 text-xs text-neutral-500">Non affectées</div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <mat-card appearance="outlined" class="rounded-md">
+        <mat-card-header>
+          <mat-card-title class="text-lg">Cycle de vie des appels</mat-card-title>
+          <mat-card-subtitle class="text-xs">
+            Répartition des {{ stats.overview.calls.total | number }} appels
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          @if (stats.breakdowns.callsByLifecycle.length) {
+            <apx-chart
+              [chart]="donutChart"
+              [colors]="chartColors"
+              [dataLabels]="chartDataLabels"
+              [labels]="callsBreakdownLabels()"
+              [legend]="chartLegend"
+              [plotOptions]="donutPlotOptions"
+              [series]="callsBreakdownSeries()"
+              [tooltip]="chartTooltip" />
+          } @else {
+            <div class="flex h-64 items-center justify-center text-sm text-neutral-500">Aucune donnée disponible.</div>
+          }
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card appearance="outlined" class="rounded-md">
+        <mat-card-header>
+          <mat-card-title class="text-lg">Statut des solutions</mat-card-title>
+          <mat-card-subtitle class="text-xs"
+            >Répartition des {{ stats.overview.solutions.total | number }} solutions</mat-card-subtitle
+          >
+        </mat-card-header>
+        <mat-card-content>
+          @if (stats.breakdowns.solutionsByStatus.length) {
+            <apx-chart
+              [chart]="donutChart"
+              [colors]="chartColors"
+              [dataLabels]="chartDataLabels"
+              [labels]="solutionsBreakdownLabels()"
+              [legend]="chartLegend"
+              [plotOptions]="donutPlotOptions"
+              [series]="solutionsBreakdownSeries()"
+              [tooltip]="chartTooltip" />
+          } @else {
+            <div class="flex h-64 items-center justify-center text-sm text-neutral-500">Aucune donnée disponible.</div>
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <p class="mt-4 text-right text-xs text-neutral-500">
+      Données actualisées le {{ stats.generatedAt | date: 'dd MMM yyyy à HH:mm' }}
+    </p>
   } @else {
-    <div class="flex min-h-64 flex-col items-center justify-center gap-4 text-center">
+    <div class="flex min-h-64 flex-col items-center justify-center gap-4 text-center" role="alert">
       <mat-icon class="text-neutral-500" svgIcon="triangle-alert" />
       <div>
         <div class="font-medium">Impossible de charger les statistiques</div>
@@ -46,4 +211,4 @@
       <button matButton="outlined" type="button" (click)="statsResource.reload()">Réessayer</button>
     </div>
   }
-</div>
+</section>
