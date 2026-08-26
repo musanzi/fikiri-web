@@ -23,8 +23,10 @@ export default class Profile {
   private readonly user = this.authStore.user();
 
   protected readonly profileImageUrl = computed(() => {
-    const avatar = this.authStore.user()?.profile;
-    return avatar ? `${environment.apiUrl}/uploads/profiles/${avatar}` : '/images/avatar.webp';
+    const user = this.authStore.user();
+    return user?.profile
+      ? `${environment.apiUrl}/uploads/profiles/${user.profile}?v=${encodeURIComponent(user.updated_at)}`
+      : '/images/avatar.webp';
   });
 
   protected readonly profileModel = signal<IProfileFormModel>({
@@ -78,6 +80,15 @@ export default class Profile {
 
       this.store.updateProfile(payload);
     });
+  }
+
+  protected onProfileImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const image = input.files?.[0];
+    if (!image) return;
+
+    this.store.updateProfileImage(image);
+    input.value = '';
   }
 
   protected onUpdatePassword(): void {

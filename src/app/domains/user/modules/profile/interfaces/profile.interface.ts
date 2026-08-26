@@ -18,11 +18,18 @@ export type IUpdateProfilePayload = Partial<IUser>;
 
 export type IProfileResponse = IUser;
 
+export interface IProfileImageResponse {
+  data: IUser;
+}
+
 export interface IProfileState {
   isUpdatingProfile: boolean;
+  isUpdatingProfileImage: boolean;
   isUpdatingPassword: boolean;
   profileUpdated: boolean;
+  profileImageUpdated: boolean;
   passwordUpdated: boolean;
   profileError: string;
+  profileImageError: string;
   passwordError: string;
 }

@@ -4,14 +4,23 @@ import { AuthStore } from '@/app/domains/auth/data-access';
 import { patchState, signalStore, withMethods, withProps, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { catchError, concatMap, EMPTY, finalize, pipe, tap } from 'rxjs';
-import { IProfileResponse, IProfileState, IUpdatePasswordPayload, IUpdateProfilePayload } from '../interfaces';
+import {
+  IProfileImageResponse,
+  IProfileResponse,
+  IProfileState,
+  IUpdatePasswordPayload,
+  IUpdateProfilePayload
+} from '../interfaces';
 
 const initialState: IProfileState = {
   isUpdatingProfile: false,
+  isUpdatingProfileImage: false,
   isUpdatingPassword: false,
   profileUpdated: false,
+  profileImageUpdated: false,
   passwordUpdated: false,
   profileError: '',
+  profileImageError: '',
   passwordError: ''
 };
 
@@ -42,6 +51,29 @@ export const ProfileStore = signalStore(
         })
       )
     ),
+    updateProfileImage: rxMethod<File>(
+      pipe(
+        concatMap((image) => {
+          patchState(store, { isUpdatingProfileImage: true, profileImageUpdated: false, profileImageError: '' });
+          const body = new FormData();
+          body.append('thumb', image);
+
+          return _http.post<IProfileImageResponse>('/users/me/profile-image', body).pipe(
+            tap(({ data }) => {
+              _authStore.setUser(data);
+              patchState(store, { profileImageUpdated: true });
+            }),
+            catchError(() => {
+              patchState(store, {
+                profileImageError: 'Impossible de modifier la photo de profil. Veuillez réessayer.'
+              });
+              return EMPTY;
+            }),
+            finalize(() => patchState(store, { isUpdatingProfileImage: false }))
+          );
+        })
+      )
+    ),
     updatePassword: rxMethod<IUpdatePasswordPayload>(
       pipe(
         concatMap((payload) => {
@@ -61,6 +93,9 @@ export const ProfileStore = signalStore(
     ),
     clearProfileMessage(): void {
       patchState(store, { profileUpdated: false, profileError: '' });
+    },
+    clearProfileImageMessage(): void {
+      patchState(store, { profileImageUpdated: false, profileImageError: '' });
     },
     clearPasswordMessage(): void {
       patchState(store, { passwordUpdated: false, passwordError: '' });
