@@ -14,12 +14,14 @@ import { UpdateCallStore } from '../../data-access/update-call.store';
 import { ICreateCallFormModel, IUpdatedCallPayload } from '../../interfaces/calls.interface';
 import { CallContactEditor } from '../../ui/call-contact-editor/call-contact-editor';
 import { CallRequirementsEditor } from '../../ui/call-requirements-editor/call-requirements-editor';
+import { CallReviewersEditor } from '../../ui/call-reviewers-editor/call-reviewers-editor';
 
 @Component({
   imports: [
     CallContactEditor,
     FormBuilder,
     CallRequirementsEditor,
+    CallReviewersEditor,
     FormField,
     MatButtonModule,
     MatCardModule,
@@ -59,6 +61,8 @@ export default class UpdateCall {
     return form?.length ? form : [{ phase: 'Évaluation', fields: [] }];
   });
 
+  protected reviewers = linkedSignal(() => this.callResource.value()?.data.reviewers ?? []);
+
   protected contactInfo = linkedSignal<ICallContactInfo>(() => {
     const contact = this.callResource.value()?.data.contact_form;
     return contact ?? { name: '', role: '', email: '', phone: '', links: [] };
@@ -89,6 +93,7 @@ export default class UpdateCall {
         ...value,
         form: this.applicationForm(),
         review_form: this.reviewForm(),
+        reviewers: this.reviewers(),
         contact_form: this.contactInfo(),
         requirements: this.requirements()
       };

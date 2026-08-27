@@ -7,6 +7,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
+import { Message } from '@/app/shared/ui/app-message/app-message';
 import { filter } from 'rxjs';
 import { UsersStore } from '../../data-access/users.store';
 import {
@@ -20,7 +21,16 @@ import { RemoveUserDialog } from '../../ui/remove-user-dialog/remove-user-dialog
 import { UserFormDialog } from '../../ui/user-form-dialog/user-form-dialog';
 
 @Component({
-  imports: [DatePipe, FormsModule, MatButtonModule, MatDialogModule, MatIconModule, MatPaginatorModule, MatTableModule],
+  imports: [
+    DatePipe,
+    FormsModule,
+    Message,
+    MatButtonModule,
+    MatDialogModule,
+    MatIconModule,
+    MatPaginatorModule,
+    MatTableModule
+  ],
   templateUrl: './users.html',
   providers: [UsersStore]
 })

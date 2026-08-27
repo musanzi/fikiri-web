@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { IUser } from '@/app/shared/interfaces';
+import { Role } from '@/app/shared/enums';
 
 interface IAuthStore {
   user: IUser | null;
@@ -19,10 +20,13 @@ export const AuthStore = signalStore(
   })),
   withComputed(({ user }) => ({
     isAdmin: computed(() => {
-      return user()?.roles?.some((r) => r === 'admin');
+      return user()?.roles?.some((r) => r === Role.Admin);
+    }),
+    isReviewer: computed(() => {
+      return user()?.roles?.some((r) => r === Role.Cartographer);
     }),
     isUser: computed(() => {
-      return user()?.roles?.some((r) => r === 'user');
+      return user()?.roles?.some((r) => r === Role.User);
     })
   })),
   withMethods(({ _http, _router, ...store }) => ({

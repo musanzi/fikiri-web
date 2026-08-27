@@ -22,7 +22,7 @@ export class CallContactEditor {
   protected addContact(): void {
     this.value.update((contact) => ({
       ...contact,
-      contacts: [...(contact.contacts ?? []), this.emptyContact()]
+      contacts: [this.emptyContact(), ...(contact.contacts ?? [])]
     }));
   }
 

@@ -1,0 +1,80 @@
+<div class="flex flex-col gap-5">
+  <div class="flex items-start justify-between gap-4">
+    <div>
+      <h3 class="font-medium">Évaluateurs</h3>
+      <p class="mt-1 text-sm text-neutral-500">
+        Ajoutez les personnes chargées d'évaluer les solutions et attribuez-leur une phase.
+      </p>
+    </div>
+    <button matButton="outlined" type="button" (click)="addReviewer()">
+      <mat-icon svgIcon="user-round-plus" />
+      Ajouter
+    </button>
+  </div>
+
+  <div class="flex flex-col gap-3">
+    @for (reviewer of value(); track $index; let reviewerIndex = $index) {
+      <mat-card appearance="outlined" class="rounded-md p-4">
+        <div class="mb-4 flex items-center justify-between gap-3">
+          <p class="text-sm font-medium text-neutral-700">Évaluateur {{ reviewerIndex + 1 }}</p>
+          <button
+            matIconButton
+            type="button"
+            aria-label="Supprimer l'évaluateur"
+            matTooltip="Supprimer"
+            (click)="deleteReviewer(reviewerIndex)">
+            <mat-icon svgIcon="trash-2" />
+          </button>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Adresse e-mail</mat-label>
+            <input
+              matInput
+              type="email"
+              autocomplete="email"
+              [value]="reviewer.email"
+              (input)="updateReviewer(reviewerIndex, { email: $any($event.target).value })" />
+            @if (!reviewer.email.trim()) {
+              <mat-hint class="text-red-600">L'adresse e-mail est requise.</mat-hint>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Phase d'évaluation</mat-label>
+            <mat-select
+              [value]="reviewer.phase"
+              (selectionChange)="updateReviewer(reviewerIndex, { phase: $event.value })">
+              @if (reviewer.phase && !isKnownPhase(reviewer.phase)) {
+                <mat-option [value]="reviewer.phase">{{ reviewer.phase }}</mat-option>
+              }
+              @for (phase of phases(); track phase) {
+                <mat-option [value]="phase">{{ phase }}</mat-option>
+              }
+            </mat-select>
+            @if (!reviewer.phase.trim()) {
+              <mat-hint class="text-red-600">La phase est requise.</mat-hint>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre de solutions</mat-label>
+            <input
+              matInput
+              type="number"
+              min="0"
+              step="1"
+              [value]="reviewer.solutionsCount"
+              (input)="updateSolutionsCount(reviewerIndex, $any($event.target).valueAsNumber)" />
+            <mat-hint>Solutions attribuées à cet évaluateur.</mat-hint>
+          </mat-form-field>
+        </div>
+      </mat-card>
+    } @empty {
+      <div class="rounded-md border border-dashed border-neutral-300 px-4 py-10 text-center">
+        <p class="text-sm text-neutral-500">Aucun évaluateur ajouté.</p>
+      </div>
+    }
+  </div>
+</div>

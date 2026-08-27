@@ -59,7 +59,7 @@ const routes: Routes = [
       {
         path: 'profile',
         title: 'Mon profil',
-        loadComponent: () => import('./modules/profile/features/profile/profile')
+        loadComponent: () => import('../common/modules/profile/features/profile/profile')
       }
     ]
   }

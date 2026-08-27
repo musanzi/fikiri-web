@@ -15,7 +15,7 @@ export class CallRequirementsEditor {
   readonly value = model.required<ICallRequirement[]>();
 
   protected addRequirement(): void {
-    this.value.update((requirements) => [...requirements, { title: '', description: '' }]);
+    this.value.update((requirements) => [{ title: '', description: '' }, ...requirements]);
   }
 
   protected updateRequirement(index: number, changes: Partial<ICallRequirement>): void {

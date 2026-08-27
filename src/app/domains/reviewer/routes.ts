@@ -15,21 +15,6 @@ const routes: Routes = [
         path: 'profile',
         title: 'Mon profil',
         loadComponent: () => import('../common/modules/profile/features/profile/profile')
-      },
-      {
-        path: 'solutions',
-        children: [
-          {
-            path: '',
-            title: 'Mes solutions',
-            loadComponent: () => import('./modules/solutions/features/list-solutions/list-solutions')
-          },
-          {
-            path: ':id',
-            title: 'Modifier une solution',
-            loadComponent: () => import('./modules/solutions/features/update-solution/update-solution')
-          }
-        ]
       }
     ]
   }

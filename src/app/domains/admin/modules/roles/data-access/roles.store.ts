@@ -77,7 +77,7 @@ export const RolesStore = signalStore(
       pipe(
         concatMap(({ id }) => {
           patchState(store, { removingRoleId: id, error: '' });
-          return _http.post<void>(`/roles/${id}`, {}).pipe(
+          return _http.delete<void>(`/roles/${id}`, {}).pipe(
             tap(() => patchState(store, { roles: store.roles().filter((role) => role.id !== id) })),
             catchError(() => {
               patchState(store, { error: 'Impossible de supprimer le rôle. Veuillez réessayer.' });

@@ -6,6 +6,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { IRole } from '@/app/shared/interfaces';
+import { Message } from '@/app/shared/ui/app-message/app-message';
 import { filter } from 'rxjs';
 import { RolesStore } from '../../data-access/roles.store';
 import { IRemoveRoleDialogData, IRoleDialogData, IRoleDialogResult } from '../../interfaces';
@@ -13,7 +14,7 @@ import { RemoveRoleDialog } from '../../ui/remove-role-dialog/remove-role-dialog
 import { RoleFormDialog } from '../../ui/role-form-dialog/role-form-dialog';
 
 @Component({
-  imports: [DatePipe, MatButtonModule, MatDialogModule, MatIconModule, MatTableModule],
+  imports: [DatePipe, Message, MatButtonModule, MatDialogModule, MatIconModule, MatTableModule],
   templateUrl: './list-roles.html',
   providers: [RolesStore]
 })
