@@ -20,7 +20,7 @@ export const routes: Route[] = [
   {
     path: 'reviewer',
     canActivate: [authGuard],
-    loadChildren: () => import('./domains/user/routes')
+    loadChildren: () => import('./domains/reviewer/routes')
   },
   {
     path: '',

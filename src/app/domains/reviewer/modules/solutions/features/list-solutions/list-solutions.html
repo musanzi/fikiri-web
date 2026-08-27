@@ -1,0 +1,96 @@
+<section class="flex flex-col px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
+  <div class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold tracking-tight">Solutions assignées</h1>
+      <p class="mt-1 text-sm text-on-surface-variant">Consultez les solutions qui vous ont été confiées.</p>
+    </div>
+
+    <mat-form-field appearance="outline" class="w-full sm:w-72" subscriptSizing="dynamic">
+      <mat-label>Appel</mat-label>
+      <mat-select
+        aria-label="Filtrer les solutions assignées par appel"
+        [disabled]="callsResource.isLoading()"
+        [(ngModel)]="call">
+        <mat-option value="">Tous les appels</mat-option>
+        @if (callsResource.hasValue()) {
+          @for (callOption of callsResource.value().data; track callOption.id) {
+            <mat-option [value]="callOption.id">{{ callOption.name }}</mat-option>
+          }
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  @if (solutionsResource.isLoading()) {
+    <div class="flex min-h-64 items-center justify-center" aria-label="Chargement des solutions assignées">
+      <span class="text-sm text-on-surface-variant">Chargement…</span>
+    </div>
+  } @else if (solutionsResource.hasValue()) {
+    <div class="flex flex-col overflow-hidden rounded-md border border-outline-variant">
+      <div class="relative isolate overflow-x-auto">
+        <table class="w-full whitespace-nowrap" mat-table [dataSource]="solutionsResource.value().data">
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Solution</th>
+            <td class="max-w-md" mat-cell *matCellDef="let solution">
+              <div class="truncate font-medium">{{ solution.name || 'Sans nom' }}</div>
+              <div class="truncate text-xs text-on-surface-variant">
+                {{ solution.description || 'Aucune description' }}
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="call">
+            <th mat-header-cell *matHeaderCellDef>Appel</th>
+            <td mat-cell *matCellDef="let solution">{{ solution.call?.name || '—' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="owner">
+            <th mat-header-cell *matHeaderCellDef>Porteur</th>
+            <td mat-cell *matCellDef="let solution">
+              <div>{{ solution.user?.name || '—' }}</div>
+              @if (solution.user?.email) {
+                <a class="text-xs text-primary hover:underline" [href]="'mailto:' + solution.user.email">
+                  {{ solution.user.email }}
+                </a>
+              }
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Statut</th>
+            <td mat-cell *matCellDef="let solution">
+              <span class="rounded-full bg-surface-container px-2 py-1 text-xs">
+                {{ statusLabel(solution.status) }}
+              </span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="updatedAt">
+            <th mat-header-cell *matHeaderCellDef>Mise à jour</th>
+            <td mat-cell *matCellDef="let solution">{{ solution.updated_at | date: 'dd/MM/yyyy' }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr class="hover:bg-on-surface-variant/4" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+          <tr class="h-32" *matNoDataRow>
+            <td class="text-center text-sm text-on-surface-variant" [attr.colspan]="displayedColumns.length">
+              Aucune solution ne vous est assignée pour cet appel.
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  } @else {
+    <div
+      class="flex min-h-64 flex-col items-center justify-center gap-4 rounded-md border border-outline-variant text-center"
+      role="alert">
+      <mat-icon class="text-on-surface-variant" svgIcon="triangle-alert" />
+      <div>
+        <h2 class="font-medium">Impossible de charger les solutions assignées</h2>
+        <p class="mt-1 text-sm text-on-surface-variant">Veuillez réessayer dans quelques instants.</p>
+      </div>
+      <button matButton="outlined" type="button" (click)="solutionsResource.reload()">Réessayer</button>
+    </div>
+  }
+</section>

@@ -9,7 +9,7 @@ import { Sidebar } from '@/app/shared/ui';
 import { NAVIGATION } from './data/navigation';
 
 @Component({
-  selector: 'user-layout',
+  selector: 'reviewer-layout',
   imports: [
     MatIconModule,
     MatButtonModule,
@@ -30,7 +30,7 @@ import { NAVIGATION } from './data/navigation';
           [disableClose]="!isMobile()"
           fixedInViewport
           #sidenav="matSidenav">
-          <sidebar [navigation]="navigation" [profileRoute]="'/user/profile'" />
+          <sidebar [navigation]="navigation" [profileRoute]="'/reviewer/profile'" />
         </mat-sidenav>
 
         <mat-sidenav-content class="flex flex-col lg:h-dvh lg:overflow-hidden">
@@ -55,7 +55,7 @@ import { NAVIGATION } from './data/navigation';
     }
   `
 })
-export class UserLayout {
+export class ReviewerLayout {
   private readonly media = inject(Media);
 
   protected readonly navigation = NAVIGATION;

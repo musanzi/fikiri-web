@@ -10,21 +10,21 @@ export const NAVIGATION: INavigationItem[] = [
         id: 'profile',
         label: 'Mon profil',
         icon: 'user-round',
-        route: '/user/profile',
+        route: '/reviewer/profile',
         activeOptions: { exact: true }
       }
     ]
   },
   {
     id: 'solutions-management',
-    label: 'Candidatures',
-    description: 'Gérez les solutions que vous avez proposées',
+    label: 'Évaluations',
+    description: 'Consultez les solutions qui vous sont assignées',
     children: [
       {
         id: 'solutions',
-        label: 'Mes solutions',
+        label: 'Solutions assignées',
         icon: 'lightbulb',
-        route: '/user/solutions',
+        route: '/reviewer/solutions',
         activeOptions: { exact: false }
       }
     ]
