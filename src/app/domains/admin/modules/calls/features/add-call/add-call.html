@@ -123,9 +123,12 @@
       </mat-card>
 
       @if (store.error()) {
-        <p class="rounded-md bg-red-50 px-4 py-3 text-sm text-red-700 lg:col-span-2" role="alert">
-          {{ store.error() }}
-        </p>
+        <app-message
+          class="lg:col-span-2"
+          type="error"
+          title="Création impossible"
+          [dismissible]="false"
+          [message]="store.error()" />
       }
 
       <div class="flex justify-end gap-3 lg:col-span-2">

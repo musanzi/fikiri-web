@@ -16,7 +16,8 @@
           id="user-search"
           type="search"
           placeholder="Nom ou adresse e-mail"
-          [(ngModel)]="q" />
+          [ngModel]="q()"
+          (ngModelChange)="onQueryChange($event)" />
       </div>
 
       <button matButton="outlined" type="button" [disabled]="store.isExporting()" (click)="store.exportUsers()">

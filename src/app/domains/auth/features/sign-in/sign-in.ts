@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { environment } from '@/environments/environment';
-import { Message } from '@/app/shared/ui/app-message/app-message';
+import { Message } from '@/app/shared/ui/message/message';
 import { SignInStore } from '../../data-access/sign-in.store';
 import { ISignInPayload } from '../../interfaces/sign-in.interface';
 

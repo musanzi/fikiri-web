@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ICallContactInfo, ICallSolution, IForm } from '@/app/shared/interfaces';
+import { Message } from '@/app/shared/ui/message/message';
 import { FormBuilder } from '@/app/shared/ui/form-builder/form-builder';
 import { UpdateCallStore } from '../../data-access/update-call.store';
 import { ICreateCallFormModel, IUpdatedCallPayload } from '../../interfaces/calls.interface';
@@ -23,6 +24,7 @@ import { CallReviewersEditor } from '../../ui/call-reviewers-editor/call-reviewe
     CallRequirementsEditor,
     CallReviewersEditor,
     FormField,
+    Message,
     MatButtonModule,
     MatCardModule,
     MatDatepickerModule,

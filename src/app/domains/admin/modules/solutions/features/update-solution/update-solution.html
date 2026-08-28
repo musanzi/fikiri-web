@@ -1,0 +1,177 @@
+<section class="px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
+  <div class="mx-auto w-full max-w-6xl">
+    <a matButton routerLink="/admin/solutions" queryParamsHandling="preserve">
+      <mat-icon svgIcon="arrow-left" />
+      Retour aux solutions
+    </a>
+
+    @if (solutionResource.isLoading()) {
+      <div class="flex min-h-64 items-center justify-center" aria-label="Chargement des détails de la solution">
+        <span class="text-sm text-on-surface-variant">Chargement…</span>
+      </div>
+    } @else if (solutionResource.hasValue()) {
+      @let solution = solutionResource.value().data;
+
+      <header class="mt-6 flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <p class="text-sm font-medium text-primary">{{ solution.call.name }}</p>
+          <h1 class="mt-1 text-3xl font-semibold tracking-tight">{{ solution.name || 'Sans nom' }}</h1>
+          <p class="mt-2 text-sm text-on-surface-variant">
+            Soumise le {{ solution.created_at | date: 'dd/MM/yyyy' }} · Mise à jour le
+            {{ solution.updated_at | date: 'dd/MM/yyyy' }}
+          </p>
+        </div>
+
+        <form class="flex w-full flex-col items-end gap-2 sm:w-72" (submit)="onStatusSubmit(); $event.preventDefault()">
+          <div class="flex w-full items-start gap-2">
+            <mat-form-field appearance="outline" class="flex-1">
+              <mat-select [formField]="statusForm.status">
+                @for (status of statuses; track status.value) {
+                  <mat-option [value]="status.value">{{ status.label }}</mat-option>
+                }
+              </mat-select>
+              @if (statusForm.status().touched() && statusForm.status().errors().length) {
+                <mat-error>{{ statusForm.status().errors()[0].message }}</mat-error>
+              }
+            </mat-form-field>
+            <button matButton="filled" type="submit" [disabled]="store.isLoading() || statusForm().invalid()">
+              {{ store.isLoading() ? 'Enregistrement…' : 'Enregistrer' }}
+            </button>
+          </div>
+          @if (store.isSaved()) {
+            <p class="text-sm text-primary" role="status">Statut mis à jour.</p>
+          } @else if (store.error()) {
+            <p class="text-sm text-error" role="alert">{{ store.error() }}</p>
+          }
+        </form>
+      </header>
+
+      <div class="mt-7 grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(16rem,1fr)]">
+        <div class="space-y-6">
+          <mat-card appearance="outlined" class="rounded-md border-outline-variant">
+            <mat-card-header>
+              <mat-card-title>Présentation</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="space-y-6 pt-5">
+              <div>
+                <h2 class="text-sm font-semibold">Description</h2>
+                <p class="mt-2 whitespace-pre-line text-sm leading-6 text-on-surface-variant">
+                  {{ solution.description || 'Aucune description.' }}
+                </p>
+              </div>
+              <div>
+                <h2 class="text-sm font-semibold">Problème résolu</h2>
+                <p class="mt-2 whitespace-pre-line text-sm leading-6 text-on-surface-variant">
+                  {{ solution.problem_solved || 'Non renseigné.' }}
+                </p>
+              </div>
+            </mat-card-content>
+          </mat-card>
+
+          <mat-card appearance="outlined" class="rounded-md border-outline-variant">
+            <mat-card-header>
+              <mat-card-title>Réponses de la candidature</mat-card-title>
+            </mat-card-header>
+            <mat-card-content class="pt-5">
+              <dl class="divide-y divide-outline-variant">
+                @for (answer of submissionAnswers(); track answer.label) {
+                  <div class="grid gap-1 py-4 first:pt-0 last:pb-0 sm:grid-cols-[minmax(12rem,1fr)_2fr] sm:gap-6">
+                    <dt class="text-sm font-medium">{{ answer.label }}</dt>
+                    <dd class="whitespace-pre-line text-sm text-on-surface-variant">{{ answer.value }}</dd>
+                  </div>
+                } @empty {
+                  <div class="py-6 text-center text-sm text-on-surface-variant">Aucune réponse supplémentaire.</div>
+                }
+              </dl>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <mat-card appearance="outlined" class="h-fit rounded-md border-outline-variant">
+          <mat-card-header>
+            <mat-card-title>Informations</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="pt-5">
+            <dl class="space-y-5 text-sm">
+              <div>
+                <dt class="text-on-surface-variant">Porteur</dt>
+                <dd class="mt-1 font-medium">{{ solution.user.name || '—' }}</dd>
+                @if (solution.user.email) {
+                  <dd>
+                    <a class="text-primary hover:underline" [href]="'mailto:' + solution.user.email">
+                      {{ solution.user.email }}
+                    </a>
+                  </dd>
+                }
+              </div>
+              <div>
+                <dt class="text-on-surface-variant">Appel</dt>
+                <dd class="mt-1 font-medium">{{ solution.call.name }}</dd>
+              </div>
+              <div>
+                <dt class="text-on-surface-variant">Identifiant</dt>
+                <dd class="mt-1 break-all font-mono text-xs">{{ solution.id }}</dd>
+              </div>
+            </dl>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <section class="mt-8" aria-labelledby="reviews-title">
+        <div class="flex items-end justify-between gap-4">
+          <div>
+            <h2 id="reviews-title" class="text-2xl font-semibold">Évaluations</h2>
+            <p class="mt-1 text-sm text-on-surface-variant">Avis soumis par les évaluateurs assignés.</p>
+          </div>
+          <span class="text-sm text-on-surface-variant">
+            {{ solution.reviews.length }} évaluation{{ solution.reviews.length > 1 ? 's' : '' }}
+          </span>
+        </div>
+
+        <div class="mt-5 grid gap-5 lg:grid-cols-2">
+          @for (reviewView of reviewViews(); track reviewView.review.id; let reviewIndex = $index) {
+            <mat-card appearance="outlined" class="rounded-md border-outline-variant">
+              <mat-card-header>
+                <mat-card-title>Évaluation {{ reviewIndex + 1 }}</mat-card-title>
+                <mat-card-subtitle>
+                  {{ reviewView.review.reviewer }} · {{ reviewView.review.updated_at | date: 'dd/MM/yyyy' }}
+                </mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content class="pt-5">
+                <dl class="divide-y divide-outline-variant">
+                  @for (answer of reviewView.answers; track answer.label) {
+                    <div class="py-4 first:pt-0 last:pb-0">
+                      <dt class="text-sm font-medium">{{ answer.label }}</dt>
+                      <dd class="mt-1 whitespace-pre-line text-sm text-on-surface-variant">{{ answer.value }}</dd>
+                    </div>
+                  } @empty {
+                    <div class="py-5 text-center text-sm text-on-surface-variant">Aucune réponse structurée.</div>
+                  }
+                </dl>
+              </mat-card-content>
+            </mat-card>
+          } @empty {
+            <mat-card appearance="outlined" class="rounded-md border-outline-variant lg:col-span-2">
+              <mat-card-content class="py-12 text-center">
+                <mat-icon class="text-on-surface-variant" svgIcon="clipboard-x" />
+                <p class="mt-3 font-medium">Aucune évaluation</p>
+                <p class="mt-1 text-sm text-on-surface-variant">Les évaluations soumises apparaîtront ici.</p>
+              </mat-card-content>
+            </mat-card>
+          }
+        </div>
+      </section>
+    } @else {
+      <div
+        class="mt-6 flex min-h-64 flex-col items-center justify-center gap-4 rounded-md border border-outline-variant text-center"
+        role="alert">
+        <mat-icon class="text-on-surface-variant" svgIcon="triangle-alert" />
+        <div>
+          <h1 class="font-medium">Impossible de charger la solution</h1>
+          <p class="mt-1 text-sm text-on-surface-variant">Veuillez réessayer dans quelques instants.</p>
+        </div>
+        <button matButton="outlined" type="button" (click)="solutionResource.reload()">Réessayer</button>
+      </div>
+    }
+  </div>
+</section>

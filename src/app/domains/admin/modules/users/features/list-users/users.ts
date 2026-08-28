@@ -7,7 +7,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
-import { Message } from '@/app/shared/ui/app-message/app-message';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Message } from '@/app/shared/ui/message/message';
 import { filter } from 'rxjs';
 import { UsersStore } from '../../data-access/users.store';
 import {
@@ -38,9 +39,11 @@ export default class Users implements OnInit {
   protected readonly store = inject(UsersStore);
   private readonly dialog = inject(MatDialog);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
-  protected readonly page = signal<number>(1);
-  protected readonly q = signal<string>('');
+  protected readonly page = signal<number>(this.initialPage());
+  protected readonly q = signal<string>(this.route.snapshot.queryParamMap.get('q') ?? '');
   protected readonly debouncedQuery = debounced(this.q, 300);
   protected readonly displayedColumns = ['name', 'email', 'phoneNumber', 'roles', 'createdAt', 'actions'];
 
@@ -57,6 +60,13 @@ export default class Users implements OnInit {
 
   protected onPageChange(event: PageEvent): void {
     this.page.set(event.pageIndex + 1);
+    this.persistFilters();
+  }
+
+  protected onQueryChange(query: string): void {
+    this.q.set(query);
+    this.page.set(1);
+    this.persistFilters();
   }
 
   protected openCreateDialog(): void {
@@ -101,5 +111,24 @@ export default class Users implements OnInit {
         takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(() => this.store.removeUser({ id: user.id }));
+  }
+
+  private initialPage(): number {
+    const page = Number(this.route.snapshot.queryParamMap.get('page'));
+    return Number.isInteger(page) && page > 0 ? page : 1;
+  }
+
+  private persistFilters(): void {
+    const page = this.page();
+
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        page: page === 1 ? null : page,
+        q: this.q() || null
+      },
+      queryParamsHandling: 'merge',
+      replaceUrl: true
+    });
   }
 }

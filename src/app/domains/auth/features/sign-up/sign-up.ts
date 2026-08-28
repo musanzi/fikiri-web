@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { environment } from '@/environments/environment';
-import { Message } from '@/app/shared/ui/app-message/app-message';
+import { Message } from '@/app/shared/ui/message/message';
 import { SignUpStore } from '../../data-access/sign-up.store';
 import { ISignUpPayload } from '../../interfaces/sign-up.interface';
 
