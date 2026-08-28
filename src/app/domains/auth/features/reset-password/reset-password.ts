@@ -4,7 +4,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { Message } from '@/app/shared/ui/app-message/app-message';
+import { Message } from '@/app/shared/ui/message/message';
 import { ResetPasswordStore } from '../../data-access/reset-password.store';
 import { IResetPasswordPayload } from '../../interfaces/reset-password.interface';
 

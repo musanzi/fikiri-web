@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { AuthStore } from '@/app/domains/auth/data-access/auth.store';
-import { Message } from '@/app/shared/ui/app-message/app-message';
+import { Message } from '@/app/shared/ui/message/message';
 import { environment } from '@/environments/environment';
 import { ProfileStore } from '../../data-access/profile.store';
 import { IProfileFormModel, IUpdatePasswordFormModel, IUpdateProfilePayload } from '../../interfaces';
