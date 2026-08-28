@@ -6,7 +6,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { IRole } from '@/app/shared/interfaces';
-import { Message } from '@/app/shared/ui/app-message/app-message';
+import { Message } from '@/app/shared/ui/message/message';
 import { filter } from 'rxjs';
 import { RolesStore } from '../../data-access/roles.store';
 import { IRemoveRoleDialogData, IRoleDialogData, IRoleDialogResult } from '../../interfaces';

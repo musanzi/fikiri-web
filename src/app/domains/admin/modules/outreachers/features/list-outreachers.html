@@ -16,7 +16,8 @@
           id="outreacher-search"
           type="search"
           placeholder="Nom ou adresse e-mail"
-          [(ngModel)]="q" />
+          [ngModel]="q()"
+          (ngModelChange)="onQueryChange($event)" />
       </div>
     </div>
   </div>

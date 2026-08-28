@@ -31,7 +31,8 @@
           id="solution-search"
           type="search"
           placeholder="Nom ou description"
-          [(ngModel)]="q" />
+          [ngModel]="q()"
+          (ngModelChange)="onQueryChange($event)" />
       </div>
     </div>
   </div>
@@ -77,6 +78,16 @@
           <ng-container matColumnDef="updatedAt">
             <th mat-header-cell *matHeaderCellDef>Mise à jour</th>
             <td mat-cell *matCellDef="let solution">{{ solution.updated_at | date: 'dd/MM/yyyy' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td class="text-right" mat-cell *matCellDef="let solution">
+              <a matButton [routerLink]="[solution.id]" queryParamsHandling="preserve">
+                <mat-icon svgIcon="eye" />
+                Voir les détails
+              </a>
+            </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
