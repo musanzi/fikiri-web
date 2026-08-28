@@ -6,16 +6,16 @@ export const unauthGuard: CanActivateFn = () => {
   const authStore = inject(AuthStore);
   const router = inject(Router);
 
-  if (authStore.isAdmin()) {
-    return router.parseUrl('/admin');
+  if (authStore.isUser()) {
+    return router.parseUrl('/user');
   }
 
   if (authStore.isReviewer()) {
-    return router.parseUrl('/reviwer');
+    return router.parseUrl('/reviewer');
   }
 
-  if (authStore.isUser()) {
-    return router.parseUrl('/user');
+  if (authStore.isAdmin()) {
+    return router.parseUrl('/admin');
   }
 
   return true;
