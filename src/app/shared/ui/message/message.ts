@@ -15,7 +15,7 @@ import { IMessageType } from '../../interfaces';
 @Component({
   selector: 'app-message',
   imports: [MatButtonModule, MatIconModule],
-  templateUrl: './app-message.html',
+  templateUrl: './message.html',
   host: { class: 'block' }
 })
 export class Message {
