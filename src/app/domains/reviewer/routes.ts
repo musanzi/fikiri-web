@@ -18,8 +18,18 @@ const routes: Routes = [
       },
       {
         path: 'solutions',
-        title: 'Solutions assignées',
-        loadComponent: () => import('./modules/solutions/features/list-solutions/list-solutions')
+        children: [
+          {
+            path: '',
+            title: 'Solutions assignées',
+            loadComponent: () => import('./modules/solutions/features/list-solutions/list-solutions')
+          },
+          {
+            path: ':id/review',
+            title: 'Évaluer une solution',
+            loadComponent: () => import('./modules/solutions/features/review-solution/review-solution')
+          }
+        ]
       }
     ]
   }

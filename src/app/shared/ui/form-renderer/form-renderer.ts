@@ -4,7 +4,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { IField, IForm, JsonValue } from '@/app/shared/interfaces';
+import { IField, IForm, IFormResponses } from '@/app/shared/interfaces';
 import { IFormAnswer, IFormAnswersModel } from '../../interfaces';
 
 @Component({
@@ -14,7 +14,7 @@ import { IFormAnswer, IFormAnswersModel } from '../../interfaces';
 })
 export class FormRenderer {
   readonly sections: InputSignal<IForm[]> = input.required<IForm[]>();
-  readonly initialResponses = input<Record<string, JsonValue>>({});
+  readonly initialResponses = input<IFormResponses>({});
 
   private readonly answersModel = linkedSignal<IFormAnswersModel>(() => ({
     answers: this.sections().flatMap((section) => section.fields.map((field) => this.buildAnswer(field)))
@@ -44,7 +44,7 @@ export class FormRenderer {
     }));
   });
 
-  responses(): Record<string, string | string[]> {
+  responses(): IFormResponses {
     return Object.fromEntries(
       this.answersModel().answers.map((answer) => [
         answer.name,

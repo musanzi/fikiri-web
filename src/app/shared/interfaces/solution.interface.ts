@@ -1,6 +1,6 @@
 import type { IBaseEntity } from './base.interface';
 import type { ICallSolution } from './call-solution.interface';
-import type { JsonValue } from './json.interface';
+import type { IFormResponses } from './form.interface';
 import type { IReview } from './review.interface';
 import type { ISolutionGallery } from './solution-gallery.interface';
 import type { IUser } from './user.interface';
@@ -12,7 +12,7 @@ export interface ISolution extends IBaseEntity {
   slug: string;
   description: string;
   problem_solved: string;
-  responses: Record<string, JsonValue>;
+  responses: IFormResponses;
   reviewer: string;
   status: SolutionStatus;
   image: string | null;

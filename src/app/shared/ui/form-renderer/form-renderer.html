@@ -1,5 +1,5 @@
 @for (section of renderedSections(); track section.phase) {
-  <fieldset class="space-y-6">
+  <fieldset class="flex flex-col gap-6">
     <legend class="mb-4 text-base font-bold text-gray-950">{{ section.phase }}</legend>
 
     @for (question of section.questions; track question.field.name) {
@@ -56,7 +56,7 @@
             </fieldset>
           }
           @default {
-            <mat-form-field appearance="outline" class="w-full">
+            <mat-form-field appearance="outline" class="w-full my-3">
               <mat-label>{{ question.field.label }}</mat-label>
               <input
                 matInput

@@ -1,0 +1,64 @@
+<section class="px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
+  <div class="mx-auto w-full max-w-4xl">
+    <a matButton routerLink="/reviewer/solutions" queryParamsHandling="preserve">
+      <mat-icon svgIcon="arrow-left" />
+      Retour aux solutions
+    </a>
+
+    @if (solutionsResource.isLoading()) {
+      <div class="flex min-h-64 items-center justify-center" aria-label="Chargement du formulaire d'évaluation">
+        <span class="text-sm text-on-surface-variant">Chargement…</span>
+      </div>
+    } @else if (solution(); as selectedSolution) {
+      <header class="mt-6">
+        <p class="text-sm font-medium text-primary">{{ selectedSolution.call.name }}</p>
+        <h1 class="mt-1 text-2xl font-semibold tracking-tight">Évaluer {{ selectedSolution.name }}</h1>
+        <p class="mt-2 text-sm text-on-surface-variant">Porteur : {{ selectedSolution.user.name || '—' }}</p>
+      </header>
+
+      <div class="mt-6 rounded-md border border-outline-variant p-5 sm:p-7">
+        <form-renderer [sections]="selectedSolution.call.review_form" [initialResponses]="initialResponses()" />
+
+        @if (store.error()) {
+          <app-message
+            class="mt-6"
+            type="error"
+            title="Enregistrement impossible"
+            [dismissible]="false"
+            [message]="store.error()" />
+        }
+
+        @if (store.saved()) {
+          <app-message
+            class="mt-6"
+            type="success"
+            title="Évaluation enregistrée"
+            message="L'évaluation a été enregistrée."
+            [dismissible]="false" />
+        }
+
+        <div class="mt-7 flex flex-col-reverse gap-3 border-t border-outline-variant pt-6 sm:flex-row sm:justify-end">
+          <a matButton="outlined" routerLink="/reviewer/solutions" queryParamsHandling="preserve">Annuler</a>
+          <button
+            matButton="filled"
+            type="button"
+            [disabled]="store.isSaving() || formRenderer()?.invalid()"
+            (click)="onSubmit()">
+            {{ store.isSaving() ? 'Enregistrement…' : review() ? "Modifier l'évaluation" : "Enregistrer l'évaluation" }}
+          </button>
+        </div>
+      </div>
+    } @else {
+      <div
+        class="mt-6 flex min-h-64 flex-col items-center justify-center gap-4 rounded-md border border-outline-variant text-center"
+        role="alert">
+        <mat-icon class="text-on-surface-variant" svgIcon="triangle-alert" />
+        <div>
+          <h1 class="font-medium">Solution assignée introuvable</h1>
+          <p class="mt-1 text-sm text-on-surface-variant">Cette solution n'est pas disponible dans vos évaluations.</p>
+        </div>
+        <button matButton="outlined" type="button" (click)="solutionsResource.reload()">Réessayer</button>
+      </div>
+    }
+  </div>
+</section>
