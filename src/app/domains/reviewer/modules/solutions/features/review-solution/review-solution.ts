@@ -1,6 +1,8 @@
 import { httpResource } from '@angular/common/http';
+import { DecimalPipe } from '@angular/common';
 import { Component, computed, inject, input, viewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { AuthStore } from '@/app/domains/auth/data-access';
@@ -12,7 +14,7 @@ import { IReviewPayload } from '../../interfaces';
 
 @Component({
   selector: 'app-review-solution',
-  imports: [FormRenderer, Message, MatButtonModule, MatIconModule, RouterLink],
+  imports: [DecimalPipe, FormRenderer, Message, MatButtonModule, MatCardModule, MatIconModule, RouterLink],
   providers: [ReviewStore],
   templateUrl: './review-solution.html'
 })
@@ -41,8 +43,10 @@ export default class ReviewSolution {
     const solution = this.solution();
     if (!renderer || !solution || renderer.answerForm().invalid()) return;
 
+    const data = renderer.responses();
     const payload: IReviewPayload = {
-      data: renderer.responses(),
+      data,
+      note: renderer.note(),
       solution: solution.id
     };
     const review = this.review();

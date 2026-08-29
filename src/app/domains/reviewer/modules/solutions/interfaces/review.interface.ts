@@ -2,6 +2,7 @@ import { IReview, IReviewData } from '@/app/shared/interfaces';
 
 export interface IReviewPayload {
   data: IReviewData;
+  note: number;
   solution: string;
 }
 

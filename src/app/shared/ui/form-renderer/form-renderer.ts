@@ -35,6 +35,16 @@ export class FormRenderer {
   });
 
   readonly invalid = computed(() => this.answerForm().invalid());
+  readonly note = computed(() => {
+    const numericValues = this.answersModel()
+      .answers.filter((answer) => answer.type === 'number')
+      .map((answer) => answer.value)
+      .filter((value) => value.trim() !== '')
+      .map(Number)
+      .filter(Number.isFinite);
+
+    return numericValues.length ? numericValues.reduce((total, value) => total + value, 0) / numericValues.length : 0;
+  });
 
   protected readonly renderedSections = computed(() => {
     let answerIndex = 0;

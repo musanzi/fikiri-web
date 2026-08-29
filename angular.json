@@ -62,9 +62,6 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
-          "options": {
-            "allowedHosts": ["fikiri.co"]
-          },
           "configurations": {
             "production": {
               "buildTarget": "fikiri-web:build:production"
