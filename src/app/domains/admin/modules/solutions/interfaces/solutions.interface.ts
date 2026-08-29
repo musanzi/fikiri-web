@@ -1,4 +1,4 @@
-import type { IReview, SolutionStatus } from '@/app/shared/interfaces';
+import type { IReview, ISolution, SolutionStatus } from '@/app/shared/interfaces';
 
 export interface QueryParams {
   page?: string | null;
@@ -9,6 +9,17 @@ export interface QueryParams {
 
 export interface IUpdateSolutionPayload {
   status: SolutionStatus;
+}
+
+export interface IAwardSolutionState {
+  awardingSolutionId: string;
+  updatedSolutions: ISolution[];
+  error: string;
+  isSaved: boolean;
+}
+
+export interface IAwardSolutionResponse {
+  data: ISolution;
 }
 
 export interface ISolutionAnswerView {

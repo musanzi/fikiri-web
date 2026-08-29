@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { HttpParams, httpResource } from '@angular/common/http';
 import { Component, computed, debounced, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -10,12 +10,16 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ICallSolution, ISolution, SolutionStatus } from '@/app/shared/interfaces';
+import { Message } from '@/app/shared/ui/message/message';
+import { AwardSolutionStore } from '../../data-access/award-solution.store';
 import { QueryParams } from '../../interfaces';
 
 @Component({
   imports: [
     DatePipe,
+    DecimalPipe,
     FormsModule,
+    Message,
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
@@ -24,9 +28,11 @@ import { QueryParams } from '../../interfaces';
     MatTableModule,
     RouterLink
   ],
-  templateUrl: './list-solutions.html'
+  templateUrl: './list-solutions.html',
+  providers: [AwardSolutionStore]
 })
 export default class ListSolutions {
+  protected readonly awardStore = inject(AwardSolutionStore);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
@@ -35,7 +41,7 @@ export default class ListSolutions {
   readonly call = signal<string>(this.route.snapshot.queryParamMap.get('call') ?? '');
 
   readonly debouncedQuery = debounced(this.q, 300);
-  readonly displayedColumns = ['name', 'owner', 'status', 'updatedAt', 'actions'];
+  readonly displayedColumns = ['name', 'owner', 'status', 'reviewNote', 'updatedAt', 'actions'];
 
   readonly statusLabels: Record<SolutionStatus, string> = {
     pending: 'En attente',
@@ -76,6 +82,14 @@ export default class ListSolutions {
 
   statusLabel(status: SolutionStatus): string {
     return this.statusLabels[status];
+  }
+
+  isAwarded(solution: ISolution): boolean {
+    const updatedSolution = this.awardStore
+      .updatedSolutions()
+      .find((candidate) => candidate.id === solution.id);
+
+    return updatedSolution ? updatedSolution.award !== null : solution.award !== null;
   }
 
   private initialPage(): number {

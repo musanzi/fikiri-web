@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { HttpParams, httpResource } from '@angular/common/http';
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -16,6 +16,7 @@ import { ICallSolution, ISolution, SolutionStatus } from '@/app/shared/interface
   selector: 'app-list-solutions',
   imports: [
     DatePipe,
+    DecimalPipe,
     FormsModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -35,7 +36,7 @@ export default class ListSolutions {
   protected readonly call = signal<string>(this.route.snapshot.queryParamMap.get('call') ?? '');
   protected readonly pageIndex = signal(this.initialPage() - 1);
   protected readonly pageSize = 40;
-  protected readonly displayedColumns = ['name', 'call', 'owner', 'status', 'updatedAt', 'actions'];
+  protected readonly displayedColumns = ['name', 'call', 'owner', 'status', 'reviewNote', 'updatedAt', 'actions'];
 
   protected readonly statusLabels: Record<SolutionStatus, string> = {
     pending: 'En attente',

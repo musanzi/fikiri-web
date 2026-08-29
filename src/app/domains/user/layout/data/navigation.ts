@@ -18,7 +18,7 @@ export const NAVIGATION: INavigationItem[] = [
   {
     id: 'solutions-management',
     label: 'Candidatures',
-    description: 'Gérez les solutions que vous avez proposées',
+    description: 'Gérez vos solutions',
     children: [
       {
         id: 'solutions',
