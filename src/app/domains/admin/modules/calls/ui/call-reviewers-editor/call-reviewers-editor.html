@@ -29,32 +29,49 @@
 
         <div class="grid gap-4 sm:grid-cols-3">
           <mat-form-field appearance="outline">
-            <mat-label>Adresse e-mail</mat-label>
-            <input
-              matInput
-              type="email"
-              autocomplete="email"
+            <mat-label>Cartographe</mat-label>
+            <mat-select
               [value]="reviewer.email"
-              (input)="updateReviewer(reviewerIndex, { email: $any($event.target).value })" />
+              (selectionChange)="updateReviewer(reviewerIndex, { email: $event.value })">
+              @if (reviewer.email && !isKnownCartographer(reviewer.email)) {
+                <mat-option [value]="reviewer.email">{{ reviewer.email }}</mat-option>
+              }
+              @if (cartographersResource.isLoading()) {
+                <mat-option disabled>Chargement des cartographes…</mat-option>
+              } @else if (cartographersResource.error()) {
+                <mat-option disabled>Impossible de charger les cartographes.</mat-option>
+              } @else {
+                @for (cartographer of cartographers(); track cartographer.id) {
+                  <mat-option
+                    [value]="cartographer.email"
+                    [disabled]="isSelectedByAnotherReviewer(cartographer.email, reviewerIndex)">
+                    {{ cartographer.name }} — {{ cartographer.email }}
+                  </mat-option>
+                } @empty {
+                  <mat-option disabled>Aucun cartographe disponible.</mat-option>
+                }
+              }
+            </mat-select>
             @if (!reviewer.email.trim()) {
-              <mat-hint class="text-red-600">L'adresse e-mail est requise.</mat-hint>
+              <mat-hint class="text-red-600">Le cartographe est requis.</mat-hint>
             }
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Phase d'évaluation</mat-label>
             <mat-select
+              multiple
               [value]="reviewer.phase"
               (selectionChange)="updateReviewer(reviewerIndex, { phase: $event.value })">
-              @if (reviewer.phase && !isKnownPhase(reviewer.phase)) {
-                <mat-option [value]="reviewer.phase">{{ reviewer.phase }}</mat-option>
+              @for (phase of unknownPhases(reviewer.phase); track phase) {
+                <mat-option [value]="phase">{{ phase }}</mat-option>
               }
               @for (phase of phases(); track phase) {
                 <mat-option [value]="phase">{{ phase }}</mat-option>
               }
             </mat-select>
-            @if (!reviewer.phase.trim()) {
-              <mat-hint class="text-red-600">La phase est requise.</mat-hint>
+            @if (reviewer.phase.length === 0) {
+              <mat-hint class="text-red-600">Au moins une phase est requise.</mat-hint>
             }
           </mat-form-field>
 

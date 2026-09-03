@@ -1,5 +1,5 @@
 export interface IReviewer {
-  phase: string;
+  phase: string[];
   email: string;
   solutionsCount: number;
 }

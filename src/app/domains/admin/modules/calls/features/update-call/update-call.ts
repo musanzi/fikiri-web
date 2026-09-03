@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ICallContactInfo, ICallSolution, IForm } from '@/app/shared/interfaces';
+import { ICallContactInfo, ICallSolution, IForm, IReviewer } from '@/app/shared/interfaces';
 import { Message } from '@/app/shared/ui/message/message';
 import { FormBuilder } from '@/app/shared/ui/form-builder/form-builder';
 import { UpdateCallStore } from '../../data-access/update-call.store';
@@ -63,7 +63,12 @@ export default class UpdateCall {
     return form?.length ? form : [{ phase: 'Évaluation', fields: [] }];
   });
 
-  protected reviewers = linkedSignal(() => this.callResource.value()?.data.reviewers ?? []);
+  protected reviewers = linkedSignal<IReviewer[]>(() =>
+    (this.callResource.value()?.data.reviewers ?? []).map((reviewer) => ({
+      ...reviewer,
+      phase: this.normalizePhases(reviewer.phase)
+    }))
+  );
 
   protected contactInfo = linkedSignal<ICallContactInfo>(() => {
     const contact = this.callResource.value()?.data.contact_form;
@@ -115,5 +120,14 @@ export default class UpdateCall {
   protected removeCover(input: HTMLInputElement): void {
     this.cover.set(undefined);
     input.value = '';
+  }
+
+  private normalizePhases(value: unknown): string[] {
+    const phases = Array.isArray(value) ? value : [value];
+
+    return phases
+      .filter((phase): phase is string => typeof phase === 'string')
+      .map((phase) => phase.trim())
+      .filter(Boolean);
   }
 }

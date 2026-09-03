@@ -1,4 +1,4 @@
-import { ICallContactInfo, ICallRequirement, ICallSolution, IForm, IReviewer } from '@/app/shared/interfaces';
+import { ICallContactInfo, ICallRequirement, ICallSolution, IForm, IReviewer, IUser } from '@/app/shared/interfaces';
 
 export interface IQueryParams {
   page: string | null;
@@ -35,4 +35,8 @@ export interface IUpdatedCallPayload {
   form: IForm[];
   contact_form: ICallContactInfo;
   requirements: ICallRequirement[];
+}
+
+export interface IUsersByRoleResponse {
+  data: IUser[];
 }
