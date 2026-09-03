@@ -5,7 +5,7 @@
       <p class="mt-1 text-sm text-neutral-500">Liste des solutions proposées sur la plateforme.</p>
     </div>
 
-    <div class="flex w-full max-w-2xl flex-col gap-2 sm:flex-row sm:items-center">
+    <div class="flex w-full max-w-3xl flex-col gap-2 sm:flex-row sm:items-center">
       <mat-form-field appearance="outline" class="w-full sm:w-64" subscriptSizing="dynamic">
         <mat-select
           aria-label="Filtrer les solutions par appel"
@@ -34,10 +34,25 @@
           [ngModel]="q()"
           (ngModelChange)="onQueryChange($event)" />
       </div>
+
+      <button matButton="outlined" type="button" [disabled]="exportStore.isExporting()" (click)="exportCsv()">
+        <mat-icon svgIcon="download" />
+        {{ exportStore.isExporting() ? 'Export…' : 'Exporter CSV' }}
+      </button>
     </div>
   </div>
 
-  @if (awardStore.error()) {
+  @if (removeStore.error()) {
+    <app-message class="mb-4" type="error" [message]="removeStore.error()" (dismissed)="removeStore.clearFeedback()" />
+  } @else if (removeStore.removedSolutionId()) {
+    <app-message
+      class="mb-4"
+      type="success"
+      message="La solution a été supprimée."
+      (dismissed)="removeStore.clearFeedback()" />
+  } @else if (exportStore.error()) {
+    <app-message class="mb-4" type="error" [message]="exportStore.error()" (dismissed)="exportStore.clearError()" />
+  } @else if (awardStore.error()) {
     <app-message class="mb-4" type="error" [message]="awardStore.error()" (dismissed)="awardStore.clearFeedback()" />
   } @else if (awardStore.isSaved()) {
     <app-message
@@ -117,6 +132,14 @@
                 <mat-icon svgIcon="eye" />
                 Voir les détails
               </a>
+              <button
+                matIconButton
+                type="button"
+                aria-label="Supprimer la solution"
+                [disabled]="removeStore.removingSolutionId() !== ''"
+                (click)="openRemoveDialog(solution)">
+                <mat-icon svgIcon="trash-2" />
+              </button>
             </td>
           </ng-container>
 

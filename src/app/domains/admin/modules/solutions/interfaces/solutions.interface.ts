@@ -22,6 +22,21 @@ export interface IAwardSolutionResponse {
   data: ISolution;
 }
 
+export interface IRemoveSolutionState {
+  removingSolutionId: string;
+  removedSolutionId: string;
+  error: string;
+}
+
+export interface IRemoveSolutionDialogData {
+  solution: ISolution;
+}
+
+export interface IExportSolutionsState {
+  isExporting: boolean;
+  error: string;
+}
+
 export interface ISolutionAnswerView {
   label: string;
   value: string;
