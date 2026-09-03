@@ -13,7 +13,7 @@ import { IFormAnswer, IFormAnswersModel } from '../../interfaces';
   templateUrl: './form-renderer.html'
 })
 export class FormRenderer {
-  readonly sections: InputSignal<IForm[]> = input.required<IForm[]>();
+  readonly sections: InputSignal<IForm[]> = input<IForm[]>([]);
   readonly initialResponses = input<IFormResponses>({});
 
   private readonly answersModel = linkedSignal<IFormAnswersModel>(() => ({
@@ -35,13 +35,16 @@ export class FormRenderer {
   });
 
   readonly invalid = computed(() => this.answerForm().invalid());
-  readonly note = computed(() => {
-    const numericValues = this.answersModel()
+  readonly numericValues = computed(() =>
+    this.answersModel()
       .answers.filter((answer) => answer.type === 'number')
       .map((answer) => answer.value)
       .filter((value) => value.trim() !== '')
       .map(Number)
-      .filter(Number.isFinite);
+      .filter(Number.isFinite)
+  );
+  readonly note = computed(() => {
+    const numericValues = this.numericValues();
 
     return numericValues.length ? numericValues.reduce((total, value) => total + value, 0) / numericValues.length : 0;
   });

@@ -16,17 +16,29 @@
         <p class="mt-2 text-sm text-on-surface-variant">Porteur : {{ selectedSolution.user.name || '—' }}</p>
       </header>
 
-      <div class="mt-6 rounded-md border border-outline-variant p-5 sm:p-7">
-        <form-renderer [sections]="selectedSolution.call.review_form" [initialResponses]="initialResponses()" />
+      <div class="mt-6 flex flex-col gap-5">
+        @for (section of reviewSections(); track section.phase) {
+          <mat-card appearance="outlined" class="rounded-md">
+            <mat-card-content>
+              <form-renderer [sections]="[section]" [initialResponses]="initialResponses()" />
+            </mat-card-content>
+          </mat-card>
+        } @empty {
+          <mat-card appearance="outlined" class="rounded-md">
+            <mat-card-content>
+              <p class="text-sm text-on-surface-variant">Aucun formulaire d'évaluation ne vous est assigné.</p>
+            </mat-card-content>
+          </mat-card>
+        }
 
-        <mat-card appearance="outlined" class="mt-6 rounded-md">
+        <mat-card appearance="outlined" class="rounded-md">
           <mat-card-content class="flex items-center justify-between gap-4">
             <div>
               <p class="font-medium">Note moyenne</p>
               <p class="text-sm text-on-surface-variant">Mise à jour automatiquement pendant l'évaluation.</p>
             </div>
             <output class="text-2xl font-semibold text-primary" aria-label="Note moyenne actuelle">
-              {{ formRenderer()?.note() ?? 0 | number: '1.0-2' }}
+              {{ note() | number: '1.0-2' }}
             </output>
           </mat-card-content>
         </mat-card>
@@ -51,11 +63,7 @@
 
         <div class="mt-7 flex flex-col-reverse gap-3 border-t border-outline-variant pt-6 sm:flex-row sm:justify-end">
           <a matButton="outlined" routerLink="/reviewer/solutions" queryParamsHandling="preserve">Annuler</a>
-          <button
-            matButton="filled"
-            type="button"
-            [disabled]="store.isSaving() || formRenderer()?.invalid()"
-            (click)="onSubmit()">
+          <button matButton="filled" type="button" [disabled]="store.isSaving() || invalid()" (click)="onSubmit()">
             {{ store.isSaving() ? 'Enregistrement…' : review() ? "Modifier l'évaluation" : "Enregistrer l'évaluation" }}
           </button>
         </div>
