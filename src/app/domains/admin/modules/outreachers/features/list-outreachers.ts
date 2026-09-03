@@ -30,7 +30,7 @@ export default class ListOutreachers {
   }));
 
   outreachersResource = httpResource<{ data: [IOutreacher[], number] }>(() => ({
-    url: '/users/outreachers/count',
+    url: '/users/outreachers/list',
     params: this.queryParams() as unknown as HttpParams
   }));
 
